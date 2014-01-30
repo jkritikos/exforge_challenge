@@ -1,40 +1,163 @@
 var INIT_BOTTOM_ANIMATION_LABEL = 250;
 var INIT_BOTTOM_ANIMATION_ARROW = 225;
 
+var PLAY_NOW_TEXT = 'PLAY NOW';
+
 // create base UI tab and root window
 var win = Titanium.UI.createWindow({  
-    backgroundImage:IMAGE_PATH+'menu/back.jpg'
+    backgroundColor:'black'
 });
 
-win.addEventListener('animateMenu', function(e){
-	animateHomeMenu();
+//menu background image
+var menuBackgroundImage = Titanium.UI.createView({
+	backgroundImage:IMAGE_PATH+'menu/background.jpg',
+	top:0,
+	height:857
 });
 
-//Global property, used in question.js too
-var tmpMatrix = Ti.UI.create2DMatrix();
-tmpMatrix = tmpMatrix.scale(1.05);
-var scaleAnimation = Ti.UI.createAnimation({transform:tmpMatrix,autoreverse:true,repeat:9000,duration:700});
+win.add(menuBackgroundImage);
 
-function animateHomeMenu(){
-	playButton.animate(scaleAnimation);
-}
-
-//play button
-var playButton = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'login/play.png',
-	backgroundSelectedImage:IMAGE_PATH+'login/play_pressed.png',
-	bottom: 355,
-	width: 217,
-	height:217,
-	opacity:1
+//play now bar
+var menuPlayNowBar = Titanium.UI.createView({
+	backgroundColor:'0b4b7f',
+	height:168,
+	bottom:0
 });
 
-win.add(playButton);
+win.add(menuPlayNowBar);
 
-animateHomeMenu();
+//play now label attributes
+var menuPlayNowLabelAttributes = Titanium.UI.iOS.createAttributedString({
+	text:PLAY_NOW_TEXT,
+	attributes:[
+		{
+			type: Titanium.UI.iOS.ATTRIBUTE_FOREGROUND_COLOR,
+            value: "fb494a",
+            range: [PLAY_NOW_TEXT.indexOf('NOW'), ('NOW').length]
+		},
+		{
+			type: Titanium.UI.iOS.ATTRIBUTE_FOREGROUND_COLOR,
+            value: "white",
+            range: [PLAY_NOW_TEXT.indexOf('PLAY'), ('PLAY').length]
+		}
+		
+	]
+});
+
+//play now label
+var menuPlayNowLabel = Titanium.UI.createLabel({
+	attributedString:menuPlayNowLabelAttributes,
+	font:{fontSize:67, fontWeight:'bold', fontFamily:'Arial'}
+});
+
+menuPlayNowBar.add(menuPlayNowLabel);
+
+//heart button
+var menuHeartButton = Titanium.UI.createButton({
+	backgroundImage:IMAGE_PATH+'menu/heart.png',
+	top:28,
+	right:40,
+	height:75,
+	width:105,
+	clicked:false,
+	zIndex:1
+});
+
+menuBackgroundImage.add(menuHeartButton);
+menuHeartButton.addEventListener('click', handleHeartButton);
+
+//heart menu
+var menuHeartMenu = Titanium.UI.createImageView({
+	image:IMAGE_PATH+'menu/menu.png',
+	top:92,
+	right:20,
+	opacity:0
+});
+
+menuBackgroundImage.add(menuHeartMenu);
+
+//heart menu icon profile background
+var heartMenuProfileBackground = Titanium.UI.createView({
+	height:138,
+	width:146,
+	top:19
+});
+
+menuHeartMenu.add(heartMenuProfileBackground);
+
+//heart menu icon profile
+var heartMenuIconProfile = Titanium.UI.createButton({
+	backgroundImage:IMAGE_PATH+'menu/icon_profile.png',
+	height:90,
+	width:95,
+	top:11,
+	right:22
+});
+
+heartMenuProfileBackground.add(heartMenuIconProfile);
+
+//heart menu icon badges background
+var heartMenuBadgesBackground = Titanium.UI.createView({
+	height:139,
+	width:146,
+	top:160
+});
+
+menuHeartMenu.add(heartMenuBadgesBackground);
+
+//heart menu icon badges
+var heartMenuIconBadges = Titanium.UI.createButton({
+	backgroundImage:IMAGE_PATH+'menu/icon_badges.png',
+	height:90,
+	width:95,
+	top:11,
+	right:22
+});
+
+heartMenuBadgesBackground.add(heartMenuIconBadges);
+
+//heart menu icon ranking background
+var heartMenuRankingBackground = Titanium.UI.createView({
+	height:139,
+	width:146,
+	top:302
+});
+
+menuHeartMenu.add(heartMenuRankingBackground);
+
+//heart menu icon ranking
+var heartMenuIconRanking = Titanium.UI.createButton({
+	backgroundImage:IMAGE_PATH+'menu/icon_ranking.png',
+	height:90,
+	width:95,
+	top:11,
+	right:22
+});
+
+heartMenuRankingBackground.add(heartMenuIconRanking);
+
+//heart menu icon settings background
+var heartMenuSettingsBackground = Titanium.UI.createView({
+	height:139,
+	width:146,
+	top:443
+});
+
+menuHeartMenu.add(heartMenuSettingsBackground);
+
+//heart menu icon settings
+var heartMenuIconSettings = Titanium.UI.createButton({
+	backgroundImage:IMAGE_PATH+'menu/icon_settings.png',
+	height:90,
+	width:95,
+	top:11,
+	right:22
+});
+
+heartMenuSettingsBackground.add(heartMenuIconSettings);
 
 //Event listener for play button
-playButton.addEventListener('click', function()	{
+menuPlayNowBar.addEventListener('click', function()	{
 	if(SOUNDS_MODE){
 		audioPlay.play();	
 	}
@@ -53,234 +176,18 @@ playButton.addEventListener('click', function()	{
 	viewGameSelection.animate(anim_in);
 });
 
-//Bar image
-var bar = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/bar.png',
-	bottom:0
-});
-
-//Settings icon reflection
-var settingsReflectionImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/settings_r.png',
-	bottom:0,
-	left:562
-});
-
-//Settings icon
-var settingsImage = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'menu/settings.png',
-	bottom:102,
-	left:562,
-	width:111,
-	height:111
-});
-
-//Arrow for settings
-var settingsArrowImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/arrow.png',
-	bottom:INIT_BOTTOM_ANIMATION_ARROW,
-	left:599,
-	opacity:1
-});
-
-win.add(settingsArrowImage);
-
-//Label for settings
-var settingsLabel = Titanium.UI.createLabel({
-	text:'ΡΥΘΜΙΣΕΙΣ',
-	color:'white',
-	left:580,
-	bottom:INIT_BOTTOM_ANIMATION_LABEL,
-	opacity:1,
-	font:{fontSize:16, fontWeight:'bold', fontFamily:'Myriad Pro'}
-});
-
-win.add(settingsLabel);
-
-//Profile icon reflection
-var profileReflectionImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/profile_r.png',
-	bottom:0,
-	left:96
-});
-
-//Profile icon
-var profileImage = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'menu/profile.png',
-	bottom:102,
-	left:96,
-	width:111,
-	height:111
-});
-
-//Arrow for profile
-var profileArrowImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/arrow.png',
-	bottom:INIT_BOTTOM_ANIMATION_ARROW,
-	left:132,
-	opacity:1
-});
-
-win.add(profileArrowImage);
-
-//Label for profile
-var profileLabel = Titanium.UI.createLabel({
-	text:'ΠΡΟΦΙΛ',
-	color:'white',
-	left:120,
-	bottom:INIT_BOTTOM_ANIMATION_LABEL,
-	opacity:1,
-	font:{fontSize:16, fontWeight:'bold', fontFamily:'Myriad Pro'}
-});
-
-win.add(profileLabel);
-
-//Badges icon reflection
-var badgesReflectionImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/badges_r.png',
-	bottom:0,
-	left:254
-});
-
-//Badges icon
-var badgesImage = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'menu/badges.png',
-	bottom:102,
-	left:254,
-	width:111,
-	height:111
-});
-
-//Arrow for badges
-var badgesArrowImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/arrow.png',
-	bottom:INIT_BOTTOM_ANIMATION_ARROW,
-	left:290,
-	opacity:1
-});
-
-win.add(badgesArrowImage);
-
-//Label for badges
-var badgesLabel = Titanium.UI.createLabel({
-	text:'ΠΑΡΑΣΗΜΑ',
-	color:'white',
-	left:266,
-	bottom:INIT_BOTTOM_ANIMATION_LABEL,
-	opacity:1,
-	font:{fontSize:16, fontWeight:'bold', fontFamily:'Myriad Pro'}
-});
-
-win.add(badgesLabel);
-
-//Top10 icon reflection
-var topReflectionImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/top10_r.png',
-	bottom:0,
-	left:408
-});
-
-//Top10 icon
-var topImage = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'menu/top10.png',
-	bottom:102,
-	left:408,
-	width:111,
-	height:111
-});
-
-//Arrow for TOP10
-var topArrowImage = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'menu/arrow.png',
-	bottom:INIT_BOTTOM_ANIMATION_ARROW,
-	left:443,
-	opacity:1
-});
-
-win.add(topArrowImage);
-
-//Label for top10
-var topLabel = Titanium.UI.createLabel({
-	text:'TOP 10',
-	color:'white',
-	left:436,
-	bottom:INIT_BOTTOM_ANIMATION_LABEL,
-	opacity:1,
-	font:{fontSize:16, fontWeight:'bold', fontFamily:'Myriad Pro'}
-});
-
-win.add(topLabel);
-
-//Event listener for Top10 button
-topImage.addEventListener('click', function(){
-	if(SOUNDS_MODE){
-		audioClick.play();	
-	}
-	
-	mtbImport("top_selection.js");
-	
-	buildTopSelectionView();
-	viewTopCategorySelection.animate(anim_in);
-});
-
-//Event listener for Profile button
-profileImage.addEventListener('click', function() {
-	if(SOUNDS_MODE){
-		audioClick.play();	
-	}
-	
-	mtbImport("profile.js");
-	
-	//load data
-	var player = getCurrentPlayer();
-	var profileHighScores = getPlayerHighScores(player.id,player.player_id);
-	var profileData = getProfileData(player.id, player.player_id);
-	
-	buildProfileView();
-	
-	viewProfile.fireEvent('myProfile', {profileHighScores:profileHighScores, profileData:profileData, player:player});
-	viewProfile.animate(anim_in);
-});
-
-//Event listener for Badges button
-badgesImage.addEventListener('click', function(){
-	if(SOUNDS_MODE){
-		audioClick.play();	
-	}
-	
-	mtbImport("stars_scroll.js");
-	
-	//load data
-	var player = getCurrentPlayer();
-	getBadgeData(player.id);
-	
-	buildBadgesListView();
-});
-
-//Event listener for Settings button
-settingsImage.addEventListener('click', function(){
-	if(SOUNDS_MODE){
-		audioClick.play();	
-	}
-	
-	//load data
-	var player = getCurrentPlayer();
-	
-	mtbImport("settings.js");
-	
-	buildSettingsView();
-
-	viewSettings.fireEvent('updateSettingsUI', {player:player});
-});
-
-bar.add(settingsReflectionImage);
-bar.add(profileReflectionImage);
-bar.add(badgesReflectionImage);
-bar.add(topReflectionImage);
-win.add(bar);
-win.add(settingsImage);
-win.add(profileImage);
-win.add(badgesImage);
-win.add(topImage);
-
 win.open({fullscreen:true});
+
+function handleHeartButton(e){
+	var clicked = e.source.clicked;
+	Ti.API.info(clicked);
+	
+	if(clicked){
+		menuHeartMenu.animate(anim_out);
+		e.source.clicked = false;
+	}else{
+		menuHeartMenu.animate(anim_in);
+		e.source.clicked = true;
+	}
+	
+}
