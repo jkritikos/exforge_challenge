@@ -582,7 +582,7 @@ function destroyQuestionNextView(){
 }
 //animate next button
 function animateButtonNext(){
-	questionNextButtonNext.animate(scaleAnimation);
+	//questionNextButtonNext.animate(scaleAnimation);
 }
 
 function populatePopupQuitTableData(){

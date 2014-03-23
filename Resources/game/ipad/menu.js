@@ -156,6 +156,65 @@ var heartMenuIconSettings = Titanium.UI.createButton({
 
 heartMenuSettingsBackground.add(heartMenuIconSettings);
 
+//Event listener for Top10 button
+heartMenuRankingBackground.addEventListener('click', function(){
+
+	mtbImport("top_selection.js");
+	
+	buildTopSelectionView();
+	viewTopCategorySelection.animate(anim_in);
+});
+
+//Event listener for Badges button
+heartMenuBadgesBackground.addEventListener('click', function(){
+	if(SOUNDS_MODE){
+		audioClick.play();	
+	}
+	
+	mtbImport("stars_scroll.js");
+	
+	//load data
+	var player = getCurrentPlayer();
+	getBadgeData(player.id);
+	
+	buildBadgesListView();
+});
+
+//Event listener for Profile button
+heartMenuProfileBackground.addEventListener('click', function() {
+	if(SOUNDS_MODE){
+		audioClick.play();	
+		}
+	
+	mtbImport("profile.js");
+	
+	//load data
+	var player = getCurrentPlayer();
+	var profileHighScores = getPlayerHighScores(player.id,player.player_id);
+	var profileData = getProfileData(player.id, player.player_id);
+	
+	buildProfileView();
+	
+	viewProfile.fireEvent('myProfile', {profileHighScores:profileHighScores, profileData:profileData, player:player});
+	viewProfile.animate(anim_in);
+	
+});
+
+//Event listener for Settings button
+heartMenuSettingsBackground.addEventListener('click', function(){
+	if(SOUNDS_MODE){
+		audioClick.play();	
+	}
+	
+	//load data
+	var player = getCurrentPlayer();
+	
+	mtbImport("settings.js");
+	buildSettingsView();
+
+	viewSettings.fireEvent('updateSettingsUI', {player:player});
+});
+
 //Event listener for play button
 menuPlayNowBar.addEventListener('click', function()	{
 	if(SOUNDS_MODE){
@@ -171,9 +230,28 @@ menuPlayNowBar.addEventListener('click', function()	{
 	gameSession = require('game/game');
 	gameSession.quitGameSession();
 	
-	mtbImport("game_selection.js");
-	buildGameSelectionView();
-	viewGameSelection.animate(anim_in);
+	gameSession.setGameType(BUZZ_GAME_SOLO);
+	
+	//load current player and fire an event to update the player UI
+	var currentPlayer = getCurrentPlayer();
+	
+	//If there is an active player, go straight to the category selection, otherwise to the player selection
+	if(currentPlayer.name != null && currentPlayer.name != ''){
+		
+		//pass the persisted solo player to the game session
+		var tmpPlayerArrayObj = [];
+		tmpPlayerArrayObj.push(currentPlayer);
+		gameSession.setTmpPlayerNames(tmpPlayerArrayObj);
+		
+		mtbImport("categories.js");
+		buildCategoriesView();
+		view.animate(anim_in);
+	} else {
+		mtbImport("signin.js");
+		buildPlayerLoginView();
+		viewSignin.fireEvent('updatePlayerUI', {player:currentPlayer});
+		viewSignin.animate(anim_in);
+	}
 });
 
 win.open({fullscreen:true});

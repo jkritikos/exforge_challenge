@@ -51,7 +51,7 @@ var LOADED_STARS_SCROLL_JS = false;
 var LOADED_TOP_SELECTION_JS = false;
 var LOADED_SETTINGS_JS = false;
 var LOADED_ABOUT_JS = false;
-var LOADED_PLAYER2_JS = false;
+var LOADED_SIGNIN_JS = false;
 var LOADED_CATEGORIES_JS = false;
 var LOADED_LOADER_JS = false;
 var LOADED_QUESTION_JS = false;
@@ -75,7 +75,7 @@ var FILE_STARS_SCROLL_JS = "stars_scroll.js";
 var FILE_TOP_SELECTION_JS = "top_selection.js";
 var FILE_SETTINGS_JS = "settings.js";
 var FILE_ABOUT_JS = "about.js";
-var FILE_PLAYER2_JS = "player2.js";
+var FILE_SIGNIN_JS = "signin.js";
 var FILE_CATEGORIES_JS = "categories.js";
 var FILE_LOADER_JS = "loader.js";
 var FILE_QUESTION_JS = "question.js";
@@ -120,10 +120,10 @@ function mtbImport(file){
 			Ti.include(BUZZ_PATH+file);
 			LOADED_ABOUT_JS = true;
 		}
-	} else if(file == FILE_PLAYER2_JS){
-		if(!LOADED_PLAYER2_JS){
+	} else if(file == FILE_SIGNIN_JS){
+		if(!LOADED_SIGNIN_JS){
 			Ti.include(BUZZ_PATH+file);
-			LOADED_PLAYER2_JS = true;
+			LOADED_SIGNIN_JS = true;
 		}
 	} else if(file == FILE_CATEGORIES_JS){
 		if(!LOADED_CATEGORIES_JS){
