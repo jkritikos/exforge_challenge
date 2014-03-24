@@ -245,7 +245,7 @@ menuPlayNowBar.addEventListener('click', function()	{
 		
 		mtbImport("categories.js");
 		buildCategoriesView();
-		view.animate(anim_in);
+		viewCategories.animate(anim_in);
 	} else {
 		mtbImport("signin.js");
 		buildPlayerLoginView();

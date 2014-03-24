@@ -1,31 +1,10 @@
-var view = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+var viewCategories = Ti.UI.createView({
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
 	left:0,
-	right:0,
-	zIndex:50
-});
-	
-var backButton = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'back.png',
-	backgroundSelectedImage:IMAGE_PATH+'back_green.png',
-	left:8,
-	top:8,
-	width:52,
-	height:52
-});
-
-view.add(backButton);
-
-backButton.addEventListener('click', function()	{
-	if(SOUNDS_MODE){
-		audioBack.play();
-	}
-	Ti.API.info('START clicked');
-	
-	destroyCategoriesView();
+	right:0
 });
 	
 //UI components
@@ -61,6 +40,16 @@ var categoriesLogo = null;
 var categoriesGetGameType = null;
 var categoriesGetGroupType = null;
 
+var categoriesTitleBackgroundBar = null;
+var categoriesBackButton = null;
+var categoriesTitleLabel = null;
+
+var CATEGORY_EXFORGE = 0;
+var CATEGORY_EPISTIMI = 1;
+var CATEGORY_GEOGRAPHY = 2;
+var CATEGORY_HISTORY = 3;
+var CATEGORY_SPORT = 4;
+
 //boolean to see if it solo or not
 var categorySoloBoolean = false;
 
@@ -69,14 +58,46 @@ var categorySoloBoolean = false;
 //var gameSession = require('game/game');
 
 function buildCategoriesView(){
-	var shouldCreateView = categoryTotalBuzz == null;
+	var shouldCreateView = categoriesTitleLabel == null;
 	if(shouldCreateView){
 		//e.lapard start
 		categoriesGetGameType = gameSession.getGameType();
 		categoriesGetGroupType = gameSession.getGameGroupType();
 		
+		//title background bar
+		categoriesTitleBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:192,
+			top:0
+		});
+		
+		//back button
+		categoriesBackButton = Titanium.UI.createButton({
+			backgroundImage:IMAGE_PATH+'categories/back.png',
+			left:30,
+			top:25,
+			width:55,
+			height:55
+		});
+		categoriesTitleBackgroundBar.add(categoriesBackButton);
+		
+		categoriesBackButton.addEventListener('click', handleCategoriesBackButton);
+		
+		categoriesTitleLabel = Titanium.UI.createLabel({
+			text:'Ποιά από τις 4 κατηγορίες θες να παίξεις?',
+			color:'white',
+			textAlign:'center',
+			width:364,
+			height:74,
+			top:60,
+			font:{fontSize:31, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+		});
+		categoriesTitleBackgroundBar.add(categoriesTitleLabel);
+		
+		viewCategories.add(categoriesTitleBackgroundBar);
+		
 		//check if SOLO, GROUP or TEAMS and give image and label
-		if(categoriesGetGameType == BUZZ_GAME_SOLO){
+		/*if(categoriesGetGameType == BUZZ_GAME_SOLO){
 			categoriesLogo = IMAGE_PATH+'categories/r/logo/solo.png';
 			textTitleLabel = 'Ποια από τις 11 κατηγορίες θέλεις να παίξεις?';
 			categorySoloBoolean = true;
@@ -96,7 +117,7 @@ function buildCategoriesView(){
 			top:categorySoloBoolean ? 20 : 15
 		});
 			
-		view.add(categoriesLogoImage);
+		//viewCategories.add(categoriesLogoImage);
 		//e.lapard end
 		
 		label = Titanium.UI.createLabel({
@@ -107,12 +128,12 @@ function buildCategoriesView(){
 			shadowColor:'#000000',
 		    shadowOffset:{x:1,y:1},
 			font:{fontSize:30, fontWeight:'bold', fontFamily:'Myriad Pro'}
-		});
+		});*/
 		
-		view.add(label);
+		//viewCategories.add(label);
 		
 		//Create image views
-		categoryTotalBuzz = Titanium.UI.createButton({
+		/*categoryTotalBuzz = Titanium.UI.createButton({
 			backgroundImage:IS_FREE_APP == 0 ? IMAGE_PATH+'categories/r/totalbuzz.png' : IMAGE_PATH+'categories/d/totalbuzz.png',
 			clickName:CAT_TOTALBUZZ,
 			width:564,
@@ -199,111 +220,57 @@ function buildCategoriesView(){
 			height:121,
 			clickName:CAT_LIFESTYLE,
 			available:getCategoryProperties(CAT_LIFESTYLE).available
-		});
+		});*/
 		
 		//create table view
 		tableViewCategories = Titanium.UI.createTableView({
-			data:[],
-			minRowHeight:65,
+			minRowHeight:100,
 			backgroundColor:'transparent',
 			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
-			top:160,
-			bottom:10
+			top:193,
+			bottom:16
 		});
 		
-		row0 = Ti.UI.createTableViewRow({
-			height:'auto', 
+		/*row0 = Ti.UI.createTableViewRow({
+			height:163, 
 			backgroundColor:'transparent',
 			selectedBackgroundColor:'transparent'
 		});
 		
 		row1 = Ti.UI.createTableViewRow({
-			height:'auto', 
+			height:163, 
 			backgroundColor:'transparent',
 			selectedBackgroundColor:'transparent'
 		});
 	
 		row2 = Ti.UI.createTableViewRow({
-			height:'auto', 
+			height:163, 
 			backgroundColor:'transparent',
 			selectedBackgroundColor:'transparent'
 		});
 	
 		row3 = Ti.UI.createTableViewRow({
-			height:'auto', 
+			height:163, 
 			backgroundColor:'transparent',
 			selectedBackgroundColor:'transparent'
 		});
 	
 		row4 = Ti.UI.createTableViewRow({
-			height:'auto', 
+			height:163, 
 			backgroundColor:'transparent',
 			selectedBackgroundColor:'transparent'
-		});
-	
-		row5 = Ti.UI.createTableViewRow({
-			backgroundColor:'transparent',
-			selectedBackgroundColor:'transparent'
-		});
-	
-		row6 = Ti.UI.createTableViewRow({
-			height:'auto', 
-			backgroundColor:'transparent',
-			selectedBackgroundColor:'transparent'
-		});
-	
-		row7 = Ti.UI.createTableViewRow({
-			height:'auto', 
-			backgroundColor:'transparent',
-			selectedBackgroundColor:'transparent'
-		});
-	
-		row8 = Ti.UI.createTableViewRow({
-			height:'auto', 
-			backgroundColor:'transparent',
-			selectedBackgroundColor:'transparent'
-		});
-	
-		row9 = Ti.UI.createTableViewRow({
-			height:'auto', 
-			backgroundColor:'transparent',
-			selectedBackgroundColor:'transparent'
-		});
-	
-		row10 = Ti.UI.createTableViewRow({
-			height:'auto', 
-			backgroundColor:'transparent',
-			selectedBackgroundColor:'transparent'
-		});
-		
-		row0.add(categoryTotalBuzz);
-		row1.add(categoryScience);
-		row2.add(categoryCinema);
-		row3.add(categoryGeography);
-		row4.add(categorySports);
-		row5.add(categoryTech);
-		row6.add(categoryHistory);
-		row7.add(categoryMusic);
-		row8.add(categoryArts);
-		row9.add(categoryAnimals);
-		row10.add(categoryGossip);
+		});*/
 		
 		data = [];
-		data.push(row0);
-		data.push(row1);
-		data.push(row2);
-		data.push(row3);
-		data.push(row4);
-		data.push(row5);
-		data.push(row6);
-		data.push(row7);
-		data.push(row8);
-		data.push(row9);
-		data.push(row10);
+		data.push(createCategoriesRow(CATEGORY_EXFORGE));
+		data.push(createCategoriesRow(CATEGORY_EPISTIMI));
+		data.push(createCategoriesRow(CATEGORY_GEOGRAPHY));
+		data.push(createCategoriesRow(CATEGORY_HISTORY));
+		data.push(createCategoriesRow(CATEGORY_SPORT));
 	
 		tableViewCategories.setData(data);
 		
-		view.add(tableViewCategories);
+		viewCategories.add(tableViewCategories);
 		
 		//Table view CLICK events
 		tableViewCategories.addEventListener('click', handleCategorySelection);
@@ -311,7 +278,7 @@ function buildCategoriesView(){
 		//Sync stuff from the server
 		//sync();
 		
-		win.add(view);
+		win.add(viewCategories);
 	} else {
 		Ti.API.warn('NOT building Categories view - already in progress');
 	}
@@ -320,11 +287,11 @@ function buildCategoriesView(){
 function destroyCategoriesView(){
 	Ti.API.warn('destroyCategoriesView() called');
 	
-	view.animate(anim_out);
+	viewCategories.animate(anim_out);
 	
 	//Table view CLICK events
 	tableViewCategories.removeEventListener('click', handleCategorySelection);
-	view.remove(tableViewCategories);
+	viewCategories.remove(tableViewCategories);
 	tableViewCategories.setData(null);
 	
 	row0.remove(categoryTotalBuzz);
@@ -338,16 +305,16 @@ function destroyCategoriesView(){
 	row8.remove(categoryArts);
 	row9.remove(categoryAnimals);
 	row10.remove(categoryGossip);
-	view.remove(label);
+	viewCategories.remove(label);
 	//Logo image 
-	view.remove(categoriesLogoImage);
+	viewCategories.remove(categoriesLogoImage);
 	
 	data = null;
 	
 	label = null;
 	
 	//Create image views
-	categoryTotalBuzz = null;
+	/*categoryTotalBuzz = null;
 	categoryScience = null;
 	categoryCinema = null;
 	categoryGeography = null;
@@ -357,12 +324,12 @@ function destroyCategoriesView(){
 	categoryMusic = null;
 	categoryArts = null;
 	categoryAnimals = null;
-	categoryGossip = null;
+	categoryGossip = null;*/
 	
 	//create table view
 	//tableView = null;
 	
-	row0 = null;
+	/*row0 = null;
 	row1 = null;
 	row2 = null;
 	row3 = null;
@@ -372,7 +339,7 @@ function destroyCategoriesView(){
 	row7 = null;
 	row8 = null;
 	row9 = null;
-	row10 = null;
+	row10 = null;*/
 	
 	//new variables
 	textTitleLabel = null;
@@ -382,7 +349,99 @@ function destroyCategoriesView(){
 	categoriesGetGroupType = null;
 	categorySoloBoolean = null;
 	
-	win.remove(view);
+	win.remove(viewCategories);
+}
+
+function handleCategoriesBackButton(){
+	if(SOUNDS_MODE){
+		audioBack.play();
+	}
+	Ti.API.info('START clicked');
+	
+	destroyCategoriesView();
+}
+
+//Creates a single row for the categories table
+function createCategoriesRow(cat){
+	
+	var row = Ti.UI.createTableViewRow({
+		height:163, 
+		backgroundColor:'transparent',
+		selectedBackgroundColor:'transparent',
+		categoryId:cat
+	});
+	
+	var logo, titleLabel;
+	if(cat == CATEGORY_EXFORGE){
+		backgroundColor = 'fb494a';
+		logo = IMAGE_PATH+'categories/categ/1_exforge.png';
+		titleLabel = 'EXFORGE';
+		descriptionLabel = 'Η απόλυτη πρόκληση!';
+	} else if(cat == CATEGORY_EPISTIMI){
+		backgroundColor = '6fb042';
+		logo = IMAGE_PATH+'categories/categ/2_science.png';
+		titleLabel = 'ΕΠΙΣΤΗΜΗ';
+		descriptionLabel = 'Τί βαθμό είχες Φυσική και Χημεία?';
+	} else if(cat == CATEGORY_GEOGRAPHY){
+		backgroundColor = '569bd4';
+		logo = IMAGE_PATH+'categories/categ/3_geo.png';
+		titleLabel = 'ΓΕΩΓΡΑΦΙΑ';
+		descriptionLabel = 'Όσο ταξιδεύεις, τόσο μαθαίνεις!';
+	} else if(cat == CATEGORY_HISTORY){
+		backgroundColor = 'fb9a01';
+		logo = IMAGE_PATH+'categories/categ/4_history.png';
+		titleLabel = 'ΙΣΤΟΡΙΑ';
+		descriptionLabel = 'Μπες στη μηχανή του χρόνου!';
+	} else if(cat == CATEGORY_SPORT){
+		backgroundColor = '9b52e7';
+		logo = IMAGE_PATH+'categories/categ/5_sports.png';
+		titleLabel = 'ΑΘΛΗΤΙΚΑ';
+		descriptionLabel = 'Σκόραρε και μπες στην 10άδα!';
+	}
+	
+	var rowBackground =  Titanium.UI.createView({
+		backgroundColor:backgroundColor,
+		bottom:0,
+		height:145
+	});
+	
+	var rowLogo =  Titanium.UI.createImageView({
+		image:logo,
+		left:13
+	});
+	rowBackground.add(rowLogo);
+	
+	var rowArrow =  Titanium.UI.createImageView({
+		image:IMAGE_PATH+'categories/arrow.png',
+		right:32
+	});
+	rowBackground.add(rowArrow);
+	
+	var rowTitleLabel = Titanium.UI.createLabel({
+		text:titleLabel,
+		color:'white',
+		textAlign:'left',
+		height:31,
+		top:38,
+		left:186,
+		font:{fontSize:40, fontWeight:'bold', fontFamily:'Myriad Pro'}
+	});
+	rowBackground.add(rowTitleLabel);
+	
+	var rowDescriptionLabel = Titanium.UI.createLabel({
+		text:descriptionLabel,
+		color:'white',
+		textAlign:'left',
+		height:25,
+		bottom:29,
+		left:186,
+		font:{fontSize:25, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+	});
+	rowBackground.add(rowDescriptionLabel);
+	
+	row.add(rowBackground);
+	
+	return row;	
 }
 
 //Event handler for category selection
@@ -396,28 +455,26 @@ function handleCategorySelection(e){
 		forceAppUpdate();
 	}
 	
-	//Prepare game session for SOLO
-	if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-		var currentSoloPlayer = getCurrentPlayer();
-		
-		var tmpPlayerObj = {
-			validated:true,
-			name:currentSoloPlayer.name,
-			player_id:currentSoloPlayer.id,
-			playerIndex:0,
-			avatarIndex:0
-		};
-		
-		var tmpPlayerObjList = [];
-		tmpPlayerObjList.push(tmpPlayerObj);
-		gameSession.setTmpPlayerNames(tmpPlayerObjList);
-	}
+	var currentSoloPlayer = getCurrentPlayer();
+	
+	var tmpPlayerObj = {
+		validated:true,
+		name:currentSoloPlayer.name,
+		player_id:currentSoloPlayer.id,
+		playerIndex:0,
+		avatarIndex:0
+	};
+	
+	var tmpPlayerObjList = [];
+	tmpPlayerObjList.push(tmpPlayerObj);
+	gameSession.setTmpPlayerNames(tmpPlayerObjList);
+	
 	
 	mtbImport("loader.js");
 	
 	var targetCategoryIcon = '';
 	var targetCategoryLabel = '';
-	var categoryId = e.source.clickName;
+	var categoryId = e.row.categoryId;
 	
 	var categoryPropeties = getCategoryProperties(categoryId);
 	targetCategoryIcon = categoryPropeties.loader;
@@ -425,7 +482,7 @@ function handleCategorySelection(e){
 	
     var shouldRenderPopup = false;
 	//if the popup has never been shown OR if you have played more times than we allow
-	if(NEW_CONTENT_POPUP_COUNTER == 0 || (NEW_CONTENT_POPUP_COUNTER > 0 && NEW_CONTENT_POPUP_COUNTER >= NEW_CONTENT_POPUP_MAX_DECLINES_ALLOWED)){
+	/*if(NEW_CONTENT_POPUP_COUNTER == 0 || (NEW_CONTENT_POPUP_COUNTER > 0 && NEW_CONTENT_POPUP_COUNTER >= NEW_CONTENT_POPUP_MAX_DECLINES_ALLOWED)){
 		shouldRenderPopup = true;
 	}
     	
@@ -452,7 +509,7 @@ function handleCategorySelection(e){
 	} else {
 		//Show the purchase application popup
 		var purchasePopup = buildPurchaseApplicationPopup();
-		view.add(purchasePopup);
+		viewCategories.add(purchasePopup);
 		purchasePopup.animate({transform:SCALE_ONE, duration:400});
-	}
+	}*/
 }

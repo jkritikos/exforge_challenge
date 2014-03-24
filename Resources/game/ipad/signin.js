@@ -11,12 +11,12 @@ var viewSignin = Ti.UI.createView({
 //Refresh UI event listener
 viewSignin.addEventListener('updatePlayerUI', function(data){
 	var name = data.player.name;
-	//signinTextField.value = name;
+	signinTextField.value = name;
 	Ti.API.info('---------Player event refreshing UI ENDS');
 });
 
 //Back button
-var backHomeFromPlayerButton = Titanium.UI.createButton({
+/*var backHomeFromPlayerButton = Titanium.UI.createButton({
 	backgroundImage:IMAGE_PATH+'back.png',
 	backgroundSelectedImage:IMAGE_PATH+'back_green.png',
 	left:8,
@@ -37,7 +37,7 @@ backHomeFromPlayerButton.addEventListener('click', function() {
 	signinTextField.blur();
 	
 	destroyPlayerLoginView();
-});
+});*/
 	
 
 //UI components
@@ -59,6 +59,7 @@ var signinPlayNowBar = null;
 var signinPlayNowLabel = null;
 var signinPlayNowLabelAttributes = null;
 var signinTitleBackgroundBar = null;
+var signinBackButton = null;
 var signinTitleLabel = null;
 var signinBackgroundLogo = null;
 var signinTextFieldBar = null;
@@ -78,6 +79,18 @@ function buildPlayerLoginView(){
 			height:192,
 			top:0
 		});
+		
+		signinBackButton = Titanium.UI.createButton({
+			backgroundImage:IMAGE_PATH+'categories/back.png',
+			left:30,
+			top:25,
+			width:55,
+			height:55
+		});
+		
+		signinTitleBackgroundBar.add(signinBackButton);
+		
+		signinBackButton.addEventListener('click', handleBackButton);
 		
 		signinTitleLabel = Titanium.UI.createLabel({
 			text:'Διάλεξε το όνομα που επιθυμεις στο Exforge Challenge!',
@@ -300,8 +313,11 @@ function destroyPlayerLoginView(){
 	//confirmationViewPlayerButton.removeEventListener('click', handleFacebookDisconnectOK);
 	//FB disconnect cancel event listener
 	//confirmationViewCancelButton.removeEventListener('click', handleFacebookDisconnectCancel);
-	//Event listener for play button
+	
+	//Event listeners
+	signinTextField.removeEventListener('change', handleSigninTextFieldChange);
 	signinPlayNowBar.removeEventListener('click', handleButtonStartEvent);
+	signinBackButton.removeEventListener('click', handleBackButton);
 	
 	//alertViewPlayer.hide();
 	//palertViewPlayer.remove(alertPlayerLabel);
@@ -312,6 +328,18 @@ function destroyPlayerLoginView(){
 	//confirmationViewPlayer.remove(confirmationViewPlayerButton);
 	//confirmationViewPlayer.remove(confirmationViewCancelButton);
 	//loginBarImage.remove(barLabel);
+	
+	signinTitleBackgroundBar.remove(signinTitleLabel);
+	viewSignin.remove(signinTitleBackgroundBar);
+	signinTitleBackgroundBar.remove(signinBackButton);
+	signinTextFieldBar.remove(signinTextfieldLogo);
+	signinTextFieldBar.remove(signinTextfieldSepparator);
+	signinTextFieldBar.remove(signinTextField);
+	signinTextFieldBar.remove(signinTextfieldHintText);
+	viewSignin.remove(signinTextFieldBar);
+	viewSignin.remove(signinBackgroundLogo);
+	viewSignin.remove(signinPlayNowBar);
+	signinPlayNowBar.remove(signinPlayNowLabel);
 	
 	//Alert view
 	//alertViewPlayer = null;
@@ -333,8 +361,20 @@ function destroyPlayerLoginView(){
 	//Facebook button
 	//fbButton = null;	
 	//Bar image
-	loginBarImage = null;
-	barLabel = null;
+	//loginBarImage = null;
+	//barLabel = null;
+	
+	signinPlayNowBar = null;
+	signinPlayNowLabel = null;
+	signinPlayNowLabelAttributes = null;
+	signinTitleBackgroundBar = null;
+	signinTitleLabel = null;
+	signinBackgroundLogo = null;
+	signinTextFieldBar = null;
+	signinTextfieldLogo = null;
+	signinTextfieldSepparator = null;
+	signinTextfieldHintText = null;
+	signinTextField = null;
 	
 	win.remove(viewSignin);
 	win.fireEvent('animateMenu');
@@ -380,6 +420,18 @@ function handleAlertViewPlayerOK(){
 	
 Ti.API.info('Player.js persisted player is '+playerName + ' persisted facebook is '+fbId);*/
 
+//back button
+function handleBackButton()	{
+	if(SOUNDS_MODE){
+		audioBack.play();	
+	}
+	
+	Ti.API.info('BACK to home clicked from PLAYER win');
+	signinTextField.blur();
+	
+	destroyPlayerLoginView();
+}
+
 //Event handler for the PLAY button
 function handleButtonStartEvent(){
 	if(SOUNDS_MODE){
@@ -398,7 +450,7 @@ function handleButtonStartEvent(){
 		//Build and show the Categories view
 		mtbImport("categories.js");
 		buildCategoriesView();
-		view.animate({opacity:1, duration:400}, function(){
+		viewCategories.animate({opacity:1, duration:400}, function(){
 			destroyPlayerLoginView();
 		});
 		
