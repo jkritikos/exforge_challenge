@@ -549,7 +549,7 @@ exports.saveTmpPlayers = function(){
 	var questionSet = null;
 	
 	//For group games, we load questions first
-	if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+	/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
 		if(gameSelectedCategoryId == CAT_TOTALBUZZ){
 			questionSet = getGroupRandomGameQuestionsInitial(DUMMY_GROUP_PLAYER_ID, tmpGamePlayerNames.length);
 		} else {
@@ -557,7 +557,7 @@ exports.saveTmpPlayers = function(){
 		}
 		
 		_distributeGroupQuestions(questionSet.data, true);
-	}
+	}*/
 	
 	for(var i=0; i<tmpGamePlayerNames.length; i++){
 		if(tmpGamePlayerNames[i].player_id != null){
@@ -580,14 +580,14 @@ exports.saveTmpPlayers = function(){
 		tmpGamePlayerNames[i].lives = 3;
 		
 		//Load questions for SOLO
-		if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-			Ti.API.warn('LOADING QUESTIONS for category '+gameSelectedCategoryId);
-			if(gameSelectedCategoryId == CAT_TOTALBUZZ){
-				tmpGamePlayerNames[i].questions = getRandomGameQuestions(playerId);
-			} else {
-				tmpGamePlayerNames[i].questions = getGameQuestions(gameSelectedCategoryId, playerId);
-			}
-		} 
+		//if(gameSession.getGameType() == BUZZ_GAME_SOLO){
+		Ti.API.warn('LOADING QUESTIONS for category '+gameSelectedCategoryId);
+		//if(gameSelectedCategoryId == CAT_TOTALBUZZ){
+			//tmpGamePlayerNames[i].questions = getRandomGameQuestions(playerId);
+		//} else {
+		tmpGamePlayerNames[i].questions = getGameQuestions(gameSelectedCategoryId, playerId);
+		//}
+		//} 
 	
 		gamePlayers.push(tmpGamePlayerNames[i]);
 	}

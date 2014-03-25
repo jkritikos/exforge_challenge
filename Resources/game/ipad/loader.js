@@ -3,7 +3,7 @@ mtbImport("question.js");
 var currentCategoryIcon = '';
 
 var viewLoader = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -25,11 +25,11 @@ viewLoader.addEventListener('loaderStart', function(data){
 	loaderTipLabel.text = tipToDisplay;
     
     //Always load the gameplay music - safe?
-    if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-    	audioGameplay = Ti.Media.createSound({url:'sounds/group_loop.caf', looping:true});
-    } else {
-    	audioGameplay = Ti.Media.createSound({url:'sounds/gameplay.mp3', looping:true});
-    }
+    //if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+    	//audioGameplay = Ti.Media.createSound({url:'sounds/group_loop.caf', looping:true});
+    //} else {
+    audioGameplay = Ti.Media.createSound({url:'sounds/gameplay.mp3', looping:true});
+    //}
     
     if(!AUDIO_GAMEPLAY_LOADED){
 		Ti.API.warn('Loading gameplay sounds');
@@ -81,7 +81,7 @@ viewLoader.addEventListener('loaderStart', function(data){
     	}
     	
     	//Start the game UI
-    	if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+    	/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
     		mtbImport("question_next.js");
 		  	buildQuestionNextView();
 		  	viewQuestionNext.animate(anim_in);
@@ -92,70 +92,27 @@ viewLoader.addEventListener('loaderStart', function(data){
 		  	destroyGroupSelectionView();
 		  	destroyGameSelectionView();
 		  	
-    	} else {
-    		buildQuestionView(targetCategoryIcon);
-    	
-	    	//show questions view
-			viewQuestion.fireEvent('gameStart');
-			viewQuestion.animate(anim_in);
-			
-			//Destroy game-setup views
-		  	destroyGameSelectionView();
-    	}
+    	} else {*/
+		buildQuestionView(targetCategoryIcon);
+	
+    	//show questions view
+		viewQuestion.fireEvent('gameStart');
+		viewQuestion.animate(anim_in);
+		
+		//Destroy game-setup views
+	  	//destroyGameSelectionView();
+    	//}
 	};
     
     //prepare for game
     setTimeout (loadEvent, 2500);
 });
 
-//Loader icon
-var loaderIcon = Titanium.UI.createImageView({
-	image:IMAGE_PATH+'loader/athlitika.png',
-	top:90
-});
-
-viewLoader.add(loaderIcon);
-
 //Loader tip
 var loaderTipImage = Titanium.UI.createImageView({
 	image:IMAGE_PATH+'loader/loading_tip.png',
 	bottom:30
 });
-
-//loader tip label
-var loaderTipLabel = Titanium.UI.createLabel({
-	text:'',
-	textAlign:'center',
-	right:95,
-	left:95,
-	color:'white',
-	font:{fontSize:24, fontWeight:'regular', fontFamily:'Myriad Pro'}
-});
-
-loaderTipImage.add(loaderTipLabel);
-viewLoader.add(loaderTipImage);
-
-//Loader generic label
-var genericLabel = Titanium.UI.createLabel({
-	text:'Φόρτωση Κατηγορίας',
-	color:'white',
-	bottom:450,
-	font:{fontSize:26, fontWeight:'regular', fontFamily:'Myriad Pro'}
-});
-
-viewLoader.add(genericLabel);
-
-//Loader category label
-var categoryLabel = Titanium.UI.createLabel({
-	color:'white',
-	bottom:405,
-	textAlign:'center',
-	shadowColor:'#000000',
-    shadowOffset:{x:1,y:1},
-	font:{fontSize:30, fontWeight:'bold', fontFamily:'Myriad Pro'}
-});
-
-viewLoader.add(categoryLabel);
 
 //Activity indicator
 var actInd = Titanium.UI.createActivityIndicator({
@@ -165,7 +122,60 @@ var actInd = Titanium.UI.createActivityIndicator({
 	bottom:570
 });
 
-viewLoader.add(actInd);
+//Loader icon
+var loaderIcon = Titanium.UI.createImageView({
+	image:IMAGE_PATH+'loader/sports.png',
+	top:152
+});
+viewLoader.add(loaderIcon);
+
+//Loader generic label
+var genericLabel = Titanium.UI.createLabel({
+	text:'Φόρτωση Κατηγορίας',
+	color:'0b4b7f',
+	textAlign:'left',
+	top:536,
+	font:{fontSize:33, fontWeight:'regular', fontFamily:'Myriad Pro'}
+});
+viewLoader.add(genericLabel);
+
+//Loader category label
+var categoryLabel = Titanium.UI.createLabel({
+	color:'0b4b7f',
+	top:588,
+	textAlign:'left',
+	font:{fontSize:39, fontWeight:'bold', fontFamily:'Myriad Pro'}
+});
+viewLoader.add(categoryLabel);
+
+//tip background
+var loaderTipBackground = Titanium.UI.createView({
+	backgroundColor:'0b4b7f',
+	bottom:0,
+	height:193
+});
+
+//loader tip icon
+var loaderTipIcon = Titanium.UI.createImageView({
+	image:IMAGE_PATH+'loader/tip_icon.png',
+	left:53
+});
+loaderTipBackground.add(loaderTipIcon);
+
+//Loader tip label
+var loaderTipLabel = Titanium.UI.createLabel({
+	text:'',
+	textAlign:'center',
+	width:478,
+	height:70,
+	top:65,
+	left:145,
+	color:'white',
+	font:{fontSize:29, fontWeight:'regular', fontFamily:'Myriad Pro'}
+});
+loaderTipBackground.add(loaderTipLabel);
+
+viewLoader.add(loaderTipBackground);
 
 win.add(viewLoader);
 

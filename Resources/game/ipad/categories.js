@@ -8,7 +8,7 @@ var viewCategories = Ti.UI.createView({
 });
 	
 //UI components
-var label = null;
+/*var label = null;
 var categoryTotalBuzz = null;
 var categoryScience = null;
 var categoryCinema = null;
@@ -20,8 +20,7 @@ var categoryMusic = null;
 var categoryArts = null;
 var categoryAnimals = null;
 var categoryGossip = null;
-var data = null;
-var tableViewCategories = null;
+
 var row0 = null;
 var row1 = null;
 var row2 = null;
@@ -38,17 +37,20 @@ var textTitleLabel = null;
 var categoriesLogoImage = null;
 var categoriesLogo = null;
 var categoriesGetGameType = null;
-var categoriesGetGroupType = null;
+var categoriesGetGroupType = null;*/
+
+var data = null;
+var tableViewCategories = null;
 
 var categoriesTitleBackgroundBar = null;
 var categoriesBackButton = null;
 var categoriesTitleLabel = null;
 
-var CATEGORY_EXFORGE = 0;
-var CATEGORY_EPISTIMI = 1;
-var CATEGORY_GEOGRAPHY = 2;
-var CATEGORY_HISTORY = 3;
-var CATEGORY_SPORT = 4;
+var CATEGORY_EXFORGE = 1;
+var CATEGORY_EPISTIMI = 2;
+var CATEGORY_GEOGRAPHY = 3;
+var CATEGORY_HISTORY = 4;
+var CATEGORY_SPORT = 5;
 
 //boolean to see if it solo or not
 var categorySoloBoolean = false;
@@ -62,7 +64,7 @@ function buildCategoriesView(){
 	if(shouldCreateView){
 		//e.lapard start
 		categoriesGetGameType = gameSession.getGameType();
-		categoriesGetGroupType = gameSession.getGameGroupType();
+		//categoriesGetGroupType = gameSession.getGameGroupType();
 		
 		//title background bar
 		categoriesTitleBackgroundBar = Titanium.UI.createView({
@@ -291,10 +293,14 @@ function destroyCategoriesView(){
 	
 	//Table view CLICK events
 	tableViewCategories.removeEventListener('click', handleCategorySelection);
+	
+	categoriesTitleBackgroundBar.remove(categoriesBackButton);
+	categoriesTitleBackgroundBar.remove(categoriesTitleLabel);
+	viewCategories.remove(categoriesTitleBackgroundBar);
 	viewCategories.remove(tableViewCategories);
 	tableViewCategories.setData(null);
 	
-	row0.remove(categoryTotalBuzz);
+	/*row0.remove(categoryTotalBuzz);
 	row1.remove(categoryScience);
 	row2.remove(categoryCinema);
 	row3.remove(categoryGeography);
@@ -305,13 +311,13 @@ function destroyCategoriesView(){
 	row8.remove(categoryArts);
 	row9.remove(categoryAnimals);
 	row10.remove(categoryGossip);
-	viewCategories.remove(label);
+	viewCategories.remove(label);*/
 	//Logo image 
-	viewCategories.remove(categoriesLogoImage);
+	//viewCategories.remove(categoriesLogoImage);
 	
-	data = null;
+	//data = null;
 	
-	label = null;
+	//label = null;
 	
 	//Create image views
 	/*categoryTotalBuzz = null;
@@ -339,7 +345,7 @@ function destroyCategoriesView(){
 	row7 = null;
 	row8 = null;
 	row9 = null;
-	row10 = null;*/
+	row10 = null;
 	
 	//new variables
 	textTitleLabel = null;
@@ -347,7 +353,14 @@ function destroyCategoriesView(){
 	categoriesLogo = null;
 	categoriesGetGameType = null;
 	categoriesGetGroupType = null;
-	categorySoloBoolean = null;
+	categorySoloBoolean = null;*/
+	
+	data = null;
+	tableViewCategories = null;
+	
+	categoriesTitleBackgroundBar = null;
+	categoriesBackButton = null;
+	categoriesTitleLabel = null;
 	
 	win.remove(viewCategories);
 }
@@ -481,6 +494,13 @@ function handleCategorySelection(e){
 	targetCategoryLabel = categoryPropeties.name;
 	
     var shouldRenderPopup = false;
+    
+    //START game
+    viewLoader.fireEvent('loaderStart', {currentCategoryIcon:targetCategoryIcon, currentCategoryLabel:targetCategoryLabel, categoryId:categoryId});
+    fadeIntroAudioOut();
+    viewLoader.animate({opacity:1, duration:400}, function(){
+    	destroyCategoriesView();
+    });
 	//if the popup has never been shown OR if you have played more times than we allow
 	/*if(NEW_CONTENT_POPUP_COUNTER == 0 || (NEW_CONTENT_POPUP_COUNTER > 0 && NEW_CONTENT_POPUP_COUNTER >= NEW_CONTENT_POPUP_MAX_DECLINES_ALLOWED)){
 		shouldRenderPopup = true;

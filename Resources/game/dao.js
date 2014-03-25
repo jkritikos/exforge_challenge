@@ -57,17 +57,11 @@ Titanium.Facebook.permissions = FB_PERMISSIONS;
 */
 
 //Categories
-var CAT_EPISTIMI = 1;
-var CAT_KINIMATOGRAFOS = 2;
+var CAT_EXFORGE = 1;
+var CAT_EPISTIMI = 2;
 var CAT_GEOGRAFIA = 3;
-var CAT_ATHLITIKA = 4;
-var CAT_TEXNOLOGIA = 5;
-var CAT_ISTORIA = 6;
-var CAT_MOUSIKH = 7;
-var CAT_TEXNES = 8;
-var CAT_ZWAFUTA = 9;
-var CAT_LIFESTYLE = 10;
-var CAT_TOTALBUZZ = 13;
+var CAT_ISTORIA = 4;
+var CAT_ATHLITIKA = 5;
 
 //Rest for badges
 var CAT_SPEED = 11;
@@ -188,20 +182,15 @@ var BADGE13_DESCRIPTION = 'Γίνε \"Total Buzzόβιος\" κερδίζοντ�
 /*Displayed on the loader screen just before the game begins*/
 var loaderTips = [];
 loaderTips.push("Όσο πιο γρήγορα απαντήσεις, τόσους περισσότερους πόντους θα κερδίσεις!");
-loaderTips.push("Αν απαντήσεις σωστά σε 10 συνεχόμενες ερωτήσεις, θα κερδίσεις μια ζωή! (max 5 ζωές)");
-loaderTips.push("Πρόσεξε μην τελειώσει ο χρόνος όσο παίζεις γιατί θα χάσεις μια ζωή!");
-loaderTips.push("Αν συνδεθείς μέσω Facebook θα μπορείς να κοντράρεις τους φίλους σου!");
-loaderTips.push("Αν καταφέρεις να κάνεις πάνω από 1000 πόντους, κερδίζεις ένα παράσημο!");
-loaderTips.push("Μεταξύ ερωτήσεων μπορείς να πάρεις μια ανάσα και να συνεχίσεις όταν είσαι έτοιμος.");
-loaderTips.push("Έχεις μόνο 3 ζωές σε κάθε παιχνίδι, άρα μπορείς να κάνεις μόνο 3 λάθη!");
-loaderTips.push("Όσο προχωράνε οι ερωτήσεις, τόσο αυξάνεται ο βαθμός δυσκολίας τους!");
-loaderTips.push("Αν βρεις κάποια λάθος απάντηση, ενημέρωσέ μας στη σελίδα του Mind the Buzz στο Facebook!");
+loaderTips.push("Απάντησε σωστά σε 10 συνεχόμενες ερωτήσεις και κέρδισε μια ζωή!");
+loaderTips.push("Έχεις μόνο 3 ζωές σε κάθε παιχνίδι, για αυτό επέλεξε σοφά τις απαντήσεις σου!");
+loaderTips.push("Πρόσεξε μην τελειώσει ο χρόνος όσο παίζεις, γιατί θα χάσεις μια ζωή!");
+loaderTips.push("Φτάσε τους 1000 πόντους, και κέρδισε το πρώτο παράσημο της κατηγορίας!");
 
 /*Displayed when a player looses in a multiplayer game*/
 var looserTips = [];
 looserTips.push("Eτοιμάσου για ρεβάνς!");
 looserTips.push("Χρειάζεσαι προπόνηση!");
-looserTips.push("Παίξε λίγο solo πρώτα!");
 looserTips.push("Θα το αφήσεις έτσι?");
 looserTips.push("Δεν τα πήγες άσχημα όμως!");
 looserTips.push("Χρειάζεσαι κούρδισμα!");
@@ -305,93 +294,35 @@ function buildPurchaseApplicationPopup(){
 /*Returns the properties of the specified category*/
 function getCategoryProperties(id){
 	var obj = null;
-	if(id == CAT_EPISTIMI){
+	if(id == CAT_EXFORGE){
+		obj = {
+			name:'EXFORGE',
+			loader:IMAGE_PATH+'loader/exforge.png',
+			available:true
+		};
+	} else if(id == CAT_EPISTIMI){
 		obj = {
 			name:'ΕΠΙΣΤΗΜΗ',
-			banner:IMAGE_PATH+'question/category_epistimi.png',
-			loader:IMAGE_PATH+'loader/epistimi.png',
-			square:IMAGE_PATH+'categories/squares/epistimi.png',
-			available:false
-		};
-	} else if(id == CAT_KINIMATOGRAFOS){
-		obj = {
-			name:'ΚΙΝΗΜΑΤΟΓΡΑΦΟΣ',
-			banner:IMAGE_PATH+'question/category_kinimatografos.png',
-			loader:IMAGE_PATH+'loader/kinimatografos.png',
-			square:IMAGE_PATH+'categories/squares/kinimatografos.png',
+			loader:IMAGE_PATH+'loader/science.png',
 			available:true
 		};
 	} else if(id == CAT_GEOGRAFIA){
 		obj = {
 			name:'ΓΕΩΓΡΑΦΙΑ',
-			banner:IMAGE_PATH+'question/category_geografia.png',
-			loader:IMAGE_PATH+'loader/geografia.png',
-			square:IMAGE_PATH+'categories/squares/geografia.png',
-			available:false
-		};
-	} else if(id == CAT_ATHLITIKA){
-		obj = {
-			name:'ΑΘΛΗΤΙΚΑ',
-			banner:IMAGE_PATH+'question/category_athlitika.png',
-			loader:IMAGE_PATH+'loader/athlitika.png',
-			square:IMAGE_PATH+'categories/squares/athlitika.png',
+			loader:IMAGE_PATH+'loader/geo.png',
 			available:true
-		};
-	} else if(id == CAT_TEXNOLOGIA){
-		obj = {
-			name:'ΤΕΧΝΟΛΟΓΙΑ',
-			banner:IMAGE_PATH+'question/category_texnologia.png',
-			loader:IMAGE_PATH+'loader/texnologia.png',
-			square:IMAGE_PATH+'categories/squares/texnologia.png',
-			available:false
 		};
 	} else if(id == CAT_ISTORIA){
 		obj = {
 			name:'ΙΣΤΟΡΙΑ',
-			banner:IMAGE_PATH+'question/category_istoria.png',
-			loader:IMAGE_PATH+'loader/istoria.png',
-			square:IMAGE_PATH+'categories/squares/istoria.png',
+			loader:IMAGE_PATH+'loader/history.png',
 			available:true
 		};
-	} else if(id == CAT_MOUSIKH){
+	} else if(id == CAT_ATHLITIKA){
 		obj = {
-			name:'ΜΟΥΣΙΚΗ',
-			banner:IMAGE_PATH+'question/category_mousiki.png',
-			loader:IMAGE_PATH+'loader/mousiki.png',
-			square:IMAGE_PATH+'categories/squares/mousiki.png',
-			available:false
-		};
-	} else if(id == CAT_TEXNES){
-		obj = {
-			name:'ΤΕΧΝΕΣ',
-			banner:IMAGE_PATH+'question/category_texnes.png',
-			loader:IMAGE_PATH+'loader/texnes.png',
-			square:IMAGE_PATH+'categories/squares/texnes.png',
-			available:false
-		};
-	} else if(id == CAT_ZWAFUTA){
-		obj = {
-			name:'ΖΩΑ & ΦΥΤΑ',
-			banner:IMAGE_PATH+'question/category_zoafuta.png',
-			loader:IMAGE_PATH+'loader/zoafuta.png',
-			square:IMAGE_PATH+'categories/squares/zoafuta.png',
-			available:false
-		};
-	} else if(id == CAT_LIFESTYLE){
-		obj = {
-			name:'LIFESTYLE',
-			banner:IMAGE_PATH+'question/category_lifestyle.png',
-			loader:IMAGE_PATH+'loader/lifestyle.png',
-			square:IMAGE_PATH+'categories/squares/lifestyle.png',
-			available:false
-		};
-	} else if(id == CAT_TOTALBUZZ){
-		obj = {
-			name:'TOTAL BUZZ',
-			banner:IMAGE_PATH+'question/category_totalbuzz.png',
-			loader:IMAGE_PATH+'loader/totalbuzz.png',
-			square:IMAGE_PATH+'categories/squares/totalbuzz.png',
-			available:false
+			name:'ΑΘΛΗΤΙΚΑ',
+			loader:IMAGE_PATH+'loader/sports.png',
+			available:true
 		};
 	}
 	

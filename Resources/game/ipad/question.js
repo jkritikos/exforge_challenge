@@ -1334,7 +1334,7 @@ function quitGame(){
 	
 	//hide stacked views first
 	viewLoader.opacity = 0;
-	view.opacity = 0;
+	viewCategories.opacity = 0;
 	viewQuestionNext.opacity = 0;
 	
 	//reset question obj index
