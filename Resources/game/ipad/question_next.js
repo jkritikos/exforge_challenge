@@ -1,6 +1,6 @@
 //The View
 var viewQuestionNext = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -53,16 +53,18 @@ var loserAudio = null;
 var questionNextPlayerLostScoreLabel = null;
 var questionNextPlayerLostScoreValue = null;
 
+var questionNextLowerBackgroundBar = null;
+var nextQuestionLabel = null;
+
 //build
 function buildQuestionNextView(){
 	Ti.API.info('buildQuestionNextView started! - current player is '+gameSession.getCurrentPlayer());
 	
 	//Build the Player/Team 1 label
 	var questionNextLabelPlayerText = '';
-	var questionNextPlayImageButton = '';
 	var questionNextLogoImg = '';
 	
-	if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+	/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
 		if(gameSession.getGameGroupType() == BUZZ_GROUP_TYPE_PLAYERS){
 			questionNextLabelPlayerText = 'Player ' + gameSession.getCurrentPlayer().playerIndex;
 			questionNextLogoImg = IMAGE_PATH+'categories/r/logo/icon_group.png';
@@ -72,43 +74,115 @@ function buildQuestionNextView(){
 		}
 	} else if(gameSession.getGameType() == BUZZ_GAME_SOLO){
 		questionNextLogoImg = IMAGE_PATH+'categories/r/logo/solo.png';
-	}
+	}*/
 	
-	
-	var shouldCreateView = questionNextLogo == null;
+	var shouldCreateView = questionNextWikipedia == null;
 	if(shouldCreateView){
-		//Blue Background
+		
 		questionNextBackground = Ti.UI.createImageView({
 			image:gameSession.getGameType() == BUZZ_GAME_SOLO ? IMAGE_PATH+'question_next/background_solo.png' : IMAGE_PATH+'question_next/background.png',
 			top:0
 		});
 		
-		viewQuestionNext.add(questionNextBackground);
-		
-		//Hands Logo
-		questionNextLogo = Ti.UI.createImageView({
-			image:questionNextLogoImg,
-			right:15,
-			top:15
+		questionNextWikipediaBackground = Ti.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:152,
+			top:0
 		});
 		
-		viewQuestionNext.add(questionNextLogo);
-	
 		//Wikipedia image
 		questionNextWikipedia = Ti.UI.createButton({
-			backgroundImage:IMAGE_PATH+'question_next/button_wiki.png',
-			top:25,
-			width:201,
-			height:60,
+			backgroundImage:IMAGE_PATH+'question_next/w.png',
+			top:45,
+			width:113,
+			height:72,
 			clicked:'wikipedia',
 			visible:false
 		});
 		
-		viewQuestionNext.add(questionNextWikipedia);
+		questionNextWikipediaBackground.add(questionNextWikipedia);
+		viewQuestionNext.add(questionNextWikipediaBackground);
 		questionNextWikipedia.addEventListener('click', handleQuestionNextWikipedia);
 		
+		questionNextLowerBackgroundBar = Ti.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:257,
+			bottom:0
+		}); 
+		
+		//Quit button
+		questionNextButtonQuit = Ti.UI.createButton({
+			backgroundImage:IMAGE_PATH+'question_next/quit.png',
+			bottom:33,
+			left:52,
+			width:155,
+			height:217
+		});
+		
+		questionNextLowerBackgroundBar.add(questionNextButtonQuit);
+		questionNextButtonQuit.addEventListener('click', handleQuestionNextButtonQuit);
+		
+		//Report Button
+		questionNextButtonReport = Ti.UI.createButton({
+			backgroundImage:IMAGE_PATH+'question_next/report.png',
+			bottom:33,
+			width:155,
+			height:217,
+			visible:false
+		});
+		
+		questionNextLowerBackgroundBar.add(questionNextButtonReport);
+		questionNextButtonReport.addEventListener('click', handleQuestionNextButtonReport);
+		
+		//Restart Button
+		questionNextButtonRestart = Ti.UI.createButton({
+			backgroundImage:IMAGE_PATH+'question_next/restart.png',
+			bottom:33,
+			right:49,
+			width:155,
+			height:217
+		});
+		
+		questionNextLowerBackgroundBar.add(questionNextButtonRestart);
+		questionNextButtonRestart.addEventListener('click', handleQuestionNextButtonRestart);
+		
+		viewQuestionNext.add(questionNextLowerBackgroundBar);
+		
+		nextQuestionLabel = Titanium.UI.createLabel({
+			text:'ΕΠΟΜΕΝΗ ΕΡΩΤΗΣΗ',
+			color:'0b4b7f',
+			textAlign:'center',
+		    top:250,
+			font:{fontSize:47, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+		});
+		viewQuestionNext.add(nextQuestionLabel);
+		
+		//The text we show in the next question image
+		nextQuestionPointsLabel = Titanium.UI.createLabel({
+			text:gameSession.getCurrentPlayer().questions.data[currentQIndex].value + ' ΠΟΝΤΟΙ',
+			color:'0b4b7f',
+			textAlign:'center',
+		    top:322,
+		    left:5,
+		    right:5,
+			font:{fontSize:33, fontWeight:'regular', fontFamily:'Myriad Pro'}
+		});
+		viewQuestionNext.add(nextQuestionPointsLabel);
+		
+		//Next animated button 
+		questionNextButtonNext = Ti.UI.createButton({
+			backgroundImage:IMAGE_PATH+'question_next/next.png',
+			top:408,
+			width:261,
+			height:261
+		});
+		
+		viewQuestionNext.add(questionNextButtonNext);
+		questionNextButtonNext.addEventListener('click', handleQuestionNextButtonNext);
+		animateButtonNext();
+		
 		//Number of the player label
-		questionNextLabelPlayerNo = Ti.UI.createLabel({
+		/*questionNextLabelPlayerNo = Ti.UI.createLabel({
 			text:questionNextLabelPlayerText,
 			top:210,
 			textAlign:'center',
@@ -120,24 +194,8 @@ function buildQuestionNextView(){
 		
 		questionNextBackground.add(questionNextLabelPlayerNo);
 		
-		if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-			questionNextPlayImageButton = IMAGE_PATH+'question_next/button_next.png';
-			
-			//The text we show in the next question image
-			nextQuestionPointsLabel = Titanium.UI.createLabel({
-				text:gameSession.getCurrentPlayer().questions.data[currentQIndex].value + ' Πόντοι',
-				color:'white',
-				shadowColor:'gray',
-				textAlign:'center',
-			    shadowOffset:{x:1,y:1},
-			    zIndex:10,
-			    top:300,
-			    left:5,
-			    right:5,
-				font:{fontSize:33, fontWeight:'bold', fontFamily:'Myriad Pro'}
-			});
-			
-			questionNextBackground.add(nextQuestionPointsLabel);
+		//if(gameSession.getGameType() == BUZZ_GAME_SOLO){
+		
 		} else {
 			
 			questionNextPlayImageButton = IMAGE_PATH+'player_selection/avatars_next/'+gameSession.getCurrentPlayer().avatarFile;
@@ -171,7 +229,7 @@ function buildQuestionNextView(){
 			});
 			
 			viewQuestionNext.add(questionNextArrowRight);
-		}
+		}*/
 		
 		questionNextPlayerLostLabel = Ti.UI.createLabel({
 			text:'',
@@ -184,54 +242,6 @@ function buildQuestionNextView(){
 		});
 		
 		questionNextBackground.add(questionNextPlayerLostLabel);
-		
-		//Next animated button 
-		questionNextButtonNext = Ti.UI.createButton({
-			backgroundImage:questionNextPlayImageButton,
-			top:gameSession.getGameType() == BUZZ_GAME_SOLO ? 400 : 465,
-			width:256,
-			height:256
-		});
-		
-		viewQuestionNext.add(questionNextButtonNext);
-		questionNextButtonNext.addEventListener('click', handleQuestionNextButtonNext);
-		animateButtonNext();
-		
-		//Quit button
-		questionNextButtonQuit = Ti.UI.createButton({
-			backgroundImage:IMAGE_PATH+'question_next/button_quit.png',
-			bottom:20,
-			left:30,
-			width:127,
-			height:160
-		});
-		
-		viewQuestionNext.add(questionNextButtonQuit);
-		questionNextButtonQuit.addEventListener('click', handleQuestionNextButtonQuit);
-		 
-		 //Report Button
-		questionNextButtonReport = Ti.UI.createButton({
-			backgroundImage:IMAGE_PATH+'question_next/button_report.png',
-			bottom:20,
-			width:127,
-			height:160,
-			visible:false
-		});
-		
-		viewQuestionNext.add(questionNextButtonReport);
-		questionNextButtonReport.addEventListener('click', handleQuestionNextButtonReport);
-		
-		//Restart Button
-		questionNextButtonRestart = Ti.UI.createButton({
-			backgroundImage:IMAGE_PATH+'question_next/button_restart.png',
-			bottom:20,
-			right:30,
-			width:127,
-			height:160
-		});
-		
-		viewQuestionNext.add(questionNextButtonRestart);
-		questionNextButtonRestart.addEventListener('click', handleQuestionNextButtonRestart);
 		
 		//Quit popup
 		questionNextButtonQuitPopup = Ti.UI.createImageView({
@@ -477,18 +487,18 @@ function updateQuestionNextView(fromResumeEvent){
 	}
 	
 	//Update player index and name
-	if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-		questionNextLabelPlayerNo.text = questionNextLabelPlayerText;
-		questionNextLabelPlayerName.text = gameSession.getCurrentPlayer().name;
-		questionNextButtonNext.setBackgroundImage(IMAGE_PATH+'player_selection/avatars_next/'+gameSession.getCurrentPlayer().avatarFile);
-	} else if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-		if(!fromResumeEvent){
-			var tmpQuestionIdx = gameSession.getCurrentPlayer().questionIndex;
-			nextQuestionPointsLabel.text = gameSession.getCurrentPlayer().questions.data[tmpQuestionIdx].value + ' Πόντοι';
-		} else {
-			nextQuestionPointsLabel.text = '(Hey, αυτό δεν είναι δίκαιο!)';
-		}
+	//if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+		//questionNextLabelPlayerNo.text = questionNextLabelPlayerText;
+		//questionNextLabelPlayerName.text = gameSession.getCurrentPlayer().name;
+		//questionNextButtonNext.setBackgroundImage(IMAGE_PATH+'player_selection/avatars_next/'+gameSession.getCurrentPlayer().avatarFile);
+	//} else if(gameSession.getGameType() == BUZZ_GAME_SOLO){
+	if(!fromResumeEvent){
+		var tmpQuestionIdx = gameSession.getCurrentPlayer().questionIndex;
+		nextQuestionPointsLabel.text = gameSession.getCurrentPlayer().questions.data[tmpQuestionIdx].value + ' ΠΟΝΤΟΙ';
+	} else {
+		nextQuestionPointsLabel.text = '(Hey, αυτό δεν είναι δίκαιο!)';
 	}
+	//}
 }
 
 function destroyQuestionNextView(){

@@ -74,11 +74,13 @@ var heartIcon5 = null;
 var timeBarFull = null;
 var timeBarEmpty = null;
 var questionTopLogo = null;
-var questionScoreLabel = null;//TODO
+var questionScoreLabel = null;
 var questionClockIcon = null;
 
 var continueBarAnimation = true;
 var barLeft = 768;
+var BAR_LEFT_DEFAULT = 768;
+
 var tmpMatrixAnswer = Ti.UI.create2DMatrix();
 tmpMatrixAnswer = tmpMatrixAnswer.scale(1.18);
 var tmpMatrixAnswerInverse = Ti.UI.create2DMatrix();
@@ -200,7 +202,7 @@ function buildQuestionView(defaultQuestionBanner){
 			zIndex:3
 		});
 		
-		viewQuestion.add(questionClockIcon);//TODO
+		viewQuestion.add(questionClockIcon);
 		
 		//Question bg
 		bg = Titanium.UI.createImageView({
@@ -600,7 +602,7 @@ function buildQuestionView(defaultQuestionBanner){
 		//viewQuestion.add(timeBarFull2);
 		
 		//Timer frame change
-		//timeBarFull2.addEventListener('change', handleTimebarChange); //TODO
+		//timeBarFull2.addEventListener('change', handleTimebarChange); 
 		win.add(viewQuestion);
 		
 		Ti.API.warn('buildQuestionView() ends');
@@ -937,6 +939,13 @@ function showNextQuestionImage(fromResumeEvent){
 		//no need to make the app KILL-able
 		setGameInProgress(false);	
 	}
+	
+	//Reset time bar
+	setTimeout(function(){
+	    timeBarEmpty.left = BAR_LEFT_DEFAULT;
+        barLeft = BAR_LEFT_DEFAULT;
+        continueBarAnimation = true;
+	}, 1000);
 }
 
 /*Performs the animation that increments the score counter*/
@@ -1084,9 +1093,8 @@ function wrongAnswer(fromResumeEvent){
 
 //Adds the score earned by the latest answer to the total score
 function calculateScore(){
-	var totalFrames = barImages.length;
-	var framesLeft = totalFrames - currentTimeBarFrame;
-	var pointsWorth = Math.round((framesLeft * currentQuestionPointsValue) / totalFrames);
+	var pointsWorth = Math.round((barLeft * currentQuestionPointsValue) / 320);
+	Ti.API.info('calculateScore gives '+pointsWorth+' points');
 	
 	//Trigger the animation for the score counter
 	incrementScoreCounter(pointsWorth);
@@ -1094,13 +1102,13 @@ function calculateScore(){
 
 //Stops the timebar animation
 function stopTime(){
-	timeBarFull2.stop();
+	continueBarAnimation = false;
 }
 
 //Starts the timebar animation
 function startTime(){
 	//animate timebar
-	timeBarFull2.start();
+	//timeBarFull2.start();
 	Ti.API.info('TIMER START');
 }
 
@@ -1578,7 +1586,7 @@ function handleGameOverShowScoresClick(){
 }
 
 //The question view
-var viewQuestion = Ti.UI.createView({//TODO
+var viewQuestion = Ti.UI.createView({
 	backgroundColor:'white',
 	opacity:0,
 	top:0,
