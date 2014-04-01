@@ -298,30 +298,35 @@ function getCategoryProperties(id){
 		obj = {
 			name:'EXFORGE',
 			loader:IMAGE_PATH+'loader/exforge.png',
+			banner:IMAGE_PATH+'question/categ_icons/exforge.png',
 			available:true
 		};
 	} else if(id == CAT_EPISTIMI){
 		obj = {
 			name:'ΕΠΙΣΤΗΜΗ',
 			loader:IMAGE_PATH+'loader/science.png',
+			banner:IMAGE_PATH+'question/categ_icons/science.png',
 			available:true
 		};
 	} else if(id == CAT_GEOGRAFIA){
 		obj = {
 			name:'ΓΕΩΓΡΑΦΙΑ',
 			loader:IMAGE_PATH+'loader/geo.png',
+			banner:IMAGE_PATH+'question/categ_icons/geo.png',
 			available:true
 		};
 	} else if(id == CAT_ISTORIA){
 		obj = {
 			name:'ΙΣΤΟΡΙΑ',
 			loader:IMAGE_PATH+'loader/history.png',
+			banner:IMAGE_PATH+'question/categ_icons/history.png',
 			available:true
 		};
 	} else if(id == CAT_ATHLITIKA){
 		obj = {
 			name:'ΑΘΛΗΤΙΚΑ',
 			loader:IMAGE_PATH+'loader/sports.png',
+			banner:IMAGE_PATH+'question/categ_icons/sports.png',
 			available:true
 		};
 	}

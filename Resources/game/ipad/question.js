@@ -31,7 +31,6 @@ var gameOverNoMoreQuestions = false;
 var currentQuestionPointsValue = 100;
 
 //UI components
-var bg = null;
 var resultCorrect = null;
 var resultWrong = null;
 var labelQuestion = null;
@@ -44,14 +43,6 @@ var currentPlayerNameIcon = null;
 
 var scoreIconImage = null;
 var scoreValueLabel = null;
-var heartIcon1 = null;
-var heartIcon2 = null;
-var heartIcon3 = null;
-var heartIcon4 = null;
-var heartIcon5 = null;
-var selectedCategoryBanner = null;
-var timeBarFull = null;
-var timeBarEmpty = null;
 var answerA = null;
 var answerB = null;
 var answerC = null;
@@ -72,6 +63,29 @@ var gameOverPlayLabel = null;
 var gameOverGroupRankingsImage = null;
 var gameOverTopScoreLabel = null;
 var gameOverTopScoreLabelUnderscore = null;
+
+var selectedCategoryBanner = null;
+var bg = null;
+var heartIcon1 = null;
+var heartIcon2 = null;
+var heartIcon3 = null;
+var heartIcon4 = null;
+var heartIcon5 = null;
+var timeBarFull = null;
+var timeBarEmpty = null;
+var questionTopLogo = null;
+var questionScoreLabel = null;//TODO
+var questionClockIcon = null;
+
+var continueBarAnimation = true;
+var barLeft = 768;
+var tmpMatrixAnswer = Ti.UI.create2DMatrix();
+tmpMatrixAnswer = tmpMatrixAnswer.scale(1.18);
+var tmpMatrixAnswerInverse = Ti.UI.create2DMatrix();
+tmpMatrixAnswerInverse = tmpMatrixAnswerInverse.scale(1);
+var scaleAnimationAnswer = Ti.UI.createAnimation({opacity:1,transform:tmpMatrixAnswer,duration:100});
+var scaleAnimationAnswerInverse = Ti.UI.createAnimation({transform:tmpMatrixAnswerInverse,duration:100});
+
 //TMP BAR
 var barImages = [];
 var timeBarFull2 = null;
@@ -85,27 +99,120 @@ function buildQuestionView(defaultQuestionBanner){
 	var shouldCreateView = selectedCategoryBanner == null;
 	if(shouldCreateView){
 		
+		questionTopLogo = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'question/logo.png',
+			top:40
+		});
+		viewQuestion.add(questionTopLogo);
+		
+		//Score label
+		questionScoreLabel = Titanium.UI.createLabel({
+			text:'0',
+			color:'0b4b7f',
+			left:27,
+			textAlign:'left',
+			top:34,
+			font:{fontSize:50, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		viewQuestion.add(questionScoreLabel);
+		
 		//Selected category banner
 		selectedCategoryBanner = Titanium.UI.createImageView({
 			image:defaultQuestionBanner,
-			top:0
+			top:20,
+			right:20
 		});
 		
 		viewQuestion.add(selectedCategoryBanner);
 		
+		var heartsOffset = 39;
+		var heartImage = IMAGE_PATH+'question/heart_life.png';
+		
+		//Heart icon 1
+		heartIcon1 = Ti.UI.createImageView({
+			image:heartImage,
+			top:82,
+			left:27
+		});
+		
+		//Heart icon 2
+		heartIcon2 = Ti.UI.createImageView({
+			image:heartImage,
+			top:82,
+			left:heartIcon1.left+heartsOffset
+		});
+		
+		//Heart icon 3
+		heartIcon3 = Ti.UI.createImageView({
+			image:heartImage,
+			top:82,
+			left:heartIcon2.left+heartsOffset
+		});
+		
+		//Heart icon 4
+		heartIcon4 = Ti.UI.createImageView({
+			image:heartImage,
+			top:82,
+			left:heartIcon3.left+heartsOffset,
+			visible:false
+		});
+	
+		//Heart icon 5
+		heartIcon5 = Ti.UI.createImageView({
+			image:heartImage,
+			top:82,
+			left:heartIcon4.left+heartsOffset,
+			visible:false
+		});
+	
+		viewQuestion.add(heartIcon1);
+		viewQuestion.add(heartIcon2);
+		viewQuestion.add(heartIcon3);
+		viewQuestion.add(heartIcon4);
+		viewQuestion.add(heartIcon5);
+		
+		//Time bar
+		timeBarFull = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'question/time_full.png',
+			top:133,
+			left:0,
+			zIndex:2
+		});
+		
+		viewQuestion.add(timeBarFull);
+	
+		//Time bar EMPTY
+		timeBarEmpty = Titanium.UI.createImageView({
+			backgroundColor:'0b4b7f',
+			width:768,
+			height:31,
+			top:133,
+			left:barLeft,
+			zIndex:3
+		});
+		
+		viewQuestion.add(timeBarEmpty);
+		
+		//Time bar EMPTY
+		questionClockIcon = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'question/time_icon.png',
+			top:123,
+			zIndex:3
+		});
+		
+		viewQuestion.add(questionClockIcon);//TODO
+		
 		//Question bg
 		bg = Titanium.UI.createImageView({
-			image:IPHONE5 ? IMAGE_PATH+'question/bg-568h@2x.png' : IMAGE_PATH+'question/bg.png' ,
-			top:IPHONE5 ? 115 : 185,
-			left:0,
-			right:0
+			image:IMAGE_PATH+'question/question_back.png',
+			top:164
 		});
 		
 		viewQuestion.add(bg);
 		
 		//Correct result
 		resultCorrect = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'question/answer_correct.png',
+			image:IMAGE_PATH+'question/answer_right.png',
 			zIndex:11,
 			visible:false
 		});
@@ -124,14 +231,12 @@ function buildQuestionView(defaultQuestionBanner){
 		//The question
 		labelQuestion = Titanium.UI.createLabel({
 			opacity:0,
-			color:'white',
-			shadowColor:'#000000',
+			color:'#5a3fa3',
 			textAlign:'center',
-		    shadowOffset:{x:1,y:1},
 		    zIndex:10,
 		    left:30,
 		    right:30,
-			font:{fontSize:32, fontWeight:'bold', fontFamily:'Myriad Pro'}
+			font:{fontSize:29, fontWeight:'semibold', fontFamily:'Myriad Pro'}
 		});
 		
 		bg.add(labelQuestion);
@@ -169,152 +274,37 @@ function buildQuestionView(defaultQuestionBanner){
 		currentQuestionStatsPlaceholder.add(currentQuestionPointsLabel);
 		bg.add(currentQuestionStatsPlaceholder);
 		
-		//Score icon
-		scoreIconImage = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'question/score.png',
-			top: IPHONE5 ? 60 : 100,
-			left:10
-		});
-		
-		viewQuestion.add(scoreIconImage);
-		
-		//Score value label
-		scoreValueLabel = Titanium.UI.createLabel({
-			text:'0',
-			color:'white',
-			left:73,
-			textAlign:'left',
-			top:IPHONE5 ? 58 : 100,
-			shadowColor:'#000000',
-		    shadowOffset:{x:1,y:1},
-			font:{fontSize:50, fontWeight:'bold', fontFamily:'Myriad Pro'}
-		});
-		
-		viewQuestion.add(scoreValueLabel);
-		
-		//For group games we also show the current player
-		if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-			
-			currentPlayerNameIcon = Ti.UI.createImageView({
-				image:IMAGE_PATH+'player_selection/avatars_q/'+gameSession.getCurrentPlayer().avatarFile,
-				top:12,
-				left:10,
-				zIndex:52
-			});
-			
-			viewQuestion.add(currentPlayerNameIcon);
-			
-			//DO NOT DELETE
-			/*
-			currentPlayerNameLabel = Titanium.UI.createLabel({
-				text:gameSession.getCurrentPlayer().name,
-				color:'#fee600',
-				left:87,
-				textAlign:'left',
-				top:30,
-				width:145,
-				height:40,
-				minimumFontSize:22,
-				font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
-			});*/
-			
-			//viewQuestion.add(currentPlayerNameLabel);
-		}
-		
-		//Heart icon 1
-		heartIcon1 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'question/heart.png',
-			top:IPHONE5 ? 59 : 99,
-			right:10
-		});
-		
-		//Heart icon 2
-		heartIcon2 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'question/heart.png',
-			top:IPHONE5 ? 59 : 99,
-			right:70
-		});
-		
-		//Heart icon 3
-		heartIcon3 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'question/heart.png',
-			top:IPHONE5 ? 59 : 99,
-			right:130
-		});
-		
-		//Heart icon 4
-		heartIcon4 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'question/heart.png',
-			top:IPHONE5 ? 59 : 99,
-			right:190,
-			visible:false
-		});
-	
-		//Heart icon 5
-		heartIcon5 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'question/heart.png',
-			top:IPHONE5 ? 59 : 99,
-			right:250,
-			visible:false
-		});
-	
-		viewQuestion.add(heartIcon1);
-		viewQuestion.add(heartIcon2);
-		viewQuestion.add(heartIcon3);
-		viewQuestion.add(heartIcon4);
-		viewQuestion.add(heartIcon5);
-		
-		//Time bar
-		timeBarFull = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'question/time_full.png',
-			top:IPHONE5 ? 101 : 181,
-			left:0,
-			zIndex:20
-		});
-		
-		viewQuestion.add(timeBarFull);
-	
-		//Time bar EMPTY
-		timeBarEmpty = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'question/time_empty.png',
-			top:IPHONE5 ? 101 : 181,
-			left:0,
-			zIndex:1
-		});
-		
-		viewQuestion.add(timeBarEmpty);
-		
 		//////////////////////////////////////Answers
 		//Answer A
 		answerA = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/r/a.png',
-			top: IPHONE5 ? 330 : 583,
-			width:739,
-			height:95
+			bottom:332,
+			width:752,
+			height:86
 		});
 		
 		//Answer B
 		answerB = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/r/b.png',
-			top:IPHONE5 ? 390 : 693,
-			width:739,
-			height:95
+			bottom:232,
+			width:752,
+			height:86
 		});
 		
 		//Answer C
 		answerC = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/r/c.png',
-			top:IPHONE5 ? 450 : 803,
-			width:739,
-			height:95
+			bottom:132,
+			width:752,
+			height:86
 		});
 		
 		//Answer D
 		answerD = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/r/d.png',
-			top:IPHONE5 ? 510 : 913,
-			width:739,
-			height:95
+			bottom:32,
+			width:752,
+			height:86
 		});
 		
 		//Answer A label
@@ -377,6 +367,66 @@ function buildQuestionView(defaultQuestionBanner){
 		answerD.addEventListener('click', handleClickAnswerD);
 		//////////////////////////////////////End answers
 		
+		//Score icon
+		scoreIconImage = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'question/score.png',
+			top: IPHONE5 ? 60 : 100,
+			left:10
+		});
+		
+		//viewQuestion.add(scoreIconImage);
+		
+		//viewQuestion.add(scoreValueLabel);
+		
+		//For group games we also show the current player
+		/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+			
+			currentPlayerNameIcon = Ti.UI.createImageView({
+				image:IMAGE_PATH+'player_selection/avatars_q/'+gameSession.getCurrentPlayer().avatarFile,
+				top:12,
+				left:10,
+				zIndex:52
+			});
+			
+			viewQuestion.add(currentPlayerNameIcon);
+			
+			//DO NOT DELETE
+			
+			currentPlayerNameLabel = Titanium.UI.createLabel({
+				text:gameSession.getCurrentPlayer().name,
+				color:'#fee600',
+				left:87,
+				textAlign:'left',
+				top:30,
+				width:145,
+				height:40,
+				minimumFontSize:22,
+				font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
+			});
+			
+			//viewQuestion.add(currentPlayerNameLabel);
+		}*/
+		
+		//Time bar
+		/*timeBarFull = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'question/time_full.png',
+			top:IPHONE5 ? 101 : 181,
+			left:0,
+			zIndex:20
+		});
+		
+		//viewQuestion.add(timeBarFull);
+	
+		//Time bar EMPTY
+		timeBarEmpty = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'question/time_empty.png',
+			top:IPHONE5 ? 101 : 181,
+			left:0,
+			zIndex:1
+		});
+		
+		//viewQuestion.add(timeBarEmpty);*/
+		
 		//////////////////////////////////////Game over
 		var GROUP_PLAY_GAMEOVER_HEIGHT_OFFSET = 50;
 		
@@ -405,7 +455,7 @@ function buildQuestionView(defaultQuestionBanner){
 		alertViewGameOver.add(gameOverImage);
 		
 		//For group play we also show a top score label
-		if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+		/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
 			gameOverTopScoreLabel = Titanium.UI.createLabel({
 				text:'TOPSCORE',
 				color:'white',
@@ -425,7 +475,7 @@ function buildQuestionView(defaultQuestionBanner){
 			});
 			
 			alertViewGameOver.add(gameOverTopScoreLabelUnderscore);
-		}
+		}*/
 		
 		//Game over question stats (12/23 erwtiseis)
 		gameOverQuestionStats = Titanium.UI.createLabel({
@@ -456,7 +506,7 @@ function buildQuestionView(defaultQuestionBanner){
 		alertViewGameOver.add(gameOverScoreLabelValue);
 		
 		//Gameover bottom buttons
-		if(gameSession.getGameType() == BUZZ_GAME_SOLO){
+		//if(gameSession.getGameType() == BUZZ_GAME_SOLO){
 			//Gameover arrow image
 			gameOverArrowImage = Ti.UI.createButton({
 				backgroundImage:IMAGE_PATH+'question/gameoverarrow.png',
@@ -510,7 +560,7 @@ function buildQuestionView(defaultQuestionBanner){
 			});
 			
 			alertViewGameOver.add(gameOverPlayLabel);
-		} else if(gameSession.getGameType() == BUZZ_GAME_GROUP){
+		/*} else if(gameSession.getGameType() == BUZZ_GAME_GROUP){
 			//Gameover group rankings image
 			gameOverGroupRankingsImage = Ti.UI.createButton({
 				backgroundImage:IMAGE_PATH+'question/rankings.png',
@@ -523,17 +573,17 @@ function buildQuestionView(defaultQuestionBanner){
 			
 			//Event listener for game over group rankings
 			gameOverGroupRankingsImage.addEventListener('click', handleGameOverShowScoresClick);
-		}
+		}*/
 		
 		
 		win.add(alertViewGameOver);
 		//////////////////////////////////////End game over
-		barImages.push(IMAGE_PATH+'timer/time_full.png');
+		/*barImages.push(IMAGE_PATH+'timer/time_full.png');
 		
 		for(var tt=195; tt>=0; tt--){
 			var targetSlice = IMAGE_PATH+'timer/TIME-LINE'+tt+'.png';
 			barImages.push(targetSlice);
-		}
+		}*/
 		
 		barImages.push(IMAGE_PATH+'question/time_empty.png');
 		
@@ -547,10 +597,10 @@ function buildQuestionView(defaultQuestionBanner){
 			zIndex:3
 		});
 		
-		viewQuestion.add(timeBarFull2);
+		//viewQuestion.add(timeBarFull2);
 		
 		//Timer frame change
-		timeBarFull2.addEventListener('change', handleTimebarChange);
+		//timeBarFull2.addEventListener('change', handleTimebarChange); //TODO
 		win.add(viewQuestion);
 		
 		Ti.API.warn('buildQuestionView() ends');
@@ -595,12 +645,12 @@ function destroyQuestionView(){
 		labelQuestion = null;
 		
 		viewQuestion.remove(scoreIconImage);
-		viewQuestion.remove(scoreValueLabel);
+		//viewQuestion.remove(scoreValueLabel);
 	
 		//Score icon
 		scoreIconImage = null;
 		//Score value label
-		scoreValueLabel = null;
+		//scoreValueLabel = null;
 		
 		//Remove group-specific UI components
 		if(gameSession.getGameType() == BUZZ_GAME_GROUP){
@@ -742,6 +792,62 @@ function destroyQuestionView(){
 	Ti.API.warn('destroyQuestionView() ends');
 }
 
+//Animates the timebar
+function animateBar(){
+    
+    barLeft = barLeft - 4;
+    var targetLeft = barLeft;
+    
+    if(targetLeft == 0) {
+        Ti.API.warn('STOP BAR');
+        continueBarAnimation = false;
+        
+        stopTime();
+    
+        //Disable answers
+        enableAnswersUI(false);
+    
+        /*if(SOUNDS_MODE){
+            timeOverSound.play();   
+        }*/
+            
+        if(currentCorrectAnswer == 'a'){
+            //Fade remaining questions
+            answerB.opacity = 0.3;
+            answerC.opacity = 0.3;
+            answerD.opacity = 0.3;
+        } else if(currentCorrectAnswer == 'b'){
+            //Fade remaining questions
+            answerA.opacity = 0.3;
+            answerC.opacity = 0.3;
+            answerD.opacity = 0.3;
+        } else if(currentCorrectAnswer == 'c'){
+            //Fade remaining questions
+            answerA.opacity = 0.3;
+            answerB.opacity = 0.3;
+            answerD.opacity = 0.3;
+        } else if(currentCorrectAnswer == 'd'){
+            //Fade remaining questions
+            answerB.opacity = 0.3;
+            answerC.opacity = 0.3;
+            answerA.opacity = 0.3;
+        }
+        
+        resultWrong.animate(scaleAnimationAnswer, function(){
+            resultWrong.animate(scaleAnimationAnswerInverse);
+        });
+        
+        wrongAnswer(false);
+    }
+    
+    //Ti.API.warn('BAR to '+targetLeft);
+    timeBarEmpty.animate({left:targetLeft, duration:80}, function(){
+        if(continueBarAnimation){
+            animateBar();
+        }
+    });
+}
+
 /*Resets game mechanics*/
 function newGame(category){
 	//UI changes first to cope with slower devices
@@ -754,7 +860,7 @@ function newGame(category){
 	
 	currentQIndex = 0;
 	currentQuestionLabel = 0;
-	scoreValueLabel.text = '0';
+	//scoreValueLabel.text = '0';
 	totalQuestionsPlayed = 0;
 	totalCorrectAnswers = 0;
 	gameOver = false;
@@ -854,7 +960,7 @@ function incrementScoreCounter(pointsGained){
 	}
 	
 	var activeScoreAnimationInterval = setInterval(function(){
-		var v = parseInt(scoreValueLabel.text);
+		var v = parseInt(questionScoreLabel.text);
 		
 		if(v >= gameSession.getCurrentPlayer().score) {
 			clearInterval(activeScoreAnimationInterval);
@@ -889,12 +995,14 @@ function incrementScoreCounter(pointsGained){
 				resultCorrect.hide();
 				resultWrong.hide();
 				
+				bg.image = IMAGE_PATH+'question/question_back.png';
+				
 				showNextQuestionImage(false);
 			}, 550);
 			
 		} else {
 			v += defaultIncrements;
-			scoreValueLabel.text = v;
+			questionScoreLabel.text = v;
 			gameOverScoreLabelValue.text = v;
 		}
 		
@@ -963,6 +1071,8 @@ function wrongAnswer(fromResumeEvent){
 			//hide right/wrong icon
 			resultCorrect.hide();
 			resultWrong.hide();
+			
+			bg.image = IMAGE_PATH+'question/question_back.png';
 		
 			showNextQuestionImage(fromResumeEvent);
 		}, SHOW_SCORE_TIMER);
@@ -1054,7 +1164,7 @@ function updateMultiplayerUI(){
 	currentPlayerNameIcon.image = IMAGE_PATH+'player_selection/avatars_q/'+gameSession.getCurrentPlayer().avatarFile;
 	
 	//Score
-	scoreValueLabel.text = gameSession.getCurrentPlayer().score;
+	questionScoreLabel.text = gameSession.getCurrentPlayer().score;
 	
 	//Lives
 	var numberOfLives = gameSession.getCurrentPlayer().lives;
@@ -1132,6 +1242,7 @@ function nextQuestion(gameStart){
 	//hide outcome
 	resultCorrect.hide();
 	resultWrong.hide();
+	bg.image = IMAGE_PATH+'question/question_back.png';
 	timeBarFull.show();
 	
 	totalQuestionsPlayed++;
@@ -1143,9 +1254,9 @@ function nextQuestion(gameStart){
 			currentQuestionStatsPlaceholder.hide();
 					
 			//if not paused
-			if(!timeBarFull2.paused){
+			/*if(!timeBarFull2.paused){
 				startTime();
-			}
+			}*/
 			
 			//reset question images
 			answerA.image = IMAGE_PATH+'question/r/a.png';
@@ -1191,8 +1302,8 @@ function nextQuestion(gameStart){
 							labelAnswerD.animate({opacity:1,duration:QUESTION_FADE_IN_TIMER}, function(){
 								//Enable for answering
 								answerD.setTouchEnabled(true);	
-								if(!timeBarFull2.animating){
-									timeBarFull2.start();
+								if(continueBarAnimation){
+									animateBar();
 								}
 								
 							});
@@ -1241,6 +1352,7 @@ function displayGameOver(){
 	//hide right/wrong icon
 	resultCorrect.hide();
 	resultWrong.hide();
+	bg.image = IMAGE_PATH+'question/question_back.png';
 	
 	//hide question and answers
 	labelQuestion.text = '';
@@ -1258,7 +1370,7 @@ function displayGameOver(){
 	answerC.opacity = 1;
 	answerD.opacity = 1;
 	//reset score UI
-	scoreValueLabel.text = 0;
+	questionScoreLabel.text = 0;
 	//reset lives UI
 	heartIcon1.show();
 	heartIcon2.show();
@@ -1466,8 +1578,8 @@ function handleGameOverShowScoresClick(){
 }
 
 //The question view
-var viewQuestion = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+var viewQuestion = Ti.UI.createView({//TODO
+	backgroundColor:'white',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -1594,13 +1706,24 @@ function handleClickAnswerA(){
 				if(currentCorrectAnswer == 'a'){
 					answerA.image = IMAGE_PATH+'question/correct/a.png';
 					labelQuestion.opacity = 0.5;
+					
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
+					
+					resultCorrect.animate(scaleAnimationAnswer, function(){
+                        resultCorrect.animate(scaleAnimationAnswerInverse);
+                    });
 					
 					correctAnswer();
 				} else {
 					answerA.image = IMAGE_PATH+'question/wrong/a.png';
 					labelQuestion.opacity = 0.5;
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
+					
+					resultWrong.animate(scaleAnimationAnswer, function(){
+	                    resultWrong.animate(scaleAnimationAnswerInverse);
+	                });
 					
 					wrongAnswer(false);
 					
@@ -1652,14 +1775,24 @@ function handleClickAnswerB(){
 				if(currentCorrectAnswer == 'b'){
 					answerB.image = IMAGE_PATH+'question/correct/b.png';
 					labelQuestion.opacity = 0.5;
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
 					
+					resultCorrect.animate(scaleAnimationAnswer, function(){
+                        resultCorrect.animate(scaleAnimationAnswerInverse);
+                    });
+                    
 					correctAnswer();
 				} else {
 					answerB.image = IMAGE_PATH+'question/wrong/b.png';
 					labelQuestion.opacity = 0.5;
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
 					
+					resultWrong.animate(scaleAnimationAnswer, function(){
+	                    resultWrong.animate(scaleAnimationAnswerInverse);
+	                });
+	                
 					wrongAnswer(false);
 					
 					//highlight correct answer
@@ -1710,14 +1843,24 @@ function handleClickAnswerC(){
 				if(currentCorrectAnswer == 'c'){
 					answerC.image = IMAGE_PATH+'question/correct/c.png';
 					labelQuestion.opacity = 0.5;
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
 					
+					resultCorrect.animate(scaleAnimationAnswer, function(){
+                        resultCorrect.animate(scaleAnimationAnswerInverse);
+                    });
+                    
 					correctAnswer();
 				} else {
 					answerC.image = IMAGE_PATH+'question/wrong/c.png';
 					labelQuestion.opacity = 0.5;
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
 					
+					resultWrong.animate(scaleAnimationAnswer, function(){
+	                    resultWrong.animate(scaleAnimationAnswerInverse);
+	                });
+	                
 					wrongAnswer(false);
 					
 					//highlight correct answer
@@ -1768,13 +1911,23 @@ function handleClickAnswerD(){
 				if(currentCorrectAnswer == 'd'){
 					answerD.image = IMAGE_PATH+'question/correct/d.png';
 					labelQuestion.opacity = 0.5;
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
+					
+					resultCorrect.animate(scaleAnimationAnswer, function(){
+                        resultCorrect.animate(scaleAnimationAnswerInverse);
+                    });
 					
 					correctAnswer();
 				} else {
 					answerD.image = IMAGE_PATH+'question/wrong/d.png';
 					labelQuestion.opacity = 0.5;
+					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
+					
+					resultWrong.animate(scaleAnimationAnswer, function(){
+	                    resultWrong.animate(scaleAnimationAnswerInverse);
+	                });
 					
 					wrongAnswer(false);
 					
