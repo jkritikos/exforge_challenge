@@ -119,8 +119,9 @@ var actInd = Titanium.UI.createActivityIndicator({
 	style:Titanium.UI.iPhone.ActivityIndicatorStyle.BIG,
 	height:20,
 	width:20,
-	bottom:570
+	top:495
 });
+viewLoader.add(actInd);
 
 //Loader icon
 var loaderIcon = Titanium.UI.createImageView({

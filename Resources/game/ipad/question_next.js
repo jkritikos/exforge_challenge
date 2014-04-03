@@ -87,7 +87,8 @@ function buildQuestionNextView(){
 		questionNextWikipediaBackground = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:152,
-			top:0
+			top:0,
+			clicked:'wikipedia'
 		});
 		
 		//Wikipedia image
@@ -95,14 +96,12 @@ function buildQuestionNextView(){
 			backgroundImage:IMAGE_PATH+'question_next/w.png',
 			top:45,
 			width:113,
-			height:72,
-			clicked:'wikipedia',
-			visible:false
+			height:72
 		});
 		
 		questionNextWikipediaBackground.add(questionNextWikipedia);
 		viewQuestionNext.add(questionNextWikipediaBackground);
-		questionNextWikipedia.addEventListener('click', handleQuestionNextWikipedia);
+		questionNextWikipediaBackground.addEventListener('click', handleQuestionNextWikipedia);
 		
 		questionNextLowerBackgroundBar = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
