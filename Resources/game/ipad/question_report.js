@@ -1,6 +1,6 @@
  //The view
  var viewQuestionReport = Ti.UI.createView({
- 	backgroundImage:IMAGE_PATH+'background.jpg',
+ 	backgroundImage:IMAGE_PATH+'signin/background.jpg',
  	opacity:0,
  	top:0,
  	bottom:0,
@@ -47,11 +47,20 @@ function buildQuestionReportView(){
 	if(shouldCreateView){
 		//background
 		questionReportBackground = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/report_back.png',
-			top:73
+			image:IMAGE_PATH+'report/reportbox.png',
+			top:20,
+			zIndex:2
 		});
 	
 		viewQuestionReport.add(questionReportBackground);
+		
+		var questionReportUpperBackgroundBar = Ti.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:152,
+			top:0
+		}); 
+		viewQuestionReport.add(questionReportUpperBackgroundBar);
+		
 		//close view x button
 		questionReportCloseImage = Ti.UI.createButton({
 			backgroundImage:IMAGE_PATH+'top/invite_x.png',
@@ -64,13 +73,13 @@ function buildQuestionReportView(){
 		viewQuestionReport.add(questionReportCloseImage);
 		questionReportCloseImage.addEventListener('click', handleQuestionReportCloseButton);
 		
-		questionReportButtonOffset = 70;
+		questionReportButtonOffset = 76;
 		//button 1
 		questionReportButton1 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/report_button1.png',
-			top:420,
-			left:110,
-			button:1,
+			image:IMAGE_PATH+'report/bullets/red.png',
+			top:361,
+			left:93,
+			button:'red',
 			isSelected:false
 		});
 		
@@ -80,8 +89,8 @@ function buildQuestionReportView(){
 		questionReportButtonLabel1 = Ti.UI.createLabel({
 			text:'Λάθος απάντηση.',
 			textAlign:'center',
-			color:'white',
-			top:436,
+			color:'0b4b7f',
+			top:376,
 			left:184,
 			font:{fontSize:28, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
@@ -89,10 +98,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel1);
 		//Button 2 
 		questionReportButton2 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/report_button2.png',
+			image:IMAGE_PATH+'report/bullets/blue.png',
 			top:questionReportButton1.top+questionReportButtonOffset,
-			left:110,
-			button:2,
+			left:93,
+			button:'blue',
 			isSelected:false
 		});
 		
@@ -102,7 +111,7 @@ function buildQuestionReportView(){
 		questionReportButtonLabel2 = Ti.UI.createLabel({
 			text:'Ορθογραφικό λάθος.',
 			textAlign:'center',
-			color:'white',
+			color:'0b4b7f',
 			top:questionReportButtonLabel1.top+questionReportButtonOffset,
 			left:184,
 			font:{fontSize:28, fontWeight:'regular', fontFamily:'Myriad Pro'}
@@ -111,10 +120,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel2);
 		//Button 3
 		questionReportButton3 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/report_button3.png',
+			image:IMAGE_PATH+'report/bullets/green.png',
 			top:questionReportButton2.top+questionReportButtonOffset,
-			left:110,
-			button:3,
+			left:93,
+			button:'green',
 			isSelected:false
 		});
 		
@@ -124,7 +133,7 @@ function buildQuestionReportView(){
 		questionReportButtonLabel3 = Ti.UI.createLabel({
 			text:'Ανήκει σε άλλη κατηγορία.',
 			textAlign:'center',
-			color:'white',
+			color:'0b4b7f',
 			top:questionReportButtonLabel2.top+questionReportButtonOffset,
 			left:184,
 			font:{fontSize:28, fontWeight:'regular', fontFamily:'Myriad Pro'}
@@ -133,10 +142,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel3);
 		//Button 4
 		questionReportButton4 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/report_button4.png',
+			image:IMAGE_PATH+'report/bullets/purple.png',
 			top:questionReportButton3.top+questionReportButtonOffset,
-			left:110,
-			button:4,
+			left:93,
+			button:'purple',
 			isSelected:false
 		});
 		
@@ -146,7 +155,7 @@ function buildQuestionReportView(){
 		questionReportButtonLabel4 = Ti.UI.createLabel({
 			text:'Λάθος Wikipedia link.',
 			textAlign:'center',
-			color:'white',
+			color:'0b4b7f',
 			top:questionReportButtonLabel3.top+questionReportButtonOffset,
 			left:184,
 			font:{fontSize:28, fontWeight:'regular', fontFamily:'Myriad Pro'}
@@ -155,10 +164,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel4);
 		//Button 5
 		questionReportButton5 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/report_button5.png',
+			image:IMAGE_PATH+'report/bullets/orange.png',
 			top:questionReportButton4.top+questionReportButtonOffset,
-			left:110,
-			button:5,
+			left:93,
+			button:'orange',
 			isSelected:false
 		});
 		
@@ -168,7 +177,7 @@ function buildQuestionReportView(){
 		questionReportButtonLabel5 = Ti.UI.createLabel({
 			text:'Άλλος λόγος...',
 			textAlign:'center',
-			color:'white',
+			color:'0b4b7f',
 			top:questionReportButtonLabel4.top+questionReportButtonOffset,
 			left:184,
 			font:{fontSize:28, fontWeight:'regular', fontFamily:'Myriad Pro'}
@@ -182,15 +191,23 @@ function buildQuestionReportView(){
 			right:122
 		});
 		
-		questionReportBackground.add(questionReportSendArrow);
+		//questionReportBackground.add(questionReportSendArrow);
 		questionReportSendArrow.hide();
+		
+		var questionReportLowerBackgroundBar = Ti.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:257,
+			bottom:0
+		}); 
+		viewQuestionReport.add(questionReportLowerBackgroundBar);
+		
 		//send report button
 		questionReportSendReportButton = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/sending/report.png',
-			bottom:20
+			image:IMAGE_PATH+'report/sending/report2.png',
+			bottom:33
 		});
 		
-		viewQuestionReport.add(questionReportSendReportButton);
+		questionReportLowerBackgroundBar.add(questionReportSendReportButton);
 		questionReportSendReportButton.addEventListener('click', reportQuestion);
 		
 		questionReportSubmissionActIndicator = Ti.UI.createActivityIndicator({
@@ -278,22 +295,26 @@ function handleQuestionReportCheckButton(e){
 	var buttonChosen = e.source.button;
 	isSelected = e.source.isSelected;
 	
+	
+	
 	if(!isSelected){
 		e.source.isSelected = true;
-		e.source.image = IMAGE_PATH+'report/report_button'+buttonChosen+'-yes.png';
+		e.source.image = IMAGE_PATH+'report/bullets/'+buttonChosen+'_ok.png';
 		errors[buttonChosen] = buttonChosen;
 		validateErrors++;
 	} else {
 		e.source.isSelected = false;
-		e.source.image = IMAGE_PATH+'report/report_button'+buttonChosen+'.png';
+		e.source.image = IMAGE_PATH+'report/bullets/'+buttonChosen+'.png';
 		errors[buttonChosen] = null;
 		validateErrors--;
 	}
 	
 	if(validateErrors > 0){
 		questionReportSendArrow.show();
+		questionReportSendReportButton.image = IMAGE_PATH+'report/sending/send.png';
 	}else{
 		questionReportSendArrow.hide();
+		questionReportSendReportButton.image = IMAGE_PATH+'report/sending/report2.png';
 	}
 	
 	//Ti.API.info(errors);
@@ -315,7 +336,7 @@ function reportQuestion(){
 		if (Titanium.Network.online == true && !BLACKLISTED){
 			Ti.API.info('Sending user report!');
 			//change UI accordingly while sending
-			questionReportSendReportButton.image = IMAGE_PATH+'report/sending/report_sending.png';
+			questionReportSendReportButton.image = IMAGE_PATH+'report/sending/sending.png';
 			questionReportSubmissionActIndicator.show();
 			
 			var playerObject = getCurrentPlayer();
@@ -349,7 +370,7 @@ function reportQuestion(){
 						audioAccept.play();	
 					}
 				
-					questionReportSendReportButton.image = IMAGE_PATH+'report/sending/report_sent.png';
+					questionReportSendReportButton.image = IMAGE_PATH+'report/sending/sent.png';
 					questionReportSendReportButton.removeEventListener('click', reportQuestion);
 					questionReportSendReportButton.addEventListener('click', handleQuestionReportCloseButton);
 					questionReportSubmitClosesPopup = true;
@@ -359,7 +380,7 @@ function reportQuestion(){
 						audioError.play();	
 					}
 				
-					questionReportSendReportButton.image = IMAGE_PATH+'report/sending/report_failed.png';
+					questionReportSendReportButton.image = IMAGE_PATH+'report/sending/failed.png';
 				}
 			};	
 			xhr.onerror = function(e){
@@ -369,7 +390,7 @@ function reportQuestion(){
 				
 				Ti.API.info('reportQuestion() ERROR');
 				questionReportSubmissionActIndicator.hide();
-				questionReportSendReportButton.image = IMAGE_PATH+'report/sending/report_failed.png';
+				questionReportSendReportButton.image = IMAGE_PATH+'report/sending/failed.png';
 			};
 			
 			xhr.open('POST', API + 'reportQuestion');

@@ -440,9 +440,24 @@ function buildQuestionView(defaultQuestionBanner){
 		
 		alertViewGameOver.add(alertViewGameOverMiddleBox);
 		
+		var selectedCategId = gameSession.getSelectedGameCategoryId();
+		var  gameOverBannerImage = null;
+		
+		if(selectedCategId == 1){
+			gameOverBannerImage = IMAGE_PATH+'game_over/icon_exforge.png';
+		}else if(selectedCategId == 2){
+			gameOverBannerImage = IMAGE_PATH+'game_over/icon_science.png';
+		}else if(selectedCategId == 3){
+			gameOverBannerImage = IMAGE_PATH+'game_over/icon_geo.png';
+		}else if(selectedCategId == 4){
+			gameOverBannerImage = IMAGE_PATH+'game_over/icon_history.png';
+		}else if(selectedCategId == 5){
+			gameOverBannerImage = IMAGE_PATH+'game_over/icon_sports.png';
+		}
+		
 		//Game over category banner
 		gameOverCategoryBanner = Ti.UI.createImageView({//TODO change according to category
-			image:IMAGE_PATH+'game_over/icon_exforge.png',
+			image:gameOverBannerImage,
 			top:268,
 			zIndex:2
 		});
@@ -796,11 +811,11 @@ function destroyQuestionView(){
 		//////////////////////////////////////End game over
 	
 		//Timer frame change
-		timeBarFull2.removeEventListener('change', handleTimebarChange);
+		//timeBarFull2.removeEventListener('change', handleTimebarChange);
 		
-		viewQuestion.remove(timeBarFull2);
+		//viewQuestion.remove(timeBarFull2);
 		barImages = [];
-		timeBarFull2 = null;
+		//timeBarFull2 = null;
 		
 		win.remove(viewQuestion);
 	}
