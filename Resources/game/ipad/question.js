@@ -399,14 +399,6 @@ function buildQuestionView(defaultQuestionBanner){
 		
 		alertViewGameOver.add(alertViewGameOverTitleBackground);
 		
-		//game over bar which changes according to category played
-		var alertViewGameOverRedBar = Ti.UI.createView({//TODO change according to category
-			backgroundColor:'fb494a',
-			height:29,
-			top:193
-		});
-		alertViewGameOver.add(alertViewGameOverRedBar);
-		
 		//blue box for the score
 		var alertViewGameOverMiddleBox = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
@@ -441,22 +433,36 @@ function buildQuestionView(defaultQuestionBanner){
 		alertViewGameOver.add(alertViewGameOverMiddleBox);
 		
 		var selectedCategId = gameSession.getSelectedGameCategoryId();
-		var  gameOverBannerImage = null;
+		var gameOverBannerImage = null;
+		var gameOverUpperBarColor = null;
 		
 		if(selectedCategId == 1){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_exforge.png';
+			gameOverUpperBarColor = 'fb494a'; 
 		}else if(selectedCategId == 2){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_science.png';
+			gameOverUpperBarColor = '6fb042'; 
 		}else if(selectedCategId == 3){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_geo.png';
+			gameOverUpperBarColor = '569bd4'; 
 		}else if(selectedCategId == 4){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_history.png';
+			gameOverUpperBarColor = 'fb9a01'; 
 		}else if(selectedCategId == 5){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_sports.png';
+			gameOverUpperBarColor = '9b52e7'; 
 		}
 		
+		//game over bar which changes according to category played
+		var alertViewGameOverUpperBar = Ti.UI.createView({
+			backgroundColor:gameOverUpperBarColor,
+			height:29,
+			top:193
+		});
+		alertViewGameOver.add(alertViewGameOverUpperBar);
+		
 		//Game over category banner
-		gameOverCategoryBanner = Ti.UI.createImageView({//TODO change according to category
+		gameOverCategoryBanner = Ti.UI.createImageView({
 			image:gameOverBannerImage,
 			top:268,
 			zIndex:2
@@ -480,6 +486,8 @@ function buildQuestionView(defaultQuestionBanner){
 			bottom:36
 		});
 		alertViewGameOverBottomBackground.add(gameOverPlayImage);
+		//Play again event listener
+		gameOverPlayImage.addEventListener('click', handleGameOverPlayAgainClick);
 		
 		//Game over rankings button
 		gameOverArrowImage = Ti.UI.createButton({
@@ -491,6 +499,8 @@ function buildQuestionView(defaultQuestionBanner){
 			bottom:36
 		});
 		alertViewGameOverBottomBackground.add(gameOverArrowImage);
+		//Event listener for game over arrow image
+		gameOverArrowImage.addEventListener('click', handleGameOverShowScoresClick);
 		
 		alertViewGameOver.add(alertViewGameOverBottomBackground);
 		
@@ -589,12 +599,6 @@ function buildQuestionView(defaultQuestionBanner){
 			});
 		
 			//alertViewGameOver.add(gameOverScoresLabel);
-		
-			//Play again event listener
-			//alertViewGameOver.add(gameOverPlayImage);
-			gameOverPlayImage.addEventListener('click', handleGameOverPlayAgainClick);
-			//Event listener for game over arrow image
-			gameOverArrowImage.addEventListener('click', handleGameOverShowScoresClick);
 		
 			//Gameover playAgain label
 			gameOverPlayLabel = Titanium.UI.createLabel({
@@ -1528,8 +1532,12 @@ var gameOverEvent = function(){
 	var highestScore = 0;
 	//if(gameSession.getGameType() == BUZZ_GAME_SOLO){
 		//Badges handling
-		//mtbImport("award_badge.js");
-		//awardBadgesNotification(playerId, gameSession.getSelectedGameCategoryId(), gameSession.getCurrentPlayer().score);
+		mtbImport("award_badge.js");
+		var winningPlayer = gameSession.getWinner();
+		
+		var awardBadgeStats = winningPlayer.totalCorrectAnswers + '/' + (winningPlayer.questionIndex) + ' ερωτήσεις';
+		
+		awardBadgesNotification(playerId, gameSession.getSelectedGameCategoryId(), gameSession.getCurrentPlayer().score, awardBadgeStats);
 		
 		//Save game session
 		saveGameSession(playerId, gameSession.getSelectedGameCategoryId());
