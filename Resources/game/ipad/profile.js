@@ -5,7 +5,7 @@ var profileDataInfo = null;
 
 //The view
 var viewProfile = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -32,12 +32,11 @@ viewProfile.addEventListener('myProfile', function(e) {
 
 //Back button
 var backHomeFromProfileButton = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'back.png',
-	backgroundSelectedImage:IMAGE_PATH+'back_green.png',
-	left:8,
-	top:8,
-	height:52,
-	width:52
+	backgroundImage:IMAGE_PATH+'categories/back.png',
+	left:30,
+	top:25,
+	width:55,
+	height:55
 });
 
 //Back button event listener
@@ -74,6 +73,183 @@ function buildProfileView(){
 	if(shouldCreateView){
 		VIEWING_PROFILE = true;
 		
+		//title background bar
+		profileTitleBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:192,
+			top:0
+		});
+		
+		profileTitleBackgroundBar.add(backHomeFromProfileButton);
+		
+		//logo image
+		var profileLogoImage = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'profile/profile_icon.png',
+			top:20,
+			right:28
+		});
+		profileTitleBackgroundBar.add(profileLogoImage);
+		
+		//Name Label value
+		var profileTitleLabel = Titanium.UI.createLabel({
+			text:'ΠΡΟΦΙΛ',
+			color:'white',
+			top:103,
+			font:{fontSize:64, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		profileTitleBackgroundBar.add(profileTitleLabel);
+		
+		viewProfile.add(profileTitleBackgroundBar);
+		
+		//Name Label value
+		nameLabelValue = Titanium.UI.createLabel({
+			text:'',
+			color:'fb494a',
+			top:255,
+			font:{fontSize:68, fontWeight:'regular', fontFamily:'Myriad Pro'}
+		});
+		viewProfile.add(nameLabelValue);
+		
+		//middle background bar
+		var profileMiddleBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'5e9fd5',
+			height:173,
+			top:353
+		});
+		viewProfile.add(profileMiddleBackgroundBar);
+		
+		//left sepparator on middle bar
+		var profileLeftSepparator = Titanium.UI.createView({
+			backgroundColor:'white',
+			width:2,
+			height:89,
+			top:55,
+			left:255
+		});
+		profileMiddleBackgroundBar.add(profileLeftSepparator);
+		
+		//right sepparator on middle bar
+		var profileRightSepparator = Titanium.UI.createView({
+			backgroundColor:'white',
+			width:2,
+			height:89,
+			top:55,
+			right:255
+		});
+		profileMiddleBackgroundBar.add(profileRightSepparator);
+		
+		//Games label
+		var profileGamesLabel = Titanium.UI.createLabel({
+			text:'ΠΑΙΧΝΙΔΙΑ',
+			color:'white',
+			textAlign:'left',
+			left:55,
+			top:25,
+			font:{fontSize:30, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+		});
+		profileMiddleBackgroundBar.add(profileGamesLabel);
+		
+		//left games background on middle bar
+		var profileGamesBackground = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			width:255,
+			height:89,
+			top:55,
+			left:0
+		});
+		
+		//Games played value
+		var gamesLabelValue = Titanium.UI.createLabel({
+			text:'0',
+			color:'white',
+			textAlign:'center',
+			left:10,
+			right:10,
+			top:15,
+			font:{fontSize:83, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		profileGamesBackground.add(gamesLabelValue);
+		
+		profileMiddleBackgroundBar.add(profileGamesBackground);
+		
+		//Badges label
+		var profileBadgesLabel = Titanium.UI.createLabel({
+			text:'ΠΑΡΑΣΗΜΑ',
+			color:'white',
+			textAlign:'left',
+			right:46,
+			top:25,
+			font:{fontSize:30, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+		});
+		profileMiddleBackgroundBar.add(profileBadgesLabel);
+		
+		//left badges background on middle bar
+		var profileBadgesBackground = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			width:255,
+			height:89,
+			top:55,
+			right:0
+		});
+		
+		//Badges value
+		badgesLabelValue = Titanium.UI.createLabel({
+			text:'0',
+			textAlign:'center',
+			color:'white',
+			left:10,
+			right:10,
+			top:15,
+			font:{fontSize:83, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		profileBadgesBackground.add(badgesLabelValue);
+		
+		profileMiddleBackgroundBar.add(profileBadgesBackground);
+		
+		//Top Score label
+		var profileTopScoreLabel = Titanium.UI.createLabel({
+			text:'TOP SCORE',
+			color:'white',
+			textAlign:'center',
+			top:25,
+			font:{fontSize:30, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+		});
+		profileMiddleBackgroundBar.add(profileTopScoreLabel);
+		
+		//left badges background on middle bar
+		var profileTopScoreBackground = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			width:254,
+			height:89,
+			top:55
+		});
+		
+		//Top score value
+		topScoreLabelValue = Titanium.UI.createLabel({
+			text:'0',
+			color:'white',
+			textAlign:'center',
+			left:10,
+			right:10,
+			top:15,
+			font:{fontSize:83, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		profileTopScoreBackground.add(topScoreLabelValue);
+		
+		profileMiddleBackgroundBar.add(profileTopScoreBackground);
+		
+		//scores table
+		tableViewDetails = Titanium.UI.createTableView({
+			data:[],
+			minRowHeight:120,
+			backgroundColor:'transparent',
+			separatorColor:'gray',
+			top:526,
+			bottom:10
+		});
+		
+		viewProfile.add(tableViewDetails);
+		
 		//High scores label
 		highScoresLabel = Titanium.UI.createLabel({
 			text:'HIGH SCORES',
@@ -84,20 +260,8 @@ function buildProfileView(){
 			font:{fontSize:38, fontWeight:'bold', fontFamily:'321impact'}
 		});
 		
-		viewProfile.add(highScoresLabel);
+		//viewProfile.add(highScoresLabel);
 	
-		//scores table
-		tableViewDetails = Titanium.UI.createTableView({
-			data:[],
-			minRowHeight:120,
-			backgroundColor:'transparent',
-			separatorColor:'gray',
-			top:570,
-			bottom:10
-		});
-		
-		viewProfile.add(tableViewDetails);
-		
 		//Icon image
 		iconImageProfile = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'profile/icon.png',
@@ -105,7 +269,7 @@ function buildProfileView(){
 			right:15
 		});
 		
-		viewProfile.add(iconImageProfile);
+		//viewProfile.add(iconImageProfile);
 		
 		//Bar image
 		barImageProfile = Titanium.UI.createImageView({
@@ -113,7 +277,7 @@ function buildProfileView(){
 			top:108
 		});
 		
-		viewProfile.add(barImageProfile);
+		//viewProfile.add(barImageProfile);
 		
 		//Icon image reflection
 		iconReflectionImageProfile = Titanium.UI.createImageView({
@@ -122,7 +286,7 @@ function buildProfileView(){
 			right:15
 		});
 		
-		barImageProfile.add(iconReflectionImageProfile);
+		//barImageProfile.add(iconReflectionImageProfile);
 		
 		//Title image
 		titleImageProfile = Titanium.UI.createImageView({
@@ -131,7 +295,7 @@ function buildProfileView(){
 			zIndex:2
 		});
 		
-		viewProfile.add(titleImageProfile);
+		//viewProfile.add(titleImageProfile);
 		
 		//Info background
 		topBackground = Titanium.UI.createImageView({
@@ -139,18 +303,9 @@ function buildProfileView(){
 			top:213
 		});
 		
-		viewProfile.add(topBackground);
+		//viewProfile.add(topBackground);
 		
-		//Name Label value
-		nameLabelValue = Titanium.UI.createLabel({
-			text:'',
-			color:'white',
-			left:33,
-			top:24,
-			font:{fontSize:36, fontWeight:'bold', fontFamily:'Myriad Pro'}
-		});
-	
-		topBackground.add(nameLabelValue);
+		//topBackground.add(nameLabelValue);
 		
 		//My facebook image
 		friendImage = Ti.UI.createImageView({
@@ -162,7 +317,7 @@ function buildProfileView(){
 			borderWidth:2
 		});
 		
-		friendImage.addEventListener('click', goToSettings)
+		//friendImage.addEventListener('click', goToSettings)
 				
 		//Success tag image
 		tagEpitixiaImage = Titanium.UI.createImageView({
@@ -172,7 +327,7 @@ function buildProfileView(){
 		});
 		
 		//Success tag image event listener
-		tagEpitixiaImage.addEventListener('click', showStats);
+		//tagEpitixiaImage.addEventListener('click', showStats);
 		
 		tagParasimaImage = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'profile/tag_parasima.png',
@@ -187,18 +342,6 @@ function buildProfileView(){
 			left:183
 		});
 		
-		//Top score value
-		topScoreLabelValue = Titanium.UI.createLabel({
-			text:'0',
-			color:'white',
-			textAlign:'center',
-			left:183,
-			top:140,
-			height:70,
-			width:183,
-			font:{fontSize:50, fontWeight:'bold', fontFamily:'321impact'}
-		});
-		
 		//Stats Success rate value
 		successPercentageValue = Titanium.UI.createLabel({
 			text:'100%',
@@ -211,26 +354,13 @@ function buildProfileView(){
 			font:{fontSize:50, fontWeight:'bold', fontFamily:'321impact'}
 		});
 		
-		//Badges value
-		badgesLabelValue = Titanium.UI.createLabel({
-			text:'0',
-			textAlign:'center',
-			color:'white',
-			left:368,
-			top:140,
-			width:182,
-			textAlign:'center',
-			height:70,
-			font:{fontSize:50, fontWeight:'bold', fontFamily:'321impact'}
-		});
-		
-		topBackground.add(friendImage);
-		topBackground.add(tagEpitixiaImage);
-		topBackground.add(tagParasimaImage);
-		topBackground.add(tagTopScoreImage);
-		topBackground.add(topScoreLabelValue);
-		topBackground.add(badgesLabelValue);
-		topBackground.add(successPercentageValue);
+		//topBackground.add(friendImage);
+		//topBackground.add(tagEpitixiaImage);
+		//topBackground.add(tagParasimaImage);
+		//topBackground.add(tagTopScoreImage);
+		//topBackground.add(topScoreLabelValue);
+		//topBackground.add(badgesLabelValue);
+		//topBackground.add(successPercentageValue);
 		
 		//Top score tag image event listener
 		tagTopScoreImage.addEventListener('click', goToHighScores);
@@ -526,43 +656,25 @@ function buildRowsForScore(playerData){
 		rowScore = playerData[i].score != null ? playerData[i].score : 0;
 		rowGames = playerData[i].games != null ? playerData[i].games : 0;
 		
-		if(playerData[i].category == CAT_TOTALBUZZ){
-			rowImage = IMAGE_PATH+'top/categories/totalbuzz.png';
-			rowLabel = 'TOTAL BUZZ';
+		if(playerData[i].category == CAT_EXFORGE){
+			rowImage = IMAGE_PATH+'profile/exforge.png';
+			rowLabel = 'EXFORGE';
 		} else if(playerData[i].category == CAT_EPISTIMI){
-			rowImage = IMAGE_PATH+'top/categories/epistimi.png';
+			rowImage = IMAGE_PATH+'profile/science.png';
 			rowLabel = 'ΕΠΙΣΤΗΜΗ';
-		} else if(playerData[i].category == CAT_KINIMATOGRAFOS){
-			rowImage = IMAGE_PATH+'top/categories/kinimatografos.png';
-			rowLabel = 'ΚΙΝΗΜΑΤΟΓΡΑΦΟΣ';
 		} else if(playerData[i].category == CAT_GEOGRAFIA){
-			rowImage = IMAGE_PATH+'top/categories/geografia.png';
+			rowImage = IMAGE_PATH+'profile/geo.png';
 			rowLabel = 'ΓΕΩΓΡΑΦΙΑ';
-		} else if(playerData[i].category == CAT_ATHLITIKA){
-			rowImage = IMAGE_PATH+'top/categories/athlitika.png';
-			rowLabel = 'ΑΘΛΗΤΙΚΑ';
-		} else if(playerData[i].category == CAT_TEXNOLOGIA){
-			rowImage = IMAGE_PATH+'top/categories/texnologia.png';
-			rowLabel = 'ΤΕΧΝΟΛΟΓΙΑ';
 		} else if(playerData[i].category == CAT_ISTORIA){
-			rowImage = IMAGE_PATH+'top/categories/istoria.png';
+			rowImage = IMAGE_PATH+'profile/history.png';
 			rowLabel = 'ΙΣΤΟΡΙΑ';
-		} else if(playerData[i].category == CAT_MOUSIKH){
-			rowImage = IMAGE_PATH+'top/categories/mousiki.png';
-			rowLabel = 'ΜΟΥΣΙΚΗ';
-		} else if(playerData[i].category == CAT_TEXNES){
-			rowImage = IMAGE_PATH+'top/categories/texnes.png';
-			rowLabel = 'ΤΕΧΝΕΣ';
-		} else if(playerData[i].category == CAT_ZWAFUTA){
-			rowImage = IMAGE_PATH+'top/categories/zoafuta.png';
-			rowLabel = 'ΖΩΑ & ΦΥΤΑ';
-		} else if(playerData[i].category == CAT_LIFESTYLE){
-			rowImage = IMAGE_PATH+'top/categories/lifestyle.png';
-			rowLabel = 'LIFESTYLE';
+		} else if(playerData[i].category == CAT_ATHLITIKA){
+			rowImage = IMAGE_PATH+'profile/sports.png';
+			rowLabel = 'ΑΘΛΗΤΙΚΑ';
 		}
 		
 		var row = Ti.UI.createTableViewRow({
-			height:70, 
+			height:145, 
 			backgroundColor:'transparent',
 			selectedBackgroundColor:'transparent',
 			className:'scoreDetailsMyProfile'
@@ -570,16 +682,16 @@ function buildRowsForScore(playerData){
 		
 		var categoryImage = Titanium.UI.createImageView({
 			image:rowImage,
-			left:10,
+			left:27,
 			clickName:'epistimi'
 		});
 		
 		var categoryLabel = Titanium.UI.createLabel({
 			text:rowLabel,
-			color:'white',
-			left:130,
-			top:36,
-			font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
+			color:'0b4b7f',
+			left:165,
+			top:46,
+			font:{fontSize:32, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
 		var gamesLabelValue = '';
@@ -592,18 +704,18 @@ function buildRowsForScore(playerData){
 		var gamesLabel = Titanium.UI.createLabel({
 			text:gamesLabelValue,
 			color:'gray',
-			left:130,
-			top:70,
-			font:{fontSize:24, fontWeight:'regular', fontFamily:'Myriad Pro'}
+			left:165,
+			top:85,
+			font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
 		var categoryScore = Titanium.UI.createLabel({
 			text:rowScore,
-			color:'white',
-			right:45,
+			color:'0b4b7f',
+			right:38,
 			textAlign:'right',
-			top:50,
-			font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
+			top:61,
+			font:{fontSize:50, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
 		row.add(categoryImage);

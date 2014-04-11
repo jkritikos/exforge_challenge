@@ -682,9 +682,9 @@ function awardSpeedBadge(playerId){
 	}
 	
 	Ti.API.info('awardSpeedBadge found level '+achievedLevel+' with count '+count+' for player '+playerId);
-	//if(badgeAwared){ 
+	if(badgeAwared){ 
 		return achievedLevel;
-	//} else {
-		//return null;
-	//}
+	} else {
+		return null;
+	}
 }
