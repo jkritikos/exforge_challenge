@@ -4,7 +4,7 @@ var BADGE_SUB_DESC_BADGES = 'Πόσα παράσημα χρειάζονται?';
 
 //The view
 var viewStars = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -20,12 +20,11 @@ viewStars.addEventListener('refreshBadges', function(e) {
 
 //Back button
 var backHomeFromStarsButton = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'back.png',
-	backgroundSelectedImage:IMAGE_PATH+'back_green.png',
-	left:8,
-	top:8,
-	height:52,
-	width:52
+	backgroundImage:IMAGE_PATH+'categories/back.png',
+	left:30,
+	top:25,
+	width:55,
+	height:55
 });
 	
 viewStars.add(backHomeFromStarsButton);
@@ -40,7 +39,7 @@ backHomeFromStarsButton.addEventListener('click', function() {
 });
 
 //UI Components
-var BADGE_LABEL_FONTSIZE = 22;
+var BADGE_LABEL_FONTSIZE = 26;
 
 var iconImageStars = null;
 var barImageStars = null;
@@ -90,45 +89,39 @@ var badgeLabel13 = null;
 function buildBadgesListView(){
 	var shouldCreateView = iconImageStars == null;
 	if(shouldCreateView){
-		//Icon image
-		iconImageStars = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/icon.png',
-			top:15,
-			right:14
+		
+		//title background bar
+		var badgesTitleBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:192,
+			top:0
 		});
 		
-		viewStars.add(iconImageStars);
+		badgesTitleBackgroundBar.add(backHomeFromStarsButton);
 		
-		//Bar image
-		barImageStars = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/bar.png',
-			top:108
+		//logo image
+		var badgesLogoImage = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'badges/badges_icon.png',
+			top:25,
+			right:34
 		});
+		badgesTitleBackgroundBar.add(badgesLogoImage);
 		
-		viewStars.add(barImageStars);
-		
-		//Icon image reflection
-		iconReflectionImageStars = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/icon_r.png',
-			top:0,
-			right:14
+		//Name Label value
+		var badgesTitleLabel = Titanium.UI.createLabel({
+			text:'ΠΑΡΑΣΗΜΑ',
+			color:'white',
+			top:103,
+			font:{fontSize:64, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
+		badgesTitleBackgroundBar.add(badgesTitleLabel);
 		
-		barImageStars.add(iconReflectionImageStars);
-		
-		//Title image
-		titleImageStars = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/title.png',
-			top:49,
-			zIndex:2
-		});
-		
-		viewStars.add(titleImageStars);
+		viewStars.add(badgesTitleBackgroundBar);
 		
 		///////BADGES///////////
 		badgeView1 = Ti.UI.createScrollView({
 			opacity:1,
-			top:235,
+			top:200,
 			bottom:0,
 			left:0,
 			right:0,
@@ -139,134 +132,223 @@ function buildBadgesListView(){
 		  	height: '75%',
 		  	width: '100%',
 		});
-	
+		
+		var badgeTransparentBackground1 = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			height:371,
+			width:250,
+			top:24,
+			left:128
+		});
+		
 		//Badge1 image 
 		badge1 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/badges/g/badge1.png',
-			top:57,
-			left:45,
+			image:IMAGE_PATH+'badges/exforge.png',
+			top:68,
 			badge:1
 		});
+		badgeTransparentBackground1.add(badge1);
 		
 		star1 = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'stars/star_1.png',
-			top:5,
-			left:65
+			top:5
 		});
+		badgeTransparentBackground1.add(star1);
 	
 		//Label for badge1
 		badgeLabel1 = Titanium.UI.createLabel({
 			text:BADGE1_LABEL,
-			color:'white',
-			left:63,
-			top:255,
+			color:'0b4b7f',
+			bottom:0,
 			textAlign:'center',
-			width:150,
+			width:160,
 			height:'auto',
 			font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
-	
+		badgeTransparentBackground1.add(badgeLabel1);
+		
+		badgeView1.add(badgeTransparentBackground1);
+		
+		var badgeTransparentBackground2 = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			height:371,
+			width:250,
+			top:24,
+			left:386
+		});
+		
+		//Badge2 image 
 		badge2 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/badges/g/badge2.png',
-			top:57,
-			//left:277,
+			image:IMAGE_PATH+'badges/science.png',
+			top:68,
 			badge:2
 		});
+		badgeTransparentBackground2.add(badge2);
 		
 		star2 = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'stars/star_1.png',
-			top:5,
-			left:313
+			top:5
 		});
+		badgeTransparentBackground2.add(star2);
 	
 		//Label for badge2
 		badgeLabel2 = Titanium.UI.createLabel({
 			text:BADGE2_LABEL,
-			color:'white',
-			left:311,
-			top:255,
+			color:'0b4b7f',
+			bottom:0,
 			textAlign:'center',
-			width:150,
+			width:186,
 			height:'auto',
 			font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
-	
+		badgeTransparentBackground2.add(badgeLabel2);
+		
+		badgeView1.add(badgeTransparentBackground2);
+		
+		var badgeTransparentBackground3 = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			height:371,
+			width:250,
+			top:417,
+			left:1
+		});
+		
+		//Badge3 image 
 		badge3 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/badges/g/badge3.png',
-			top:57,
-			//left:537,
-			right:42,
+			image:IMAGE_PATH+'badges/geo.png',
+			top:68,
 			badge:3
 		});
-	
+		badgeTransparentBackground3.add(badge3);
+		
 		star3 = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'stars/star_1.png',
-			top:5,
-			left:563
+			top:5
 		});
+		badgeTransparentBackground3.add(star3);
 	
 		//Label for badge3
 		badgeLabel3 = Titanium.UI.createLabel({
 			text:BADGE3_LABEL,
-			color:'white',
-			left:562,
-			top:255,
+			color:'0b4b7f',
+			bottom:0,
 			textAlign:'center',
-			width:150,
-			height:'auto',
+			width:175,
+			height:80,
 			font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
-	
+		badgeTransparentBackground3.add(badgeLabel3);
+		
+		badgeView1.add(badgeTransparentBackground3);
+		
+		var badgeTransparentBackground4 = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			height:371,
+			width:250,
+			top:417
+		});
+		
+		//Badge4 image 
 		badge4 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/badges/g/badge4.png',
-			top:397,
-			left:45,
+			image:IMAGE_PATH+'badges/history.png',
+			top:68,
 			badge:4
 		});
-	
+		badgeTransparentBackground4.add(badge4);
+		
 		star4 = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'stars/star_1.png',
-			top:345,
-			left:65
+			top:5
 		});
+		badgeTransparentBackground4.add(star4);
 	
 		//Label for badge4
 		badgeLabel4 = Titanium.UI.createLabel({
 			text:BADGE4_LABEL,
-			color:'white',
-			left:63,
-			top:595,
+			color:'0b4b7f',
+			bottom:0,
 			textAlign:'center',
-			width:150,
-			height:'auto',
+			width:175,
+			height:80,
 			font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
-	
+		badgeTransparentBackground4.add(badgeLabel4);
+		
+		badgeView1.add(badgeTransparentBackground4);
+		
+		var badgeTransparentBackground5 = Titanium.UI.createView({
+			backgroundColor:'transparent',
+			height:371,
+			width:250,
+			top:417,
+			right:1
+		});
+		
+		//Badge5 image 
 		badge5 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/badges/g/badge5.png',
-			top:397,
-			//left:117,
+			image:IMAGE_PATH+'badges/sports.png',
+			top:68,
 			badge:5
 		});
+		badgeTransparentBackground5.add(badge5);
 		
 		star5 = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'stars/star_1.png',
-			top:345,
-			left:313
+			top:5
 		});
+		badgeTransparentBackground5.add(star5);
 	
 		//Label for badge5
 		badgeLabel5 = Titanium.UI.createLabel({
 			text:BADGE5_LABEL,
-			color:'white',
-			left:311,
-			top:595,
+			color:'0b4b7f',
+			bottom:0,
 			textAlign:'center',
-			width:150,
-			height:'auto',
+			width:175,
+			height:80,
 			font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
-	
+		badgeTransparentBackground5.add(badgeLabel5);
+		
+		badgeView1.add(badgeTransparentBackground5);
+		
+		viewStars.add(badgeView1);
+		
+		//Icon image
+		iconImageStars = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'stars/icon.png',
+			top:15,
+			right:14
+		});
+		
+		//viewStars.add(iconImageStars);
+		
+		//Bar image
+		barImageStars = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'stars/bar.png',
+			top:108
+		});
+		
+		//viewStars.add(barImageStars);
+		
+		//Icon image reflection
+		iconReflectionImageStars = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'stars/icon_r.png',
+			top:0,
+			right:14
+		});
+		
+		//barImageStars.add(iconReflectionImageStars);
+		
+		//Title image
+		titleImageStars = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'stars/title.png',
+			top:49,
+			zIndex:2
+		});
+		
+		//viewStars.add(titleImageStars);
+		
 		badge6 = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'stars/badges/g/badge6.png',
 			top:397,
@@ -467,46 +549,46 @@ function buildBadgesListView(){
 			font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
-		badgeView1.add(badge1);
-		badgeView1.add(star1);
-		badgeView1.add(badgeLabel1);
-		badgeView1.add(badge2);
-		badgeView1.add(star2);
-		badgeView1.add(badgeLabel2);
-		badgeView1.add(badge3);
-		badgeView1.add(star3);
-		badgeView1.add(badgeLabel3);
-		badgeView1.add(badge4);
-		badgeView1.add(star4);
-		badgeView1.add(badgeLabel4);
-		badgeView1.add(badge5);
-		badgeView1.add(star5);
-		badgeView1.add(badgeLabel5);
-		badgeView1.add(badge6);
-		badgeView1.add(star6);
-		badgeView1.add(badgeLabel6);
-		badgeView1.add(badge7);
-		badgeView1.add(star7);
-		badgeView1.add(badgeLabel7);
-		badgeView1.add(badge8);
-		badgeView1.add(star8);
-		badgeView1.add(badgeLabel8);
-		badgeView1.add(badge9);
-		badgeView1.add(star9);
-		badgeView1.add(badgeLabel9);
+		//badgeView1.add(badge1);
+		//badgeView1.add(star1);
+		//badgeView1.add(badgeLabel1);
+		//badgeView1.add(badge2);
+		//badgeView1.add(star2);
+		//badgeView1.add(badgeLabel2);
+		//badgeView1.add(badge3);
+		//badgeView1.add(star3);
+		//badgeView1.add(badgeLabel3);
+		//badgeView1.add(badge4);
+		//badgeView1.add(star4);
+		//badgeView1.add(badgeLabel4);
+		//badgeView1.add(badge5);
+		//badgeView1.add(star5);
+		//badgeView1.add(badgeLabel5);
+		//badgeView1.add(badge6);
+		//badgeView1.add(star6);
+		//badgeView1.add(badgeLabel6);
+		//badgeView1.add(badge7);
+		//badgeView1.add(star7);
+		//badgeView1.add(badgeLabel7);
+		//badgeView1.add(badge8);
+		//badgeView1.add(star8);
+		//badgeView1.add(badgeLabel8);
+		//badgeView1.add(badge9);
+		//badgeView1.add(star9);
+		//badgeView1.add(badgeLabel9);
 		
-		badgeView1.add(badge10);
-		badgeView1.add(star10);
-		badgeView1.add(badgeLabel10);
-		badgeView1.add(badge11);
-		badgeView1.add(star11);
-		badgeView1.add(badgeLabel11);
-		badgeView1.add(badge12);
-		badgeView1.add(star12);
-		badgeView1.add(badgeLabel12);
-		badgeView1.add(badge13);
-		badgeView1.add(star13);
-		badgeView1.add(badgeLabel13);
+		//badgeView1.add(badge10);
+		//badgeView1.add(star10);
+		//badgeView1.add(badgeLabel10);
+		//badgeView1.add(badge11);
+		//badgeView1.add(star11);
+		//badgeView1.add(badgeLabel11);
+		//badgeView1.add(badge12);
+		//badgeView1.add(star12);
+		//badgeView1.add(badgeLabel12);
+		//badgeView1.add(badge13);
+		//badgeView1.add(star13);
+		//badgeView1.add(badgeLabel13);
 		
 		//Badges event listeners
 		badge1.addEventListener('click', handleBadgeClick);
@@ -523,10 +605,10 @@ function buildBadgesListView(){
 		badge12.addEventListener('click', handleBadgeClick);
 		badge13.addEventListener('click', handleBadgeClick);
 		
-		updateBadgeView();
+		//updateBadgeView();
 		
-		viewStars.add(badgeView1);
-		viewStars.animate(anim_in);
+		//viewStars.add(badgeView1);
+		//viewStars.animate(anim_in);
 		
 		win.add(viewStars);
 		

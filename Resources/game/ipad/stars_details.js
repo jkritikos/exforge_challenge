@@ -19,12 +19,11 @@ viewStarsDetails.addEventListener('updateUI', function(e) {
 
 //Back button
 var backHomeFromStarsDetailsButton = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'back.png',
-	backgroundSelectedImage:IMAGE_PATH+'back_green.png',
-	left:8,
-	top:8,
-	width:52,
-	height:52
+	backgroundImage:IMAGE_PATH+'categories/back.png',
+	left:30,
+	top:25,
+	width:55,
+	height:55
 });
 
 //Back button event listener

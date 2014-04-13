@@ -178,6 +178,7 @@ heartMenuBadgesBackground.addEventListener('click', function(){
 	getBadgeData(player.id);
 	
 	buildBadgesListView();
+	viewStars.animate(anim_in);
 });
 
 //Event listener for Profile button
