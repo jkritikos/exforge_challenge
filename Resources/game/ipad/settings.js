@@ -1,6 +1,6 @@
 //The view
 var viewSettings = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -10,12 +10,11 @@ var viewSettings = Ti.UI.createView({
 
 //Back button
 var backHomeSettingsButton = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'back.png',
-	backgroundSelectedImage:IMAGE_PATH+'back_green.png',
-	left:8,
-	top:8,
-	width:52,
-	height:52
+	backgroundImage:IMAGE_PATH+'categories/back.png',
+	left:30,
+	top:25,
+	width:55,
+	height:55
 });
 
 //Back button event listener
@@ -47,8 +46,6 @@ backHomeSettingsButton.addEventListener('click', function() {
 	destroySettingsView();
 });
 	
-viewSettings.add(backHomeSettingsButton);
-
 //UI components
 var scrollViewSettings = null;
 var fbDisconnectPlayerAlert = null;
@@ -95,12 +92,49 @@ var tmpRotateAnimation = Ti.UI.createAnimation({transform:tmpRotateMatrix});
 var tmpRotateMatrixInverse = Ti.UI.create2DMatrix().rotate(360);
 var tmpRotateAnimationInverse = Ti.UI.createAnimation({transform:tmpRotateMatrixInverse});
 
+var switchMusicON = null;
+var switchMusicOFF = null;
+var switchSoundON = null;
+var switchSoundOFF = null;
+var settingsLogoImage = null;
+
+var COLOR_SWITCH_ON = 'a9e850';
+var COLOR_SWITCH_OFF = 'a2a2a2';
+
 function buildSettingsView(){
 	var IPAD_OFFSET = 200;
 	
-	var shouldCreateView = scrollViewSettings == null;
+	var shouldCreateView = settingsLogoImage == null;
 	if(shouldCreateView){
 		VIEWING_SETTINGS = true;
+		
+		//title background bar
+		settingsTitleBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:192,
+			top:0
+		});
+		
+		settingsTitleBackgroundBar.add(backHomeSettingsButton);
+		
+		//logo image
+		settingsLogoImage = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'settings/settings_icon.png',
+			top:25,
+			right:33
+		});
+		settingsTitleBackgroundBar.add(settingsLogoImage);
+		
+		//Name Label value
+		var settingsTitleLabel = Titanium.UI.createLabel({
+			text:'ΡΥΘΜΙΣΕΙΣ',
+			color:'white',
+			top:103,
+			font:{fontSize:64, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		settingsTitleBackgroundBar.add(settingsTitleLabel);
+		
+		viewSettings.add(settingsTitleBackgroundBar);
 	
 		scrollViewSettings = Ti.UI.createScrollView({
 			contentWidth: 'auto',
@@ -109,36 +143,167 @@ function buildSettingsView(){
 		  	showHorizontalScrollIndicator: true,
 		  	height: '95%',
 		  	width: '100%',
-		  	bottom:0,
-		  	top:125,
-		  	zIndex:5
+		  	bottom:192,
+		  	top:193
 		});
+		
+		var settingsMusicBar = Ti.UI.createView({
+			backgroundColor:'0b4b7f',
+		  	height:108,
+		  	top:94
+		});
+		
+		var settingsMusicIcon = Ti.UI.createImageView({
+			image:IMAGE_PATH+'settings/icon_music.png',
+			left:29
+		});
+		settingsMusicBar.add(settingsMusicIcon);
+		
+		var settingsMusicSepparator = Ti.UI.createView({
+			backgroundColor:'white',
+            opacity:0.5,
+		  	height:108,
+		  	left:130,
+		  	width:2
+		});
+		settingsMusicBar.add(settingsMusicSepparator);
+		
+		var switchMusicLabel = Ti.UI.createLabel({
+			text:'ΜΟΥΣΙΚΗ',
+			color:'white',
+            left:171,
+            top:41,
+            font:{fontSize:33, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+        });
+        settingsMusicBar.add(switchMusicLabel);
+		
+		switchMusicON = Ti.UI.createLabel({
+            right:202,
+            text:'ON',
+            top:29,
+            color:MUSIC_MODE ? COLOR_SWITCH_ON : COLOR_SWITCH_OFF,
+            font:{fontSize:60, fontWeight:'bold', fontFamily:'Myriad Pro'},
+            switch_flag:1
+        });
+        settingsMusicBar.add(switchMusicON);
+        
+        var switchMusicSlash = Ti.UI.createLabel({
+            right:154,
+            text:'/',
+            top:29,
+            color:COLOR_SWITCH_OFF,
+            font:{fontSize:60, fontWeight:'bold', fontFamily:'Myriad Pro'}
+        });
+        settingsMusicBar.add(switchMusicSlash);
+        
+        switchMusicOFF = Ti.UI.createLabel({
+            right:26,
+            text:'OFF',
+            top:29,
+            color:MUSIC_MODE ? COLOR_SWITCH_OFF : COLOR_SWITCH_ON,
+            font:{fontSize:60, fontWeight:'bold', fontFamily:'Myriad Pro'},
+            switch_flag:0
+        });
+        settingsMusicBar.add(switchMusicOFF);
+        
+        //switch event listener
+        switchMusicON.addEventListener('click', handleMusicSwitchEvent);
+        switchMusicOFF.addEventListener('click', handleMusicSwitchEvent);
+		
+		scrollViewSettings.add(settingsMusicBar);
+		
+		var settingsSoundsBar = Ti.UI.createView({
+			backgroundColor:'0b4b7f',
+		  	height:108,
+		  	top:220
+		});
+		
+		var settingsSoundsIcon = Ti.UI.createImageView({
+			image:IMAGE_PATH+'settings/icon_sounds.png',
+			left:28
+		});
+		settingsSoundsBar.add(settingsSoundsIcon);
+		
+		var settingsSoundsSepparator = Ti.UI.createView({
+			backgroundColor:'white',
+            opacity:0.5,
+		  	height:108,
+		  	left:130,
+		  	width:2
+		});
+		settingsSoundsBar.add(settingsSoundsSepparator);
+		
+		var switchSoundsLabel = Ti.UI.createLabel({
+			text:'ΗΧΟΙ',
+			color:'white',
+            left:171,
+            top:41,
+            font:{fontSize:33, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+        });
+        settingsSoundsBar.add(switchSoundsLabel);
+		
+		switchSoundON = Ti.UI.createLabel({
+            right:202,
+            text:'ON',
+            top:29,
+            color:SOUNDS_MODE ? COLOR_SWITCH_ON : COLOR_SWITCH_OFF,
+            font:{fontSize:60, fontWeight:'bold', fontFamily:'Myriad Pro'},
+            switch_flag:1
+        });
+        settingsSoundsBar.add(switchSoundON);
+        
+        var switchSoundsSlash = Ti.UI.createLabel({
+            right:154,
+            text:'/',
+            top:29,
+            color:COLOR_SWITCH_OFF,
+            font:{fontSize:60, fontWeight:'bold', fontFamily:'Myriad Pro'}
+        });
+        settingsSoundsBar.add(switchSoundsSlash);
+        
+        switchSoundOFF = Ti.UI.createLabel({
+            right:26,
+            text:'OFF',
+            top:29,
+            color:SOUNDS_MODE ? COLOR_SWITCH_OFF : COLOR_SWITCH_ON,
+            font:{fontSize:60, fontWeight:'bold', fontFamily:'Myriad Pro'},
+            switch_flag:0
+        });
+        settingsSoundsBar.add(switchSoundOFF);
+        
+        switchSoundON.addEventListener('click', handleSoundsSwitchEvent);
+        switchSoundOFF.addEventListener('click', handleSoundsSwitchEvent);
+		
+		scrollViewSettings.add(settingsSoundsBar);
 		
 		viewSettings.add(scrollViewSettings);
 		
 		settingsBottomBar = Ti.UI.createView({
-			top:970,
-			height:410,
-			backgroundColor:'black',
-			zIndex:10,
-			opacity:0.9
-		})
-		
-		settingsBottomBarIcon = Ti.UI.createImageView({
-			image:IMAGE_PATH+'settings/arrow.png',
-			top:12
-		})
+			bottom:0,
+			height:192,
+			backgroundColor:'fb494a'
+		});
+		settingsBottomBar.addEventListener('click', handleTipsClick);
 		
 		settingsBottomBarLabel = Titanium.UI.createLabel({
-			text:'Μάθε περισσότερα για το Mind the Buzz, στείλε μας το σχόλιό σου και αν θες βαθμολόγησε μας!',
+			text:'ΟΔΗΓΙΕΣ',
 			color:'white',
-			textAlign:'center',
-			left:100,
-			right:100,
-			top:60,
-			font:{fontSize:23, fontWeight:'regular', fontFamily:'Myriad Pro'}
+			textAlign:'left',
+			top:75,
+			left:129,
+			font:{fontSize:61, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
-	
+		settingsBottomBar.add(settingsBottomBarLabel);
+		
+		settingsBottomBarIcon = Ti.UI.createImageView({
+			image:IMAGE_PATH+'settings/logo_exforge.png',
+			top:79,
+			right:132
+		});
+		settingsBottomBar.add(settingsBottomBarIcon);
+		
+		viewSettings.add(settingsBottomBar);
+		
 		settingsIconAbout = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'settings/icon_about.png',
 			bottom:10,
@@ -162,20 +327,18 @@ function buildSettingsView(){
 			height:242
 		});
 		
-		settingsBottomBar.add(settingsBottomBarLabel);
-		settingsBottomBar.add(settingsIconAbout);
-		settingsBottomBar.add(settingsIconRate);
-		settingsBottomBar.add(settingsIconFeedback);
-		settingsBottomBar.add(settingsBottomBarIcon);
+		//settingsBottomBar.add(settingsBottomBarLabel);
+		//settingsBottomBar.add(settingsIconAbout);
+		//settingsBottomBar.add(settingsIconRate);
+		//settingsBottomBar.add(settingsIconFeedback);
+		//settingsBottomBar.add(settingsBottomBarIcon);
 		
 		//Bar icons event listener
-		settingsIconAbout.addEventListener('click', handleInfoIcon);
+		//settingsIconAbout.addEventListener('click', handleInfoIcon);
 		settingsIconRate.addEventListener('click', handleRateIcon);
 		settingsIconFeedback.addEventListener('click', handleFeedbackIcon);
 		
-		viewSettings.add(settingsBottomBar);
-		
-		settingsBottomBar.addEventListener('click', handleSettingsBarSlide);
+		//settingsBottomBar.addEventListener('click', handleSettingsBarSlide);
 		
 		//FB disconnect player confirmation box
 		fbDisconnectPlayerAlert = Titanium.UI.createImageView({
@@ -184,7 +347,7 @@ function buildSettingsView(){
 			visible:false
 		});
 		
-		viewSettings.add(fbDisconnectPlayerAlert);
+		//viewSettings.add(fbDisconnectPlayerAlert);
 	
 		//Confirmation view score label
 		fbDisconnectPlayerLabel = Titanium.UI.createLabel({
@@ -199,7 +362,7 @@ function buildSettingsView(){
 			font:{fontSize:31, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 	
-		fbDisconnectPlayerAlert.add(fbDisconnectPlayerLabel);
+		//fbDisconnectPlayerAlert.add(fbDisconnectPlayerLabel);
 		
 		//FB disconect alert OK button
 		fbDisconnectPlayerButton = Titanium.UI.createImageView({
@@ -217,8 +380,8 @@ function buildSettingsView(){
 			zIndex:12
 		});
 	
-		fbDisconnectPlayerAlert.add(fbDisconnectPlayerButton);
-		fbDisconnectPlayerAlert.add(fbDisconnectCancelButton);
+		//fbDisconnectPlayerAlert.add(fbDisconnectPlayerButton);
+		//fbDisconnectPlayerAlert.add(fbDisconnectCancelButton);
 		
 		//FB disconnect OK event listener
 		fbDisconnectPlayerButton.addEventListener('click', facebookDisconnectAlertOK);
@@ -233,7 +396,7 @@ function buildSettingsView(){
 			right:15
 		});
 		
-		viewSettings.add(iconImageSettings);
+		//viewSettings.add(iconImageSettings);
 	
 		//Bar image
 		barImageSettings = Titanium.UI.createImageView({
@@ -241,7 +404,7 @@ function buildSettingsView(){
 			top:108
 		});
 		
-		viewSettings.add(barImageSettings);
+		//viewSettings.add(barImageSettings);
 	
 		//Icon image reflection
 		iconReflectionImageSettings = Titanium.UI.createImageView({
@@ -250,7 +413,7 @@ function buildSettingsView(){
 			right:15
 		});
 		
-		barImageSettings.add(iconReflectionImageSettings);
+		//barImageSettings.add(iconReflectionImageSettings);
 	
 		//Title image
 		titleImageSettings = Titanium.UI.createImageView({
@@ -259,7 +422,7 @@ function buildSettingsView(){
 			zIndex:2
 		});
 		
-		viewSettings.add(titleImageSettings);
+		//viewSettings.add(titleImageSettings);
 		
 		//High scores label
 		playerLoginLabel = Titanium.UI.createLabel({
@@ -271,7 +434,7 @@ function buildSettingsView(){
 			font:{fontSize:38, fontWeight:'bold', fontFamily:'321impact'}
 		});
 		
-		scrollViewSettings.add(playerLoginLabel);
+		//scrollViewSettings.add(playerLoginLabel);
 	
 		settingsTextfieldUsername = Titanium.UI.createTextField({
 			value:'',
@@ -286,7 +449,7 @@ function buildSettingsView(){
 			borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
 		});
 		
-		scrollViewSettings.add(settingsTextfieldUsername);
+		//scrollViewSettings.add(settingsTextfieldUsername);
 	
 		settingsTextfieldInfoLabel = Titanium.UI.createLabel({
 			text:'(απλό παιχνίδι)',
@@ -297,7 +460,7 @@ function buildSettingsView(){
 			font:{fontSize:24, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 	
-		scrollViewSettings.add(settingsTextfieldInfoLabel);
+		//scrollViewSettings.add(settingsTextfieldInfoLabel);
 		
 		settingsFBConnectInfoLabel = Titanium.UI.createLabel({
 			text:'(προκλητικό)',
@@ -308,7 +471,7 @@ function buildSettingsView(){
 			font:{fontSize:24, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 	
-		scrollViewSettings.add(settingsFBConnectInfoLabel);
+		//scrollViewSettings.add(settingsFBConnectInfoLabel);
 	
 		//Music section label
 		musicSoundsLabel = Titanium.UI.createLabel({
@@ -320,7 +483,7 @@ function buildSettingsView(){
 			font:{fontSize:38, fontWeight:'bold', fontFamily:'321impact'}
 		});
 		
-		scrollViewSettings.add(musicSoundsLabel);
+		//scrollViewSettings.add(musicSoundsLabel);
 	
 		//Music label
 		settingsMusicLabel = Titanium.UI.createLabel({
@@ -332,7 +495,7 @@ function buildSettingsView(){
 			font:{fontSize:22, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
-		scrollViewSettings.add(settingsMusicLabel);
+		//scrollViewSettings.add(settingsMusicLabel);
 		
 		musicSettingInfoIcon = Ti.UI.createImageView({
 			image:IMAGE_PATH+'settings/thunder.png',
@@ -340,7 +503,7 @@ function buildSettingsView(){
 			left:15
 		});
 		
-		scrollViewSettings.add(musicSettingInfoIcon);
+		//scrollViewSettings.add(musicSettingInfoIcon);
 	
 		//MUSIC switch
 		switchMusic = Titanium.UI.createImageView({
@@ -350,8 +513,7 @@ function buildSettingsView(){
 		});
 		
 		//MUSIC switch event listener
-		scrollViewSettings.add(switchMusic);
-		switchMusic.addEventListener('click', handleMusicSwitchEvent);
+		//scrollViewSettings.add(switchMusic);
 	
 		//Sounds label
 		settingsSoundsLabel = Titanium.UI.createLabel({
@@ -363,7 +525,7 @@ function buildSettingsView(){
 			font:{fontSize:22, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
-		scrollViewSettings.add(settingsSoundsLabel);
+		//scrollViewSettings.add(settingsSoundsLabel);
 		
 		soundSettingInfoIcon = Ti.UI.createImageView({
 			image:IMAGE_PATH+'settings/thunder.png',
@@ -371,7 +533,7 @@ function buildSettingsView(){
 			left:15
 		});
 	
-		scrollViewSettings.add(soundSettingInfoIcon);
+		//scrollViewSettings.add(soundSettingInfoIcon);
 	
 		//SOUNDS switch
 		switchSounds = Titanium.UI.createImageView({
@@ -380,7 +542,7 @@ function buildSettingsView(){
 			top:510
 		});
 		
-		scrollViewSettings.add(switchSounds);
+		//scrollViewSettings.add(switchSounds);
 		//SOUNDS switch event listener
 		switchSounds.addEventListener('click', handleSoundsSwitchEvent);
 		
@@ -394,7 +556,7 @@ function buildSettingsView(){
 			font:{fontSize:38, fontWeight:'bold', fontFamily:'321impact'}
 		});
 		
-		scrollViewSettings.add(notificationsLabel);
+		//scrollViewSettings.add(notificationsLabel);
 	
 		//Notification friends higher score label
 		notificationFriendScoreLabel = Titanium.UI.createLabel({
@@ -406,7 +568,7 @@ function buildSettingsView(){
 			font:{fontSize:22, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
-		scrollViewSettings.add(notificationFriendScoreLabel);
+		//scrollViewSettings.add(notificationFriendScoreLabel);
 	
 		notificationInfoFriendScoreImage = Ti.UI.createImageView({
 			image:IMAGE_PATH+'settings/thunder.png',
@@ -414,7 +576,7 @@ function buildSettingsView(){
 			left:15
 		});
 		
-		scrollViewSettings.add(notificationInfoFriendScoreImage);
+		//scrollViewSettings.add(notificationInfoFriendScoreImage);
 		
 		notificationFriendScoreSwitch = Titanium.UI.createImageView({
 			image:getNotificationOption(NOTIFICATION_OPTION_FRIEND_SCORE) == '1' ? IMAGE_PATH+'settings/on.png' : IMAGE_PATH+'settings/off.png',
@@ -422,7 +584,7 @@ function buildSettingsView(){
 			top:665
 		});
 			
-		scrollViewSettings.add(notificationFriendScoreSwitch);
+		//scrollViewSettings.add(notificationFriendScoreSwitch);
 		notificationFriendScoreSwitch.addEventListener('click', handleFriendScoreSwitch);
 		
 		//Notification friends registration label
@@ -435,7 +597,7 @@ function buildSettingsView(){
 			font:{fontSize:22, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
-		scrollViewSettings.add(notificationFriendRegistrationLabel);
+		//scrollViewSettings.add(notificationFriendRegistrationLabel);
 	
 		notificationInfoFriendRegistrationImage = Ti.UI.createImageView({
 			image:IMAGE_PATH+'settings/thunder.png',
@@ -443,7 +605,7 @@ function buildSettingsView(){
 			left:15
 		});
 		
-		scrollViewSettings.add(notificationInfoFriendRegistrationImage);
+		//scrollViewSettings.add(notificationInfoFriendRegistrationImage);
 		
 		notificationFriendRegistrationSwitch = Titanium.UI.createImageView({
 			image:getNotificationOption(NOTIFICATION_OPTION_FRIEND_JOIN) == '1' ? IMAGE_PATH+'settings/on.png' : IMAGE_PATH+'settings/off.png',
@@ -451,7 +613,7 @@ function buildSettingsView(){
 			top:735
 		});
 		
-		scrollViewSettings.add(notificationFriendRegistrationSwitch);
+		//scrollViewSettings.add(notificationFriendRegistrationSwitch);
 		//Event listener for notification switch friend registration switch
 		notificationFriendRegistrationSwitch.addEventListener('click', handleFriendRegistrationSwitch);
 		
@@ -464,7 +626,7 @@ function buildSettingsView(){
 			width:'auto'
 		});
 		
-		scrollViewSettings.add(fbButtonSettings);
+		//scrollViewSettings.add(fbButtonSettings);
 		//Facebook button event listener
 		fbButtonSettings.addEventListener('click', handleSettingsFacebookButton);	
 		
@@ -485,7 +647,7 @@ function destroySettingsView(){
 		viewSettings.animate(anim_out);
 		
 		//settings bar icons listener
-		settingsIconAbout.removeEventListener('click', handleInfoIcon);
+		//settingsIconAbout.removeEventListener('click', handleInfoIcon);
 		settingsIconRate.removeEventListener('click', handleRateIcon);
 		settingsIconFeedback.removeEventListener('click', handleFeedbackIcon);
 		//settings bar event listener
@@ -505,7 +667,7 @@ function destroySettingsView(){
 		
 		//bottom bar
 		settingsBottomBar.remove(settingsBottomBarLabel);
-		settingsBottomBar.remove(settingsIconAbout);
+		//settingsBottomBar.remove(settingsIconAbout);
 		settingsBottomBar.remove(settingsIconRate);
 		settingsBottomBar.remove(settingsIconFeedback);
 		settingsBottomBar.remove(settingsBottomBarIcon);
@@ -607,6 +769,57 @@ function destroySettingsView(){
 	}
 }
 
+//Event handler for the MUSIC switch
+function handleMusicSwitchEvent(e){
+    var targetAction = e.source.switch_flag;
+    Ti.API.info('handleMusicSwitchEvent() called with action '+targetAction);
+    
+	if(MUSIC_MODE){
+		setMusicMode(false);
+		MUSIC_MODE = false;
+		
+		if(audio.playing){
+			audio.stop();
+		}
+		
+		switchMusicON.color = COLOR_SWITCH_OFF;
+		switchMusicOFF.color = COLOR_SWITCH_ON;
+		
+	} else {
+		setMusicMode(true);
+		MUSIC_MODE = true;
+		
+		if(!audio.playing){
+			audio.reset();
+			audio.play();
+		}
+		
+		switchMusicON.color = COLOR_SWITCH_ON;
+        switchMusicOFF.color = COLOR_SWITCH_OFF;
+	}
+}
+
+//Event handler for the SOUNDS switch
+function handleSoundsSwitchEvent(e){
+    var targetAction = e.source.switch_flag;
+    Ti.API.info('handleSoundsSwitchEvent() called with action '+targetAction);
+    
+	if(SOUNDS_MODE){
+		setSoundsMode(false);
+		SOUNDS_MODE = false;
+		
+		switchSoundON.color = COLOR_SWITCH_OFF;
+        switchSoundOFF.color = COLOR_SWITCH_ON;
+		
+	} else {
+		setSoundsMode(true);
+		SOUNDS_MODE = true;
+		
+		switchSoundON.color = COLOR_SWITCH_ON;
+        switchSoundOFF.color = COLOR_SWITCH_OFF;
+	}
+}
+
 /*Handles the bottom bar animation*/
 function handleSettingsBarSlide(){
 	if(!settingsBottomBarExpanded){
@@ -670,48 +883,6 @@ function handleSettingsFacebookButton(){
 	}
 }
 
-//Event handler for the MUSIC switch
-function handleMusicSwitchEvent(){
-	var targetImage = IMAGE_PATH+'settings/on.png';
-	if(MUSIC_MODE){
-		targetImage = IMAGE_PATH+'settings/off.png';
-		setMusicMode(false);
-		MUSIC_MODE = false;
-		
-		if(audio.playing){
-			audio.stop();
-		}
-		
-	} else {
-		targetImage = IMAGE_PATH+'settings/on.png';
-		setMusicMode(true);
-		MUSIC_MODE = true;
-		
-		if(!audio.playing){
-			audio.reset();
-			audio.play();
-		}
-	}
-	
-	switchMusic.image = targetImage;
-}
-
-//Event handler for the SOUNDS switch
-function handleSoundsSwitchEvent(){
-	var targetImage = IMAGE_PATH+'settings/on.png';
-	if(SOUNDS_MODE){
-		targetImage = IMAGE_PATH+'settings/off.png';
-		setSoundsMode(false);
-		SOUNDS_MODE = false;
-	} else {
-		targetImage = IMAGE_PATH+'settings/on.png';
-		setSoundsMode(true);
-		SOUNDS_MODE = true;
-	}
-	
-	switchSounds.image = targetImage;
-}
-
 //Event handler for the friends score switch
 function handleFriendScoreSwitch(){
 	var targetImage = '';
@@ -747,16 +918,16 @@ function handleFriendRegistrationSwitch(){
 }
 
 //Event handler for the info icon
-function handleInfoIcon(){
+function handleTipsClick(){
 	if(SOUNDS_MODE){
 		audioClick.play();	
 	}
 		
-	Ti.API.info('Show About screen');
+	Ti.API.info('Show Tips screen');
 	
-	mtbImport("about.js");
-	buildAboutView();
-	viewAbout.animate(anim_in);
+	mtbImport("tips.js");
+	buildTipsView();
+	viewTips.animate(anim_in);
 }
 
 //Event handler for the rate icon

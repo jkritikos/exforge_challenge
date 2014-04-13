@@ -50,7 +50,7 @@ var LOADED_PROFILE_JS = false;
 var LOADED_STARS_SCROLL_JS = false;
 var LOADED_TOP_SELECTION_JS = false;
 var LOADED_SETTINGS_JS = false;
-var LOADED_ABOUT_JS = false;
+var LOADED_TIPS_JS = false;
 var LOADED_SIGNIN_JS = false;
 var LOADED_CATEGORIES_JS = false;
 var LOADED_LOADER_JS = false;
@@ -60,7 +60,7 @@ var LOADED_INVITE_JS = false;
 var LOADED_STARS_DETAILS_JS = false;
 var LOADED_AWARD_BADGE_JS = false;
 var LOADED_FEEDBACK_JS = false;
-var LOADED_ABOUT_INFO_JS = false;
+var LOADED_TIPS_DETAILS_JS = false;
 var LOADED_ABOUT_CREDITS_JS = false;
 var LOADED_GAME_SELECTION_JS = false;
 var LOADED_GROUP_SELECTION_JS = false;
@@ -74,7 +74,7 @@ var FILE_PROFILE_JS = "profile.js";
 var FILE_STARS_SCROLL_JS = "stars_scroll.js";
 var FILE_TOP_SELECTION_JS = "top_selection.js";
 var FILE_SETTINGS_JS = "settings.js";
-var FILE_ABOUT_JS = "about.js";
+var FILE_TIPS_JS = "tips.js";
 var FILE_SIGNIN_JS = "signin.js";
 var FILE_CATEGORIES_JS = "categories.js";
 var FILE_LOADER_JS = "loader.js";
@@ -84,7 +84,7 @@ var FILE_INVITE_JS = "invite.js";
 var FILE_STARS_DETAILS_JS = "stars_details.js";
 var FILE_AWARD_BADGE_JS = "award_badge.js";
 var FILE_FEEDBACK_JS = "feedback.js";
-var FILE_ABOUT_INFO_JS = "about_info.js";
+var FILE_TIPS_DETAILS_JS = "tips_details.js";
 var FILE_ABOUT_CREDITS_JS = "about_credits.js";
 var FILE_GAME_SELECTION_JS = "game_selection.js";
 var FILE_GROUP_SELECTION_JS = "group_selection.js";
@@ -115,10 +115,10 @@ function mtbImport(file){
 			Ti.include(BUZZ_PATH+file);
 			LOADED_SETTINGS_JS = true;
 		}
-	} else if(file == FILE_ABOUT_JS){
-		if(!LOADED_ABOUT_JS){
+	} else if(file == FILE_TIPS_JS){
+		if(!LOADED_TIPS_JS){
 			Ti.include(BUZZ_PATH+file);
-			LOADED_ABOUT_JS = true;
+			LOADED_TIPS_JS = true;
 		}
 	} else if(file == FILE_SIGNIN_JS){
 		if(!LOADED_SIGNIN_JS){
@@ -165,10 +165,10 @@ function mtbImport(file){
 			Ti.include(BUZZ_PATH+file);
 			LOADED_FEEDBACK_JS = true;
 		}
-	} else if(file == FILE_ABOUT_INFO_JS){
-		if(!LOADED_ABOUT_INFO_JS){
+	} else if(file == FILE_TIPS_DETAILS_JS){
+		if(!LOADED_TIPS_DETAILS_JS){
 			Ti.include(BUZZ_PATH+file);
-			LOADED_ABOUT_INFO_JS = true;
+			LOADED_TIPS_DETAILS_JS = true;
 		}
 	} else if(file == FILE_ABOUT_CREDITS_JS){
 		if(!LOADED_ABOUT_CREDITS_JS){
