@@ -1,6 +1,6 @@
 //The view
 var viewStarsDetails = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -35,7 +35,7 @@ backHomeFromStarsDetailsButton.addEventListener('click', function() {
 	Ti.API.info('BACK to home clicked');
 	destroyBadgeDetailView();
 });
-	
+
 viewStarsDetails.add(backHomeFromStarsDetailsButton);
 
 //UI components
@@ -44,23 +44,164 @@ var badgeDetail = null;
 var badgeLabelDetail = null;
 var badgeLabelDetailDescription = null;
 var badgeLabelSubDetail = null;
-var starDetails1 = null;
-var starDetails2 = null;
-var starDetails3 = null;
 var labelStarDetail1 = null;
 var labelStarDetail2 = null;
 var labelStarDetail3 = null;
 
+var badgesDetailsSmallBar = null;
+var badgesDetailsBanner = null;
+var badgesDetails = null; 
+var badgesDetailsDescription = null;
+
 function buildBadgeDetailView(){
 	var shouldCreateView = barImageDetails == null;
 	if(shouldCreateView){
+		
+		//title background bar
+		var badgesDetailsTitleBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:115,
+			top:0
+		});
+		
+		badgesDetailsTitleBackgroundBar.add(backHomeFromStarsDetailsButton);
+		
+		badgesDetails = Titanium.UI.createLabel({
+			color:'white',
+			top:42,
+			textAlign:'center',
+			font:{fontSize:44, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		
+		badgesDetailsTitleBackgroundBar.add(badgesDetails);
+		
+		viewStarsDetails.add(badgesDetailsTitleBackgroundBar);
+		
+		badgesDetailsSmallBar = Titanium.UI.createView({
+			height:18,
+			top:115
+		});
+		
+		viewStarsDetails.add(badgesDetailsSmallBar);
+		
+		badgesDetailsDescription = Titanium.UI.createLabel({
+			color:'0b4b7f',
+			top:199,
+			width:450,
+			textAlign:'center',
+			font:{fontSize:33, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+		});
+		viewStarsDetails.add(badgesDetailsDescription);
+		
+		var badgesDetailProveLabel = Titanium.UI.createLabel({
+			text:'ΑΠΟΔΕΙΞΕ ΤΟ!',
+			color:'0b4b7f',
+			top:306,
+			textAlign:'center',
+			font:{fontSize:33, fontWeight:'semibold', fontFamily:'Myriad Pro'}
+		});
+		viewStarsDetails.add(badgesDetailProveLabel);
+		
+		var badgesDetailsMiddleBackgroundBox = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:322,
+			width:477,
+			top:459
+		});
+		
+		var starsOffset = 64;
+		var starLabelOffset = 62;
+		
+		//badge detail 1
+		var badgeDetails1 = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'stars/star_1.png',
+			top:106,
+			left:39
+		});
+		badgesDetailsMiddleBackgroundBox.add(badgeDetails1);
+	
+		//badge detail 2
+		var badgeDetails2 = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'stars/star_2.png',
+			top:badgeDetails1.top+starsOffset,
+			left:39
+		});
+		badgesDetailsMiddleBackgroundBox.add(badgeDetails2);
+	
+		//badge detail 3
+		var badgeDetails3 = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'stars/star_3.png',
+			top:badgeDetails2.top+starsOffset,
+			left:39
+		});
+		badgesDetailsMiddleBackgroundBox.add(badgeDetails3);
+		
+		//label points 1
+		labelStarDetail1 = Titanium.UI.createLabel({
+			text:'500 πόντοι',
+			color:'white',
+			right:32,
+			top:117,
+			textAlign:'right',
+			font:{fontSize:42, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		badgesDetailsMiddleBackgroundBox.add(labelStarDetail1);
+	
+		//label points 2
+		labelStarDetail2 = Titanium.UI.createLabel({
+			text:'1500 πόντοι',
+			color:'white',
+			right:32,
+			top:labelStarDetail1.top+starLabelOffset,
+			textAlign:'right',
+			font:{fontSize:42, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		badgesDetailsMiddleBackgroundBox.add(labelStarDetail2);
+	
+		//label points 3
+		labelStarDetail3 = Titanium.UI.createLabel({
+			text:'3500 πόντοι',
+			color:'white',
+			right:32,
+			top:labelStarDetail2.top+starLabelOffset,
+			textAlign:'right',
+			font:{fontSize:42, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		badgesDetailsMiddleBackgroundBox.add(labelStarDetail3);
+		
+		viewStarsDetails.add(badgesDetailsMiddleBackgroundBox);
+		
+		badgesDetailsBanner = Ti.UI.createImageView({
+			top:375,
+			zIndex:2
+		});
+		viewStarsDetails.add(badgesDetailsBanner);
+		
+		var badgesDetailsBottomBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:154,
+			bottom:0
+		});
+		
+		var badgesDetailsOkLabel = Titanium.UI.createLabel({
+			text:'OK',
+			color:'white',
+			top:45,
+			textAlign:'center',
+			font:{fontSize:81, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		badgesDetailsBottomBackgroundBar.add(badgesDetailsOkLabel);
+		badgesDetailsOkLabel.addEventListener('click', handleOkButton);
+		
+		viewStarsDetails.add(badgesDetailsBottomBackgroundBar);
+		
 		//Bar image
 		barImageDetails = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'stars/fat_bar.png',
 			top:118
 		});
 		
-		viewStarsDetails.add(barImageDetails);
+		//viewStarsDetails.add(barImageDetails);
 	
 		//Badge image 
 		badgeDetail = Titanium.UI.createImageView({
@@ -68,7 +209,7 @@ function buildBadgeDetailView(){
 			top:30
 		});
 	
-		viewStarsDetails.add(badgeDetail);
+		//viewStarsDetails.add(badgeDetail);
 	
 		//Label for badge
 		badgeLabelDetail = Titanium.UI.createLabel({
@@ -81,7 +222,7 @@ function buildBadgeDetailView(){
 			font:{fontSize:24, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
-		viewStarsDetails.add(badgeLabelDetail);
+		//viewStarsDetails.add(badgeLabelDetail);
 	
 		//Label description for badge
 		badgeLabelDetailDescription = Titanium.UI.createLabel({
@@ -96,7 +237,7 @@ function buildBadgeDetailView(){
 			font:{fontSize:24, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
-		viewStarsDetails.add(badgeLabelDetailDescription);
+		//viewStarsDetails.add(badgeLabelDetailDescription);
 	
 		//SubLabel for badge
 		badgeLabelSubDetail = Titanium.UI.createLabel({
@@ -109,67 +250,7 @@ function buildBadgeDetailView(){
 			font:{fontSize:24, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
-		viewStarsDetails.add(badgeLabelSubDetail);
-	
-		var IPAD_OFFSET = 400;
-		//star detail 1
-		starDetails1 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/star_1.png',
-			top:300+IPAD_OFFSET,
-			left:180
-		});
-	
-		//star detail 2
-		starDetails2 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/star_2.png',
-			top:370+IPAD_OFFSET,
-			left:180
-		});
-	
-		//star detail 3
-		starDetails3 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'stars/star_3.png',
-			top:440+IPAD_OFFSET,
-			left:180
-		});
-	
-		viewStarsDetails.add(starDetails1);
-		viewStarsDetails.add(starDetails2);
-		viewStarsDetails.add(starDetails3);
-	
-		//label points 1
-		labelStarDetail1 = Titanium.UI.createLabel({
-			text:'500 πόντοι',
-			color:'white',
-			right:180,
-			top:310+IPAD_OFFSET,
-			textAlign:'right',
-			font:{fontSize:30, fontWeight:'bold', fontFamily:'Myriad Pro'}
-		});
-	
-		//label points 2
-		labelStarDetail2 = Titanium.UI.createLabel({
-			text:'1500 πόντοι',
-			color:'white',
-			right:180,
-			top:380+IPAD_OFFSET,
-			textAlign:'right',
-			font:{fontSize:30, fontWeight:'bold', fontFamily:'Myriad Pro'}
-		});
-	
-		//label points 3
-		labelStarDetail3 = Titanium.UI.createLabel({
-			text:'3500 πόντοι',
-			color:'white',
-			right:180,
-			top:450+IPAD_OFFSET,
-			textAlign:'right',
-			font:{fontSize:30, fontWeight:'bold', fontFamily:'Myriad Pro'}
-		});
-	
-		viewStarsDetails.add(labelStarDetail1);
-		viewStarsDetails.add(labelStarDetail2);
-		viewStarsDetails.add(labelStarDetail3);
+		//viewStarsDetails.add(badgeLabelSubDetail);
 		
 		win.add(viewStarsDetails);
 	} else {
@@ -184,9 +265,6 @@ function destroyBadgeDetailView(){
 	if(shouldDestroyView){
 		viewStarsDetails.animate(anim_out);
 		
-		viewStarsDetails.remove(starDetails1);
-		viewStarsDetails.remove(starDetails2);
-		viewStarsDetails.remove(starDetails3);
 		viewStarsDetails.remove(labelStarDetail1);
 		viewStarsDetails.remove(labelStarDetail2);
 		viewStarsDetails.remove(labelStarDetail3);
@@ -195,6 +273,7 @@ function destroyBadgeDetailView(){
 		viewStarsDetails.remove(badgeLabelDetail);
 		viewStarsDetails.remove(badgeLabelDetailDescription);
 		viewStarsDetails.remove(badgeLabelSubDetail);
+		viewStarsDetails.remove(badgesDetailsDescription);
 		
 		//Bar image
 		barImageDetails = null;
@@ -206,12 +285,6 @@ function destroyBadgeDetailView(){
 		badgeLabelDetailDescription = null;
 		//SubLabel for badge
 		badgeLabelSubDetail = null;
-		//star detail 1
-		starDetails1 = null;
-		//star detail 2
-		starDetails2 = null;
-		//star detail 3
-		starDetails3 = null;
 		//label points 1
 		labelStarDetail1 = null;
 		//label points 2
@@ -219,10 +292,21 @@ function destroyBadgeDetailView(){
 		//label points 3
 		labelStarDetail3 = null;
 		
+		badgesDetailsDescription = null;
+		
 		win.remove(viewStarsDetails);
 	} else {
 		Ti.API.warn('NOT destroying StarDetails view - already in progress');
 	}
+}
+
+function handleOkButton(){
+	if(SOUNDS_MODE){
+		audioBack.play();	
+	}
+	
+	Ti.API.info('BACK to home clicked');
+	destroyBadgeDetailView();
 }
 
 /*Updates the UI with the appropriate data for this badge*/
@@ -232,115 +316,50 @@ function updateBadgeDetailsView(badgeId){
 	var pointsLabel3 = '';
 	
 	if(badgeId == 1){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge1.png';
-		badgeLabelDetail.text = BADGE1_LABEL;
-		badgeLabelDetailDescription.text = BADGE1_DESCRIPTION;
+		badgesDetailsBanner.image = IMAGE_PATH+'game_over/icon_exforge.png';
+		badgesDetailsSmallBar.backgroundColor = 'fb494a'; 
+		badgesDetails.text = 'EXFORGE';
+		badgesDetailsDescription.text = BADGE1_DESCRIPTION;
 		
 		labelStarDetail1.text = BADGE1_LEVEL1 + ' πόντοι';
 		labelStarDetail2.text = BADGE1_LEVEL2 + ' πόντοι';
 		labelStarDetail3.text = BADGE1_LEVEL3 + ' πόντοι';
 	} else if(badgeId == 2){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge2.png';
-		badgeLabelDetail.text = BADGE2_LABEL;
-		badgeLabelDetailDescription.text = BADGE2_DESCRIPTION;
+		badgesDetailsBanner.image = IMAGE_PATH+'game_over/icon_science.png';
+		badgesDetailsSmallBar.backgroundColor = '6fb042'; 
+		badgesDetails.text = 'ΕΠΙΣΤΗΜΗ';
+		badgesDetailsDescription.text = BADGE2_DESCRIPTION;
 		
 		labelStarDetail1.text = BADGE2_LEVEL1 + ' πόντοι';
 		labelStarDetail2.text = BADGE2_LEVEL2 + ' πόντοι';
 		labelStarDetail3.text = BADGE2_LEVEL3 + ' πόντοι';
 	} else if(badgeId == 3){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge3.png';
-		badgeLabelDetail.text = BADGE3_LABEL;
-		badgeLabelDetailDescription.text = BADGE3_DESCRIPTION;
+		badgesDetailsBanner.image = IMAGE_PATH+'game_over/icon_geo.png';
+		badgesDetailsSmallBar.backgroundColor = '569bd4'; 
+		badgesDetails.text = 'ΓΕΩΓΡΑΦΙΑ';
+		badgesDetailsDescription.text = BADGE3_DESCRIPTION;
 		
 		labelStarDetail1.text = BADGE3_LEVEL1 + ' πόντοι';
 		labelStarDetail2.text = BADGE3_LEVEL2 + ' πόντοι';
 		labelStarDetail3.text = BADGE3_LEVEL3 + ' πόντοι';
 	} else if(badgeId == 4){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge4.png';
-		badgeLabelDetail.text = BADGE4_LABEL;
-		badgeLabelDetailDescription.text = BADGE4_DESCRIPTION;
+		badgesDetailsBanner.image = IMAGE_PATH+'game_over/icon_history.png';
+		badgesDetailsSmallBar.backgroundColor = 'fb9a01'; 
+		badgesDetails.text = 'ΙΣΤΟΡΙΑ';
+		badgesDetailsDescription.text = BADGE4_DESCRIPTION;
 		
 		labelStarDetail1.text = BADGE4_LEVEL1 + ' πόντοι';
 		labelStarDetail2.text = BADGE4_LEVEL2 + ' πόντοι';
 		labelStarDetail3.text = BADGE4_LEVEL3 + ' πόντοι';
 	} else if(badgeId == 5){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge5.png';
-		badgeLabelDetail.text = BADGE5_LABEL;
-		badgeLabelDetailDescription.text = BADGE5_DESCRIPTION;
+		badgesDetailsBanner.image = IMAGE_PATH+'game_over/icon_sports.png';
+		badgesDetailsSmallBar.backgroundColor = '9b52e7'; 
+		badgesDetails.text = 'ΑΘΛΗΤΙΚΑ';
+		badgesDetailsDescription.text = BADGE5_DESCRIPTION;
 		
 		labelStarDetail1.text = BADGE5_LEVEL1 + ' πόντοι';
 		labelStarDetail2.text = BADGE5_LEVEL2 + ' πόντοι';
 		labelStarDetail3.text = BADGE5_LEVEL3 + ' πόντοι';
-	} else if(badgeId == 6){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge6.png';
-		badgeLabelDetail.text = BADGE6_LABEL;
-		badgeLabelDetailDescription.text = BADGE6_DESCRIPTION;
-		
-		labelStarDetail1.text = BADGE6_LEVEL1 + ' πόντοι';
-		labelStarDetail2.text = BADGE6_LEVEL2 + ' πόντοι';
-		labelStarDetail3.text = BADGE6_LEVEL3 + ' πόντοι';
-	} else if(badgeId == 7){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge7.png';
-		badgeLabelDetail.text = BADGE7_LABEL;
-		badgeLabelDetailDescription.text = BADGE7_DESCRIPTION;
-		
-		labelStarDetail1.text = BADGE7_LEVEL1 + ' πόντοι';
-		labelStarDetail2.text = BADGE7_LEVEL2 + ' πόντοι';
-		labelStarDetail3.text = BADGE7_LEVEL3 + ' πόντοι';
-	} else if(badgeId == 8){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge8.png';
-		badgeLabelDetail.text = BADGE8_LABEL;
-		badgeLabelDetailDescription.text = BADGE8_DESCRIPTION;
-		
-		labelStarDetail1.text = BADGE8_LEVEL1 + ' πόντοι';
-		labelStarDetail2.text = BADGE8_LEVEL2 + ' πόντοι';
-		labelStarDetail3.text = BADGE8_LEVEL3 + ' πόντοι';
-	} else if(badgeId == 9){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge9.png';
-		badgeLabelDetail.text = BADGE9_LABEL;
-		badgeLabelDetailDescription.text = BADGE9_DESCRIPTION;
-		
-		labelStarDetail1.text = BADGE9_LEVEL1 + ' πόντοι';
-		labelStarDetail2.text = BADGE9_LEVEL2 + ' πόντοι';
-		labelStarDetail3.text = BADGE9_LEVEL3 + ' πόντοι';
-	} else if(badgeId == 10){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge10.png';
-		badgeLabelDetail.text = BADGE10_LABEL;
-		badgeLabelDetailDescription.text = BADGE10_DESCRIPTION;
-		
-		labelStarDetail1.text = BADGE10_LEVEL1 + ' πόντοι';
-		labelStarDetail2.text = BADGE10_LEVEL2 + ' πόντοι';
-		labelStarDetail3.text = BADGE10_LEVEL3 + ' πόντοι';
-	} else if(badgeId == 11){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge11.png';
-		badgeLabelDetail.text = BADGE11_LABEL;
-		badgeLabelDetailDescription.text = BADGE11_DESCRIPTION;
-		
-		badgeLabelSubDetail.text = BADGE_SUB_DESC_SPEED;
-		
-		labelStarDetail1.text = BADGE11_LEVEL1 + ' απαντήσεις';
-		labelStarDetail2.text = BADGE11_LEVEL2 + ' απαντήσεις';
-		labelStarDetail3.text = BADGE11_LEVEL3 + ' απαντήσεις';
-	} else if(badgeId == 12){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge12.png';
-		badgeLabelDetail.text = BADGE12_LABEL;
-		badgeLabelDetailDescription.text = BADGE12_DESCRIPTION;
-		
-		badgeLabelSubDetail.text = BADGE_SUB_DESC_BADGES;
-		
-		labelStarDetail1.text = BADGE12_LEVEL1 + ' παράσημα';
-		labelStarDetail2.text = BADGE12_LEVEL2 + ' παράσημα';
-		labelStarDetail3.text = BADGE12_LEVEL3 + ' παράσημα';
-	}
-	
-	else if(badgeId == 13){
-		badgeDetail.image = IMAGE_PATH+'stars/badges/n/badge13.png';
-		badgeLabelDetail.text = BADGE13_LABEL;
-		badgeLabelDetailDescription.text = BADGE13_DESCRIPTION;
-		
-		labelStarDetail1.text = BADGE13_LEVEL1 + ' πόντοι';
-		labelStarDetail2.text = BADGE13_LEVEL2 + ' πόντοι';
-		labelStarDetail3.text = BADGE13_LEVEL3 + ' πόντοι';
 	}
 }
 
