@@ -123,11 +123,8 @@ function _resetPlayerProperties(){
 			//Load questions for SOLO
 			if(gameSession.getGameType() == BUZZ_GAME_SOLO){
 				Ti.API.warn('LOADING QUESTIONS from _resetPlayerProperties()');
-				if(gameSelectedCategoryId == CAT_TOTALBUZZ){
-					player.questions = getRandomGameQuestions(playerId);
-				} else {
-					player.questions = getGameQuestions(gameSelectedCategoryId, playerId);
-				}
+				
+				player.questions = getGameQuestions(gameSelectedCategoryId, playerId);
 			}
 		}
 	}

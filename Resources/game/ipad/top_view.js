@@ -8,7 +8,7 @@ var tabFriendsDeselected = IMAGE_PATH+'top/tabFriendsDeselected.png';
 
 //The view
 var viewTopCategory = Ti.UI.createView({
-	backgroundImage:IMAGE_PATH+'background.jpg',
+	backgroundImage:IMAGE_PATH+'signin/background.jpg',
 	opacity:0,
 	top:0,
 	bottom:0,
@@ -26,12 +26,11 @@ viewTopCategory.addEventListener('stopHighScoresAnimation', function(){
 
 //Back button
 var backHomeFromTopButton = Titanium.UI.createButton({
-	backgroundImage:IMAGE_PATH+'back.png',
-	backgroundSelectedImage:IMAGE_PATH+'back_green.png',
-	left:8,
-	top:8,
-	height:52,
-	width:52
+	backgroundImage:IMAGE_PATH+'categories/back.png',
+	left:30,
+	top:25,
+	width:55,
+	height:55
 });
 	
 viewTopCategory.add(backHomeFromTopButton);
@@ -59,7 +58,7 @@ var noScoresLabel = null;
 var noScoresPlayButton = null;
 var tabAll = null;
 var tabFriends = null;
-var scoreCategoryBanner = null;
+var rankingsCategoryTag = null;
 var iconImageTopView = null;
 var barImageTopView = null;
 var iconReflectionImageTopView = null;
@@ -93,8 +92,8 @@ var tableViewGlobalScores = Titanium.UI.createTableView({
 	minRowHeight:37,
 	backgroundColor:'transparent',
 	separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
-	top:290,
-	bottom:75
+	top:206,
+	bottom:115
 });
 
 /*Table view for FRIEND highscores*/
@@ -110,28 +109,145 @@ var tableViewFriendsScores = Titanium.UI.createTableView({
 	
 //Add the tables to the view
 viewTopCategory.add(tableViewGlobalScores);
-viewTopCategory.add(tableViewFriendsScores);
+//viewTopCategory.add(tableViewFriendsScores);
 
 //Data components
 var selectedCategoryInHighScores = null;
 
-function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
+function buildTopScoresView(currentCategoryId, afterGameplay){
 	var shouldCreateView = noFacebookConnectionOopsButton == null;
 	
 	if(shouldCreateView){
 		VIEWING_HIGH_SCORES = true;
 		selectedCategoryInHighScores = currentCategoryId;
-		highScoresSelectedGameType = gameType;
 		topViewAfterGameplay = afterGameplay;
 		
 		Ti.API.warn('buildTopScoresView() called for '+currentCategoryId);
+		
+		//title background bar
+		var rankingsTitleBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:192,
+			top:0
+		});
+		
+		rankingsTitleBackgroundBar.add(backHomeFromTopButton);
+		
+		//Selected category banner
+		rankingsCategoryTag = Titanium.UI.createImageView({
+			image:'',
+			top:-10
+		});
+		rankingsTitleBackgroundBar.add(rankingsCategoryTag);
+		
+		//logo image
+		var rankingsLogoImage = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'top/rankings_icon.png',
+			top:20,
+			right:31
+		});
+		rankingsTitleBackgroundBar.add(rankingsLogoImage);
+		
+		//Name Label value
+		var rankingsTitleLabel = Titanium.UI.createLabel({
+			text:'ΚΑΤΑΤΑΞΗ',
+			color:'white',
+			top:103,
+			font:{fontSize:64, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		rankingsTitleBackgroundBar.add(rankingsTitleLabel);
+		
+		viewTopCategory.add(rankingsTitleBackgroundBar);
+		
+		var rankingsBottomBackgroundBar = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			height:115,
+			bottom:0
+		});
+		
+		var rankingsCategorySelectionButton = Titanium.UI.createButton({
+			backgroundImage:IMAGE_PATH+'top/bottom-bar/icon_categ.png',
+			left:29,
+			width:75,
+			height:60
+		});
+		
+		rankingsBottomBackgroundBar.add(rankingsCategorySelectionButton);
+		rankingsCategorySelectionButton.addEventListener('click', handleScoresCategorySelection);
+		
+		//Popup for category button
+		scoresCategoryPopup = Titanium.UI.createImageView({
+			image:IMAGE_PATH+'top/categ_popup/categ_popup.png',
+			left:12,
+			bottom:115,
+			zIndex:2
+		});
+		
+		//Table view for scores Categories
+		scoresCategoriesSelectionTable = Titanium.UI.createTableView({
+			backgroundColor:'transparent',
+			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
+			showVerticalScrollIndicator:false,
+			minRowHeight:37,
+			top:17,
+			width:286,
+			height:407
+		});
+		
+		var scoresCategoriesTableData = [];
+		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_EXFORGE));
+		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_EPISTIMI));
+		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_GEOGRAFIA));
+		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_ISTORIA));
+		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_ATHLITIKA));
+		scoresCategoriesSelectionTable.setData(scoresCategoriesTableData);
+		
+		scoresCategoryPopup.add(scoresCategoriesSelectionTable);
+		
+		scoresCategoriesSelectionTable.addEventListener('click', handleScoresCategoryType);
+		
+		viewTopCategory.add(scoresCategoryPopup);
+		scoresCategoryPopup.hide();
+		
+		//Only show replay and home buttons if we landed here after a game session
+		if(topViewAfterGameplay){
+		
+			var rankingsReplayButton = Titanium.UI.createButton({
+				backgroundImage:IMAGE_PATH+'top/bottom-bar/restart.png',
+				right:160,
+				width:45,
+				height:50
+			});
+			
+			rankingsBottomBackgroundBar.add(rankingsReplayButton);
+			rankingsReplayButton.addEventListener('click', handleReplayButton); 
+			
+			//Dotted Line
+			var rankingsButtonDottedLine = Titanium.UI.createImageView({
+				image:IMAGE_PATH+'top/bottom-bar/dotted.png',
+				right:119	
+			});
+			rankingsBottomBackgroundBar.add(rankingsButtonDottedLine);
+			
+			var rankingsHomeButton = Titanium.UI.createButton({
+				backgroundImage:IMAGE_PATH+'top/bottom-bar/icon_home.png',
+				right:27,
+				width:60,
+				height:50
+			});
+			
+			rankingsBottomBackgroundBar.add(rankingsHomeButton);
+			rankingsHomeButton.addEventListener('click', handleHomeSelection);
+		}
+		
+		viewTopCategory.add(rankingsBottomBackgroundBar);
 		
 		var scoresIconPath = '';
 		var scoresIconPathTop = 0;
 		var scoresIconReflectionPath = '';
 		var scoresTitleIconPath = '';
 		
-		if(gameType == BUZZ_GAME_SOLO){
+		/*if(gameType == BUZZ_GAME_SOLO){
 			scoresIconPath = IMAGE_PATH+'top/icon.png';
 			scoresIconPathTop = 44;
 			scoresIconReflectionPath = IMAGE_PATH+'top/icon_r.png';
@@ -153,7 +269,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			tabAllDeselected = IMAGE_PATH+'top/tabLastGameDeselected.png';
 			tabFriendsSelected = IMAGE_PATH+'top/tabAllTimeSelected.png';
 			tabFriendsDeselected = IMAGE_PATH+'top/tabAllTimeDeselected.png';
-		}
+		}*/
 		
 		//Bottom bar components
 		//the scores bar
@@ -165,7 +281,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 		 	zIndex:100
 		 });
 		
-		viewTopCategory.add(scoresBottomBar);
+		//viewTopCategory.add(scoresBottomBar);
 		
 		//Choose category for scores
 		scoresButtonCategory = Titanium.UI.createButton({
@@ -175,9 +291,8 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			width:65
 		});
 		
-		scoresBottomBar.add(scoresButtonCategory);
+		//scoresBottomBar.add(scoresButtonCategory);
 		
-		scoresButtonCategory.addEventListener('click', handleScoresCategorySelection);
 		Ti.API.info('scoresButtonCategory starts');
 		
 		//Only show replay and home buttons if we landed here after a game session
@@ -190,15 +305,14 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 				height:50
 			});
 			
-			scoresBottomBar.add(scoresButtonReplay);
-			scoresButtonReplay.addEventListener('click', handleReplayButton); 
+			//scoresBottomBar.add(scoresButtonReplay);
 			
 			//Dotted Line
 			scoresButtonDottedLine = Titanium.UI.createImageView({
 				image:IMAGE_PATH+'top/bar/dotted_line.png'
 			});
 			
-			scoresBottomBar.add(scoresButtonDottedLine);
+			//scoresBottomBar.add(scoresButtonDottedLine);
 			
 			//Button Home
 			scoresButtonHome = Titanium.UI.createButton({
@@ -208,8 +322,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 				height:50
 			});
 			
-			scoresBottomBar.add(scoresButtonHome);
-			scoresButtonHome.addEventListener('click',handleHomeSelection);
+			//scoresBottomBar.add(scoresButtonHome);
 			
 			scoresReplayPopup = Titanium.UI.createImageView({
 				image:IMAGE_PATH+'top/bar/replay_popup/popup_replay.png',
@@ -219,7 +332,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 				visible:false
 			});
 			
-			viewTopCategory.add(scoresReplayPopup);
+			//viewTopCategory.add(scoresReplayPopup);
 			
 			scoresReplaySelectionTable = Titanium.UI.createTableView({
 				backgroundColor:'transparent',
@@ -233,7 +346,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 				height:150
 			});
 			
-			scoresReplayPopup.add(scoresReplaySelectionTable);
+			//scoresReplayPopup.add(scoresReplaySelectionTable);
 			scoresReplaySelectionTable.addEventListener('click', handleReplaySelection);
 		}
 		
@@ -245,48 +358,10 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			height:50
 		});
 		
-		scoresBottomBar.add(inviteFriendsIcon);
+		//scoresBottomBar.add(inviteFriendsIcon);
 		
-		//Popup for category button
-		scoresCategoryPopup = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'top/bar/popup/popup_categ.png',
-			left:10,
-			bottom:81,
-			zIndex:2
-		});
+		//viewTopCategory.add(scoresCategoryPopup);
 		
-		viewTopCategory.add(scoresCategoryPopup);
-		scoresCategoryPopup.hide();
-		
-		//Table view for scores Categories
-		scoresCategoriesSelectionTable = Titanium.UI.createTableView({
-			backgroundColor:'transparent',
-			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
-			showVerticalScrollIndicator:false,
-			minRowHeight:37,
-			top:15,
-			bottom:15,
-			width:250,
-			height:430
-		});
-		
-		var scoresCategoriesTableData = [];
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_TOTALBUZZ));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_EPISTIMI));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_KINIMATOGRAFOS));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_GEOGRAFIA));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_ATHLITIKA));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_TEXNOLOGIA));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_ISTORIA));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_MOUSIKH));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_TEXNES));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_ZWAFUTA));
-		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_LIFESTYLE));
-		scoresCategoriesSelectionTable.setData(scoresCategoriesTableData);
-		
-		scoresCategoryPopup.add(scoresCategoriesSelectionTable);
-		
-		scoresCategoriesSelectionTable.addEventListener('click', handleScoresCategoryType);
 		//End of bottom bar components
 		
 		//No facebook connection button
@@ -317,29 +392,29 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			visible:false
 		});
 	
-		noFacebookConnectionView.add(noFacebookConnectionOopsButton);
-		noFacebookConnectionView.add(noFacebookConnectionLabel);
-		noFacebookConnectionView.add(noFacebookConnectionButton);
+		//noFacebookConnectionView.add(noFacebookConnectionOopsButton);
+		//noFacebookConnectionView.add(noFacebookConnectionLabel);
+		//noFacebookConnectionView.add(noFacebookConnectionButton);
 		
 		//Event listener for no facebook connection button - takes you to the settings view
 		noFacebookConnectionButton.addEventListener('click', handleNoFacebookConnectionButtonClick);
 		
-		viewTopCategory.add(noFacebookConnectionView);
+		//viewTopCategory.add(noFacebookConnectionView);
 		///////////////
 		
 		//No scores wrapper view
-		noScoresConnectionView = Ti.UI.createView({
+		noScoresConnectionView = Ti.UI.createView({//TODO
 			top:115,
 			visible:false
 		});
 	
-		noScoresOopsImage = Ti.UI.createImageView({
+		noScoresOopsImage = Ti.UI.createImageView({//TODO
 			image:IMAGE_PATH+'top/oops.png',
 			top: 210
 		});
 	
 		//No scores label
-		noScoresLabel = Ti.UI.createLabel({
+		noScoresLabel = Ti.UI.createLabel({//TODO
 			text:'Δεν έχει παίξει κανένας αυτήν την κατηγορία!\n Παίξε πρώτος και πάρε προβάδισμα από τους φίλους σου!',
 			color:'white',
 			textAlign:'center',
@@ -354,10 +429,10 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			bottom: 190
 		});
 		
-		noScoresConnectionView.add(noScoresOopsImage);
-		noScoresConnectionView.add(noScoresLabel);
-		noScoresConnectionView.add(noScoresPlayButton);
-		viewTopCategory.add(noScoresConnectionView);
+		//noScoresConnectionView.add(noScoresOopsImage);
+		//noScoresConnectionView.add(noScoresLabel);
+		//noScoresConnectionView.add(noScoresPlayButton);
+		//viewTopCategory.add(noScoresConnectionView);
 		///////////////////
 		
 		/*All scores tab*/
@@ -374,17 +449,11 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			right:0
 		});
 		
-		viewTopCategory.add(tabAll);
-		viewTopCategory.add(tabFriends);
+		//viewTopCategory.add(tabAll);
+		//viewTopCategory.add(tabFriends);
 		///////////////
 		
-		//Selected category banner
-		scoreCategoryBanner = Titanium.UI.createImageView({
-			image:'',
-			top:0
-		});
-		
-		viewTopCategory.add(scoreCategoryBanner);
+		//viewTopCategory.add(scoreCategoryBanner);
 	
 		//Icon image
 		iconImageTopView = Titanium.UI.createImageView({
@@ -393,7 +462,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			right:15
 		});
 		
-		viewTopCategory.add(iconImageTopView);
+		//viewTopCategory.add(iconImageTopView);
 	
 		//Bar image
 		barImageTopView = Titanium.UI.createImageView({
@@ -401,7 +470,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			top:128
 		});
 		
-		viewTopCategory.add(barImageTopView);
+		//viewTopCategory.add(barImageTopView);
 	
 		//Icon image reflection
 		iconReflectionImageTopView = Titanium.UI.createImageView({
@@ -410,7 +479,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			right:15
 		});
 		
-		barImageTopView.add(iconReflectionImageTopView);
+		//barImageTopView.add(iconReflectionImageTopView);
 	
 		//Title image
 		titleImageTopView = Titanium.UI.createImageView({
@@ -419,7 +488,7 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			zIndex:2
 		});
 		
-		viewTopCategory.add(titleImageTopView);
+		//viewTopCategory.add(titleImageTopView);
 		////////////////////
 		
 		//Alert for no Facebook connection
@@ -449,9 +518,9 @@ function buildTopScoresView(currentCategoryId, gameType, afterGameplay){
 			zIndex:12
 		});
 	
-		alertNoFacebookConnection.add(alertNoFacebookConnectionLabel);
-		alertNoFacebookConnection.add(alertNoFacebookConnectionButton);
-		viewTopCategory.add(alertNoFacebookConnection);
+		//alertNoFacebookConnection.add(alertNoFacebookConnectionLabel);
+		//alertNoFacebookConnection.add(alertNoFacebookConnectionButton);
+		//viewTopCategory.add(alertNoFacebookConnection);
 		
 		//Event handler for No facebook connection button
 		alertNoFacebookConnectionButton.addEventListener('click', handleNoFacebookConnectionAlertButtonClick);
@@ -499,8 +568,6 @@ function destroyTopScoresView(){
 		tabFriends.removeEventListener('click', handleTabFriendsClick);
 		//Event handler for No facebook connection button
 		alertNoFacebookConnectionButton.removeEventListener('click', handleNoFacebookConnectionAlertButtonClick);
-		//Event handler for scores category button
-		scoresButtonCategory.removeEventListener('click', handleScoresCategorySelection);
 		//Event handler for categories selected from scores popup
 		scoresCategoriesSelectionTable.removeEventListener('click', handleScoresCategoryType);
 		 
@@ -528,7 +595,7 @@ function destroyTopScoresView(){
 		}
 		
 		viewTopCategory.remove(inviteFriendsIcon);
-		viewTopCategory.remove(scoreCategoryBanner);
+		viewTopCategory.remove(rankingsCategoryTag);
 		viewTopCategory.remove(iconImageTopView);
 		barImageTopView.remove(iconReflectionImageTopView);
 		viewTopCategory.remove(barImageTopView);
@@ -591,7 +658,7 @@ function destroyTopScoresView(){
 		/*Friends' scores tab'*/
 		tabFriends = null;
 		//Selected category banner
-		scoreCategoryBanner = null;
+		rankingsCategoryTag = null;
 		//Icon image
 		iconImageTopView = null;
 		//Bar image
@@ -865,33 +932,25 @@ viewTopCategory.addEventListener('loadScore', function(data){
 	var currentCategoryId = data.currentCategoryId;
 	var categoryProperties = getCategoryProperties(currentCategoryId);
 	selectedCategoryScores = currentCategoryId;
-	Ti.API.info('EVENT: loadScore for category '+currentCategoryId+' and gameType='+highScoresSelectedGameType);
+	Ti.API.info('EVENT: loadScore for category '+currentCategoryId);
     
     //Set banner image
     if(VIEWING_HIGH_SCORES){
     	
-    	scoreCategoryBanner.image = categoryProperties.banner;
+    	rankingsCategoryTag.image = categoryProperties.tag;
     	
 	    //Load high scores
-	    if(highScoresSelectedGameType == BUZZ_GAME_SOLO){
-	    	//global scores
-	    	var highScores = getHighScores(currentCategoryId);
-		    tableViewGlobalScores.setData(buildHighScoresData(highScores));
-		    
-		    //friend scores
-		    var friendScores = getFriendHighScores(currentCategoryId);
-		    hasFriendScoresToRender = friendScores.length > 0 ? true : false;
-		    tableViewFriendsScores.setData(buildFriendHighScoresData(friendScores));
-	    } else if(highScoresSelectedGameType == BUZZ_GAME_GROUP){
-	    	//last game group scores
-	    	var groupScoresLastGame = getGroupHighScores(currentCategoryId, true);
-	    	tableViewGlobalScores.setData(buildFriendHighScoresData(groupScoresLastGame));
 	    	
-	    	//all time group scores
-	    	var groupScoresAllTime = getGroupHighScores(currentCategoryId, false);
-	    	hasFriendScoresToRender = groupScoresAllTime.length > 0 ? true : false;
-	    	tableViewFriendsScores.setData(buildFriendHighScoresData(groupScoresAllTime));
-	    }
+    	//global scores
+    	var highScores = getHighScores(currentCategoryId);
+    	Ti.API.info(highScores);
+	    tableViewGlobalScores.setData(buildHighScoresData(highScores));
+	    
+	    //friend scores
+	    var friendScores = getFriendHighScores(currentCategoryId);
+	    hasFriendScoresToRender = friendScores.length > 0 ? true : false;
+	    tableViewFriendsScores.setData(buildFriendHighScoresData(friendScores));
+	   
 	    
 	    Ti.API.info('High scores UI updated');
 	    
@@ -959,8 +1018,8 @@ function buildScoresCategorySelectionTableData(categoryId){
 	var categorySquareImage=categoryProperties.square;
 	
 	var row1 = Ti.UI.createTableViewRow({
-		height:65,
-		selectedBackgroundColor:'#4a9b3c',
+		height:64,
+		selectedBackgroundColor:'transparent',
 		//selectionStyle:Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
 		clickName:categoryId
 	});
@@ -974,12 +1033,12 @@ function buildScoresCategorySelectionTableData(categoryId){
 		text:categoryName,
 		color:'white',
 		left:50,
-		bottom:15,
-		font:{fontSize:21, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		bottom:16,
+		font:{fontSize:23, fontWeight:'bold', fontFamily:'Myriad Pro'}
 	});
 	
 	var dottedLineImage = Titanium.UI.createImageView({
-		image:IMAGE_PATH+'top/bar/popup/dotted_line.png',
+		image:IMAGE_PATH+'top/categ_popup/dotted_popup.png',
 		bottom:0
 	});
 	
@@ -1087,11 +1146,6 @@ function buildHighScoresData(scoresJsonArray){
 		var name = scoresJsonArray[i].name;
 		var score = scoresJsonArray[i].score;
 		
-		var lastRankLeftPt = 20;
-		if(i == 9){
-			lastRankLeftPt = 6;
-		} 
-		
 		var row1 = Ti.UI.createTableViewRow({
 			height:130,
 			width:800,
@@ -1099,36 +1153,36 @@ function buildHighScoresData(scoresJsonArray){
 		});
 		
 		//Create bg image view
-		var bgImage = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'top/rowbg.png'
+		var bgImage = Titanium.UI.createView({
+			backgroundColor:'0b4b7f',
+			opacity:0.6,
+			height:123,
+			bottom:0
 		});
 		
 		var label1 = Titanium.UI.createLabel({
 			text:rank,
 			color:'white',
-			left:lastRankLeftPt,
+			left:39,
 			top:49,
-			height:60,
-			font:{fontSize:37, fontWeight:'bold', fontFamily:'321impact'}
+			font:{fontSize:43, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 
 		var labelName1 = Titanium.UI.createLabel({
 			text:name,
 			color:'white',
-			left:70,
+			left:107,
 			top:54,
-			height:50,
-			font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
+			font:{fontSize:39, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 
 		var labelScore1 = Titanium.UI.createLabel({
 			text:score,
-			color:'#fee902',
-			right:15,
+			color:'white',
+			right:36,
 			top:54,
-			height:59,
 			textAlign:'right',
-			font:{fontSize:38, fontWeight:'bold', fontFamily:'321impact'}
+			font:{fontSize:48, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 
 		row1.className = 'scoreDetailsView';

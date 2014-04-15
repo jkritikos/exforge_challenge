@@ -299,6 +299,8 @@ function getCategoryProperties(id){
 			name:'EXFORGE',
 			loader:IMAGE_PATH+'loader/exforge.png',
 			banner:IMAGE_PATH+'question/categ_icons/exforge.png',
+			tag:IMAGE_PATH+'top/tags/exforge.png',
+			square:IMAGE_PATH+'top/categ_popup/exforge.png',
 			available:true
 		};
 	} else if(id == CAT_EPISTIMI){
@@ -306,6 +308,8 @@ function getCategoryProperties(id){
 			name:'ΕΠΙΣΤΗΜΗ',
 			loader:IMAGE_PATH+'loader/science.png',
 			banner:IMAGE_PATH+'question/categ_icons/science.png',
+			tag:IMAGE_PATH+'top/tags/epistimi.png',
+			square:IMAGE_PATH+'top/categ_popup/epistimi.png',
 			available:true
 		};
 	} else if(id == CAT_GEOGRAFIA){
@@ -313,6 +317,8 @@ function getCategoryProperties(id){
 			name:'ΓΕΩΓΡΑΦΙΑ',
 			loader:IMAGE_PATH+'loader/geo.png',
 			banner:IMAGE_PATH+'question/categ_icons/geo.png',
+			tag:IMAGE_PATH+'top/tags/geo.png',
+			square:IMAGE_PATH+'top/categ_popup/geo.png',
 			available:true
 		};
 	} else if(id == CAT_ISTORIA){
@@ -320,6 +326,8 @@ function getCategoryProperties(id){
 			name:'ΙΣΤΟΡΙΑ',
 			loader:IMAGE_PATH+'loader/history.png',
 			banner:IMAGE_PATH+'question/categ_icons/history.png',
+			tag:IMAGE_PATH+'top/tags/istoria.png',
+			square:IMAGE_PATH+'top/categ_popup/istoria.png',
 			available:true
 		};
 	} else if(id == CAT_ATHLITIKA){
@@ -327,6 +335,8 @@ function getCategoryProperties(id){
 			name:'ΑΘΛΗΤΙΚΑ',
 			loader:IMAGE_PATH+'loader/sports.png',
 			banner:IMAGE_PATH+'question/categ_icons/sports.png',
+			tag:IMAGE_PATH+'top/tags/sports.png',
+			square:IMAGE_PATH+'top/categ_popup/sports.png',
 			available:true
 		};
 	}
@@ -1868,7 +1878,7 @@ function sync(){
 		rows.close();
 		
 		//get online scores - get friends first
-		facebookGetFriendsWithApp();
+		//facebookGetFriendsWithApp();
 		
 		//get 10 unsynced local scores for synced players
 		rows = db.execute('select s.id, p.player_id, s.category_id, s.score from scores s inner join players p on (s.player_id=p.id) where s.sync is null and p.player_id is not null limit 10');

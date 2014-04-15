@@ -1458,11 +1458,11 @@ function restartGame(reusePlayers){
     viewLoader.opacity = 1;
 
 	//hide stacked views first
-	if(LOADED_PLAYER2_JS){
-		viewPlayer.opacity = 0;
+	if(LOADED_SIGNIN_JS){
+		viewSignin.opacity = 0;
 	}
 	
-	view.opacity = 0;
+	viewCategories.opacity = 0;
 	
 	//finally, hide the actual game view
 	viewQuestion.opacity = 0;
@@ -1607,12 +1607,12 @@ function handleGameOverShowScoresClick(){
 	
 		Ti.API.info('Show high scores - ANIM COMPLETE');
 		//hide previous views
-		view.opacity = 0;
+		viewCategories.opacity = 0;
 		viewQuestion.opacity = 0;
 		viewLoader.opacity = 0;
 		
-		if(LOADED_PLAYER2_JS){
-			viewPlayer.opacity = 0;
+		if(LOADED_SIGNIN_JS){
+			viewSignin.opacity = 0;
 		}
 
 		//close game over screen

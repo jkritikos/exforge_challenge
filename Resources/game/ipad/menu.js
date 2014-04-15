@@ -159,10 +159,17 @@ heartMenuSettingsBackground.add(heartMenuIconSettings);
 //Event listener for Top10 button
 heartMenuRankingBackground.addEventListener('click', function(){
 
-	mtbImport("top_selection.js");
+	if(SOUNDS_MODE){
+		audioClick.play();	
+	}
+	var currentCategoryId = CAT_EXFORGE;
 	
-	buildTopSelectionView();
-	viewTopCategorySelection.animate(anim_in);
+    //show loader view
+    mtbImport("top_view.js");
+    buildTopScoresView(currentCategoryId, false);
+    //Load cached scores so the UI has something to display
+    viewTopCategory.fireEvent('loadScore', {currentCategoryId:currentCategoryId, loadRemoteData:true});    
+    viewTopCategory.animate(anim_in);
 });
 
 //Event listener for Badges button
