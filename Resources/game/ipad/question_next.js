@@ -841,20 +841,12 @@ function handleQuestionNextButtonQuit(){
  		audioClick.play();
  	}
 	
-	if(!quitShown){
-		questionNextButtonQuitPopup.show();
-		quitShown=true;
-		questionNextButtonRestart.hide();
-		questionNextButtonReport.hide();
-	}else{
-		questionNextButtonQuitPopup.hide();
-	 	quitShown=false;
-	 	questionNextButtonRestart.show();
-	 	
-	 	if(gameSession.getQuestionIndex() > 0){
-			questionNextButtonReport.show();
-		}
+	if(gameSession.getQuestionIndex() > 0){
+		questionNextButtonReport.show();
 	}
+	
+	quitGame();
+	
 }
 
 /*Handle the selection of a quit option in the popup*/
@@ -867,14 +859,6 @@ function handleQuestionNextQuitPopupSelection(e){
  	
  	questionNextButtonRestart.show();
  	
- 	if(gameSession.getQuestionIndex() > 0){
-		questionNextButtonReport.show();
-	}
-	
-	//and quit if needed
-	if(selectedQuitOption == 1){
-		quitGame();
-	}
 }
 
 /*Handle the selection of a restart option in the popup*/
@@ -921,18 +905,9 @@ function handleQuestionNextButtonRestart(){
  		audioClick.play();
  	}
  	
-	if(!restartShown){
-		questionNextButtonRestartPopup.show();
-		restartShown=true;
-		questionNextButtonQuit.hide();
-		questionNextButtonReport.hide();
-	}else{
-		questionNextButtonRestartPopup.hide();
-	 	restartShown=false;
-	 	questionNextButtonQuit.show();
-	 	
-	 	if(gameSession.getQuestionIndex() > 0){
-			questionNextButtonReport.show();
-		}
-	}
+	if(gameSession.getQuestionIndex() > 0){
+ 		questionNextButtonReport.show();
+ 	}
+	
+	restartGame(false);
 }

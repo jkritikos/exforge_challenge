@@ -143,7 +143,7 @@ function buildBadgesListView(){
 		
 		//Badge1 image 
 		badge1 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'badges/exforge.png',
+			image:IMAGE_PATH+'badges/greyscale/exforge.png',
 			top:68,
 			badge:1
 		});
@@ -179,7 +179,7 @@ function buildBadgesListView(){
 		
 		//Badge2 image 
 		badge2 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'badges/science.png',
+			image:IMAGE_PATH+'badges/greyscale/science.png',
 			top:68,
 			badge:2
 		});
@@ -215,7 +215,7 @@ function buildBadgesListView(){
 		
 		//Badge3 image 
 		badge3 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'badges/geo.png',
+			image:IMAGE_PATH+'badges/greyscale/geo.png',
 			top:68,
 			badge:3
 		});
@@ -250,7 +250,7 @@ function buildBadgesListView(){
 		
 		//Badge4 image 
 		badge4 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'badges/history.png',
+			image:IMAGE_PATH+'badges/greyscale/history.png',
 			top:68,
 			badge:4
 		});
@@ -286,7 +286,7 @@ function buildBadgesListView(){
 		
 		//Badge5 image 
 		badge5 = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'badges/sports.png',
+			image:IMAGE_PATH+'badges/greyscale/sports.png',
 			top:68,
 			badge:5
 		});
@@ -605,7 +605,7 @@ function buildBadgesListView(){
 		badge12.addEventListener('click', handleBadgeClick);
 		badge13.addEventListener('click', handleBadgeClick);
 		
-		//updateBadgeView();
+		updateBadgeView();
 		
 		//viewStars.add(badgeView1);
 		//viewStars.animate(anim_in);
@@ -772,9 +772,9 @@ function handleBadgeClick(e){
 /*Updates the badges as loaded for the current player*/
 function updateBadgeView(){
 	if(userLevelBadge1 == 0){
-		badge1.image = IMAGE_PATH+'stars/badges/g/badge1.png';
+		badge1.image = IMAGE_PATH+'badges/greyscale/exforge.png';
 	} else {
-		badge1.image = IMAGE_PATH+'stars/badges/n/badge1.png';
+		badge1.image = IMAGE_PATH+'badges/exforge.png';
 	}
 		
 	if(userLevelBadge1 == 0){
@@ -788,9 +788,9 @@ function updateBadgeView(){
 	}
 	
 	if(userLevelBadge2 == 0){
-		badge2.image = IMAGE_PATH+'stars/badges/g/badge2.png';
+		badge2.image = IMAGE_PATH+'badges/greyscale/science.png';
 	} else {
-		badge2.image = IMAGE_PATH+'stars/badges/n/badge2.png';
+		badge2.image = IMAGE_PATH+'badges/science.png';
 	}
 	
 	if(userLevelBadge2 == 0){
@@ -804,9 +804,9 @@ function updateBadgeView(){
 	}
 	
 	if(userLevelBadge3 == 0){
-		badge3.image = IMAGE_PATH+'stars/badges/g/badge3.png';
+		badge3.image = IMAGE_PATH+'badges/greyscale/geo.png';
 	} else {
-		badge3.image = IMAGE_PATH+'stars/badges/n/badge3.png';
+		badge3.image = IMAGE_PATH+'badges/geo.png';
 	}
 	
 	if(userLevelBadge3 == 0){
@@ -820,9 +820,9 @@ function updateBadgeView(){
 	}
 	
 	if(userLevelBadge4 == 0){
-		badge4.image = IMAGE_PATH+'stars/badges/g/badge4.png';
+		badge4.image = IMAGE_PATH+'badges/greyscale/history.png';
 	} else {
-		badge4.image = IMAGE_PATH+'stars/badges/n/badge4.png';
+		badge4.image = IMAGE_PATH+'badges/history.png';
 	}
 	
 	if(userLevelBadge4 == 0){
@@ -836,9 +836,9 @@ function updateBadgeView(){
 	}
 	
 	if(userLevelBadge5 == 0){
-		badge5.image = IMAGE_PATH+'stars/badges/g/badge5.png';
+		badge5.image = IMAGE_PATH+'badges/greyscale/sports.png';
 	} else {
-		badge5.image = IMAGE_PATH+'stars/badges/n/badge5.png';
+		badge5.image = IMAGE_PATH+'badges/sports.png';
 	}
 	
 	if(userLevelBadge5 == 0){

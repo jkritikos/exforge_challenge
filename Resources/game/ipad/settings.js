@@ -19,27 +19,10 @@ var backHomeSettingsButton = Titanium.UI.createButton({
 
 //Back button event listener
 backHomeSettingsButton.addEventListener('click', function() {
-	settingsTextfieldUsername.blur();
-	
-	if(settingsTextfieldUsername.value != ''){
-		savePlayer(settingsTextfieldUsername.value, fbId, null);
-		Ti.API.info('Updated player object to '+settingsTextfieldUsername.value);
-		
-		playerObject = getCurrentPlayer();
-		//Reload data for the MyProfile view if it's still open in the background
-		if(VIEWING_PROFILE){
-			var profileHighScores = getPlayerHighScores(playerObject.id,playerObject.player_id);
-			var profileData = getProfileData(playerObject.id, playerObject.player_id);
-	
-			viewProfile.fireEvent('myProfile', {profileHighScores:profileHighScores, profileData:profileData, player:playerObject});
-		}
-	}
 	
 	if(SOUNDS_MODE){
 		audioBack.play();	
 	}
-	
-	saveNotificationOptionsOnline();
 	
 	Ti.API.info('BACK to home clicked from settings');
 	
@@ -57,7 +40,6 @@ var barImageSettings = null;
 var iconReflectionImageSettings = null;
 var titleImageSettings = null;
 var playerLoginLabel = null;
-var settingsTextfieldUsername = null;
 var musicSoundsLabel = null;
 var settingsMusicLabel = null;
 var switchMusic = null;
@@ -436,21 +418,6 @@ function buildSettingsView(){
 		
 		//scrollViewSettings.add(playerLoginLabel);
 	
-		settingsTextfieldUsername = Titanium.UI.createTextField({
-			value:'',
-			hintText:'  Γράψε Όνομα',
-			height:54,
-			top:190,
-			left:20,
-			width:475,
-			color:'gray',
-			font:{fontSize:25, fontWeight:'regular'},
-			enabled: true,
-			borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
-		});
-		
-		//scrollViewSettings.add(settingsTextfieldUsername);
-	
 		settingsTextfieldInfoLabel = Titanium.UI.createLabel({
 			text:'(απλό παιχνίδι)',
 			color:'gray',
@@ -638,7 +605,7 @@ function buildSettingsView(){
 }
 
 function destroySettingsView(){
-	var shouldDestroyView = scrollViewSettings != null;
+	var shouldDestroyView = settingsLogoImage != null;
 	Ti.API.warn('destroySettingsView() called');
 	
 	if(shouldDestroyView){
@@ -690,7 +657,6 @@ function destroySettingsView(){
 		scrollViewSettings.remove(switchMusic);
 		scrollViewSettings.remove(settingsMusicLabel);
 		scrollViewSettings.remove(musicSoundsLabel);
-		scrollViewSettings.remove(settingsTextfieldUsername);
 		scrollViewSettings.remove(playerLoginLabel);
 		
 		scrollViewSettings.remove(settingsTextfieldInfoLabel);
@@ -705,6 +671,9 @@ function destroySettingsView(){
 		viewSettings.remove(iconImageSettings);
 		viewSettings.remove(fbDisconnectPlayerAlert);
 		viewSettings.remove(scrollViewSettings);
+		
+		//new code
+		settingsTitleBackgroundBar.remove(settingsLogoImage);
 		
 		settingsBottomBarLabel = null;
 		settingsIconAbout = null;
@@ -731,7 +700,6 @@ function destroySettingsView(){
 		titleImageSettings = null;
 		//High scores label
 		playerLoginLabel = null;
-		settingsTextfieldUsername = null;
 		//Music section label
 		musicSoundsLabel = null;
 		//Music label
@@ -762,6 +730,9 @@ function destroySettingsView(){
 		//Facebook button
 		fbButtonSettings = null;
 		scrollViewSettings = null;
+		
+		//new code
+		settingsLogoImage = null;
 		
 		win.remove(viewSettings);
 	} else {
@@ -865,7 +836,6 @@ viewSettings.addEventListener('updateSettingsUI', function(data){
 	Ti.API.info('---------Settings event: refreshing UI');
 	
 	var name = data.player.name;
-	settingsTextfieldUsername.value = name;
 
 	viewSettings.animate(anim_in);
 });

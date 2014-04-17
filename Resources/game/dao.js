@@ -45,23 +45,12 @@ var DEVICE_TOKEN = '';
 var NOTIFICATION_OPTION_FRIEND_SCORE = 1;
 var NOTIFICATION_OPTION_FRIEND_JOIN = 2;
 
-//Facebook connectivity
-/*
-var FB_APP_ID = '221168101230819';
-var FB_API_KEY = 'f000c2bb4fbd5a4a82bc328992178c2e';
-var FB_PERMISSIONS = ['publish_stream','offline_access','friends_about_me', 'publish_actions', 'read_stream'];
-var FB_SESSION_PROXY = 'http://api.appcelerator.net/p/fbconnect/';
-Ti.Facebook.forceDialogAuth = false;
-Titanium.Facebook.appid = FB_APP_ID;
-Titanium.Facebook.permissions = FB_PERMISSIONS;
-*/
-
 //Categories
-var CAT_EXFORGE = 1;
-var CAT_EPISTIMI = 2;
+var CAT_EPISTIMI = 1;
+var CAT_EXFORGE = 2;
 var CAT_GEOGRAFIA = 3;
-var CAT_ISTORIA = 4;
-var CAT_ATHLITIKA = 5;
+var CAT_ATHLITIKA = 4;
+var CAT_ISTORIA = 6;
 
 //Rest for badges
 var CAT_SPEED = 11;

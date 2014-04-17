@@ -46,11 +46,11 @@ var categoriesTitleBackgroundBar = null;
 var categoriesBackButton = null;
 var categoriesTitleLabel = null;
 
-var CATEGORY_EXFORGE = 1;
-var CATEGORY_EPISTIMI = 2;
+var CATEGORY_EPISTIMI = 1;
+var CATEGORY_EXFORGE = 2;
 var CATEGORY_GEOGRAPHY = 3;
-var CATEGORY_HISTORY = 4;
-var CATEGORY_SPORT = 5;
+var CATEGORY_SPORT = 4;
+var CATEGORY_HISTORY = 6;
 
 //boolean to see if it solo or not
 var categorySoloBoolean = false;

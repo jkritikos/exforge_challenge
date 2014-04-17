@@ -191,9 +191,9 @@ function buildBadgeDetailView(){
 			font:{fontSize:81, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		badgesDetailsBottomBackgroundBar.add(badgesDetailsOkLabel);
-		badgesDetailsOkLabel.addEventListener('click', handleOkButton);
 		
 		viewStarsDetails.add(badgesDetailsBottomBackgroundBar);
+		badgesDetailsBottomBackgroundBar.addEventListener('click', handleOkButton);
 		
 		//Bar image
 		barImageDetails = Titanium.UI.createImageView({

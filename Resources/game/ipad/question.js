@@ -1,6 +1,6 @@
 //JSS properties
 var answerFontSize = 28;
-var answerLeft = 120;
+var answerLeft = 179;
 var numberOfBlinks = 5;
 
 //Timer properties
@@ -280,7 +280,7 @@ function buildQuestionView(defaultQuestionBanner){
 		answerA = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/answers/A.png',
 			bottom:332,
-			width:752,
+			width:768,
 			height:86
 		});
 		
@@ -288,7 +288,7 @@ function buildQuestionView(defaultQuestionBanner){
 		answerB = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/answers/B.png',
 			bottom:232,
-			width:752,
+			width:768,
 			height:86
 		});
 		
@@ -296,7 +296,7 @@ function buildQuestionView(defaultQuestionBanner){
 		answerC = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/answers/C.png',
 			bottom:132,
-			width:752,
+			width:768,
 			height:86
 		});
 		
@@ -304,7 +304,7 @@ function buildQuestionView(defaultQuestionBanner){
 		answerD = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'question/answers/D.png',
 			bottom:32,
-			width:752,
+			width:768,
 			height:86
 		});
 		
@@ -348,10 +348,65 @@ function buildQuestionView(defaultQuestionBanner){
 			font:{fontSize:answerFontSize, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
+		//Answer A label
+		var answerCharLabelA = Titanium.UI.createLabel({
+			text:'Α',
+			color:'white',
+			left:40,
+			top:18,
+			textAlign:'center',
+			font:{fontSize:55, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		
+		//Answer B label
+		var answerCharLabelB = Titanium.UI.createLabel({
+			text:'Β',
+			color:'white',
+			left:40,
+			top:18,
+			textAlign:'center',
+			font:{fontSize:55, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		
+		//Answer C label
+		var answerCharLabelC = Titanium.UI.createLabel({
+			text:'Γ',
+			color:'white',
+			left:40,
+			top:18,
+			textAlign:'center',
+			font:{fontSize:55, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		
+		//Answer D label
+		var answerCharLabelD = Titanium.UI.createLabel({
+			text:'Δ',
+			color:'white',
+			left:40,
+			top:18,
+			textAlign:'center',
+			font:{fontSize:55, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		});
+		
+		var answerCharSepparator = Titanium.UI.createView({
+			backgroundColor:'white',
+			bottom:32,
+			left:116,
+			width:13,
+			height:387,
+			zIndex:2
+		});
+		viewQuestion.add(answerCharSepparator);
+		
 		answerA.add(labelAnswerA);
 		answerB.add(labelAnswerB);
 		answerC.add(labelAnswerC);
 		answerD.add(labelAnswerD);
+		
+		answerA.add(answerCharLabelA);
+		answerB.add(answerCharLabelB);
+		answerC.add(answerCharLabelC);
+		answerD.add(answerCharLabelD);
 		
 		viewQuestion.add(answerA);
 		viewQuestion.add(answerB);
@@ -683,7 +738,7 @@ function destroyQuestionView(){
 		//The question
 		labelQuestion = null;
 		
-		//viewQuestion.remove(scoreValueLabel);
+		viewQuestion.remove(questionScoreLabel);
 	
 		//Score value label
 		//scoreValueLabel = null;
@@ -895,7 +950,7 @@ function newGame(category){
 	
 	currentQIndex = 0;
 	currentQuestionLabel = 0;
-	//scoreValueLabel.text = '0';
+	questionScoreLabel.text = '0';
 	totalQuestionsPlayed = 0;
 	totalCorrectAnswers = 0;
 	gameOver = false;
@@ -978,7 +1033,7 @@ function showNextQuestionImage(fromResumeEvent){
 	    timeBarEmpty.left = BAR_LEFT_DEFAULT;
         barLeft = BAR_LEFT_DEFAULT;
         continueBarAnimation = true;
-	}, 1000);
+	}, 500);
 }
 
 /*Performs the animation that increments the score counter*/
@@ -1000,6 +1055,10 @@ function incrementScoreCounter(pointsGained){
 		defaultIncrements = 2;
 		animationInterval = animationInterval * 2;
 	}
+	
+	//Calculate animation duration
+	var animationDuration = Math.round((pointsGained / defaultIncrements) * animationInterval);
+	timeBarEmpty.animate({left:0,duration:animationDuration});
 	
 	var activeScoreAnimationInterval = setInterval(function(){
 		var v = parseInt(questionScoreLabel.text);
@@ -1355,16 +1414,16 @@ function nextQuestion(gameStart){
 			
 			if(currentCorrectAnswer == 'a') {
 				currentCorrectAnswerImage = answerA;
-				currentCorrectAnswerImagePath = IMAGE_PATH+'question/indication/a.png';
+				currentCorrectAnswerImagePath = IMAGE_PATH+'question/answers/A.png';
 			} else if(currentCorrectAnswer == 'b') {
 				currentCorrectAnswerImage = answerB;
-				currentCorrectAnswerImagePath = IMAGE_PATH+'question/indication/b.png';
+				currentCorrectAnswerImagePath = IMAGE_PATH+'question/answers/B.png';
 			} else if(currentCorrectAnswer == 'c') {
 				currentCorrectAnswerImage = answerC;
-				currentCorrectAnswerImagePath = IMAGE_PATH+'question/indication/c.png';
+				currentCorrectAnswerImagePath = IMAGE_PATH+'question/answers/C.png';
 			} else if(currentCorrectAnswer == 'd') {
 				currentCorrectAnswerImage = answerD;
-				currentCorrectAnswerImagePath = IMAGE_PATH+'question/indication/d.png';
+				currentCorrectAnswerImagePath = IMAGE_PATH+'question/answers/D.png';
 			}
 		},1500);
 	});
@@ -1672,40 +1731,28 @@ function handleTimebarChange(e){
 		}
 			
 		if(currentCorrectAnswer == 'a'){
-			answerA.image = IMAGE_PATH+'question/correct/a.png';
+			answerA.image = IMAGE_PATH+'question/answers/A.png';
 			//Fade remaining questions
-			answerB.image = IMAGE_PATH+'question/faded/b.png';
 			answerB.opacity = 0.5;
-			answerC.image = IMAGE_PATH+'question/faded/c.png';
 			answerC.opacity = 0.5;
-			answerD.image = IMAGE_PATH+'question/faded/d.png';
 			answerD.opacity = 0.5;
 		} else if(currentCorrectAnswer == 'b'){
-			answerB.image = IMAGE_PATH+'question/correct/b.png';
+			answerB.image = IMAGE_PATH+'question/answers/B.png';
 			//Fade remaining questions
-			answerA.image = IMAGE_PATH+'question/faded/a.png';
 			answerA.opacity = 0.5;
-			answerC.image = IMAGE_PATH+'question/faded/c.png';
 			answerC.opacity = 0.5;
-			answerD.image = IMAGE_PATH+'question/faded/d.png';
 			answerD.opacity = 0.5;
 		} else if(currentCorrectAnswer == 'c'){
-			answerC.image = IMAGE_PATH+'question/correct/c.png';
+			answerC.image = IMAGE_PATH+'question/answers/C.png';
 			//Fade remaining questions
-			answerA.image = IMAGE_PATH+'question/faded/a.png';
 			answerA.opacity = 0.5;
-			answerB.image = IMAGE_PATH+'question/faded/b.png';
 			answerB.opacity = 0.5;
-			answerD.image = IMAGE_PATH+'question/faded/d.png';
 			answerD.opacity = 0.5;
 		} else if(currentCorrectAnswer == 'd'){
-			answerD.image = IMAGE_PATH+'question/correct/d.png';
+			answerD.image = IMAGE_PATH+'question/answers/D.png';
 			//Fade remaining questions
-			answerB.image = IMAGE_PATH+'question/faded/b.png';
 			answerB.opacity = 0.5;
-			answerC.image = IMAGE_PATH+'question/faded/c.png';
 			answerC.opacity = 0.5;
-			answerA.image = IMAGE_PATH+'question/faded/a.png';
 			answerA.opacity = 0.5;
 		}
 		
@@ -1723,12 +1770,14 @@ function handleClickAnswerA(){
 	if(ANSWERS_ENABLED){
 	
 		//Fade remaining questions
-		answerB.image = IMAGE_PATH+'question/faded/b.png';
+		/*answerB.image = IMAGE_PATH+'question/faded/b.png';
 		answerB.opacity = 0.5;
 		answerC.image = IMAGE_PATH+'question/faded/c.png';
 		answerC.opacity = 0.5;
 		answerD.image = IMAGE_PATH+'question/faded/d.png';
-		answerD.opacity = 0.5;
+		answerD.opacity = 0.5;*/
+		
+		answerA.image = IMAGE_PATH+'question/answers/pressed.png';
 		
 		//Blink the selected answer
 		var blinkCounter = 0;
@@ -1737,7 +1786,7 @@ function handleClickAnswerA(){
 			blinkCounter++;
 			if(!on){
 				on = true;
-				answerA.image = IMAGE_PATH+'question/correct/a.png';
+				answerA.image = IMAGE_PATH+'question/answers/pressed.png';
 			} else {
 				on = false;
 				answerA.image = IMAGE_PATH+'question/answers/A.png';
@@ -1749,8 +1798,12 @@ function handleClickAnswerA(){
 				
 				//mark user answer as correct/wrong and show outcome
 				if(currentCorrectAnswer == 'a'){
-					answerA.image = IMAGE_PATH+'question/correct/a.png';
-					labelQuestion.opacity = 0.5;
+					answerA.image = IMAGE_PATH+'question/answers/A.png';
+					//labelQuestion.opacity = 0.5;
+					
+					answerB.opacity = 0.3;
+					answerC.opacity = 0.3;
+					answerD.opacity = 0.3;
 					
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
@@ -1761,10 +1814,15 @@ function handleClickAnswerA(){
 					
 					correctAnswer();
 				} else {
-					answerA.image = IMAGE_PATH+'question/wrong/a.png';
-					labelQuestion.opacity = 0.5;
+					answerA.image = IMAGE_PATH+'question/answers/wrong.png';
+					//labelQuestion.opacity = 0.5;
+					
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
+					
+					answerB.opacity = 0.3;
+					answerC.opacity = 0.3;
+					answerD.opacity = 0.3;
 					
 					resultWrong.animate(scaleAnimationAnswer, function(){
 	                    resultWrong.animate(scaleAnimationAnswerInverse);
@@ -1792,12 +1850,7 @@ function handleClickAnswerB(){
 	if(ANSWERS_ENABLED){
 	
 		//Fade remaining questions
-		answerA.image = IMAGE_PATH+'question/faded/a.png';
-		answerA.opacity = 0.5;
-		answerC.image = IMAGE_PATH+'question/faded/c.png';
-		answerC.opacity = 0.5;
-		answerD.image = IMAGE_PATH+'question/faded/d.png';
-		answerD.opacity = 0.5;
+		answerB.image = IMAGE_PATH+'question/answers/pressed.png';
 		
 		//Blink the selected answer
 		var blinkCounter = 0;
@@ -1806,7 +1859,7 @@ function handleClickAnswerB(){
 			blinkCounter++;
 			if(!on){
 				on = true;
-				answerB.image = IMAGE_PATH+'question/correct/b.png';
+				answerB.image = IMAGE_PATH+'question/answers/pressed.png';
 			} else {
 				on = false;
 				answerB.image = IMAGE_PATH+'question/answers/B.png';
@@ -1818,8 +1871,12 @@ function handleClickAnswerB(){
 				
 				//mark user answer as correct/wrong and show outcome
 				if(currentCorrectAnswer == 'b'){
-					answerB.image = IMAGE_PATH+'question/correct/b.png';
-					labelQuestion.opacity = 0.5;
+					answerB.image = IMAGE_PATH+'question/answers/B.png';
+					
+					answerA.opacity = 0.3;
+					answerC.opacity = 0.3;
+					answerD.opacity = 0.3;
+					
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
 					
@@ -1829,8 +1886,12 @@ function handleClickAnswerB(){
                     
 					correctAnswer();
 				} else {
-					answerB.image = IMAGE_PATH+'question/wrong/b.png';
-					labelQuestion.opacity = 0.5;
+					answerB.image = IMAGE_PATH+'question/answers/wrong.png';
+					
+					answerA.opacity = 0.3;
+					answerC.opacity = 0.3;
+					answerD.opacity = 0.3;
+					
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
 					
@@ -1860,12 +1921,7 @@ function handleClickAnswerC(){
 	if(ANSWERS_ENABLED){
 		
 		//Fade remaining questions
-		answerB.image = IMAGE_PATH+'question/faded/b.png';
-		answerB.opacity = 0.5;
-		answerA.image = IMAGE_PATH+'question/faded/a.png';
-		answerA.opacity = 0.5;
-		answerD.image = IMAGE_PATH+'question/faded/d.png';
-		answerD.opacity = 0.5;
+		answerC.image = IMAGE_PATH+'question/answers/pressed.png';
 		
 		//Blink the selected answer
 		var blinkCounter = 0;
@@ -1874,7 +1930,7 @@ function handleClickAnswerC(){
 			blinkCounter++;
 			if(!on){
 				on = true;
-				answerC.image = IMAGE_PATH+'question/correct/c.png';
+				answerC.image = IMAGE_PATH+'question/answers/pressed.png';
 			} else {
 				on = false;
 				answerC.image = IMAGE_PATH+'question/answers/C.png';
@@ -1886,8 +1942,12 @@ function handleClickAnswerC(){
 				
 				//mark user answer as correct/wrong and show outcome
 				if(currentCorrectAnswer == 'c'){
-					answerC.image = IMAGE_PATH+'question/correct/c.png';
-					labelQuestion.opacity = 0.5;
+					answerC.image = IMAGE_PATH+'question/answers/C.png';
+					
+					answerB.opacity = 0.3;
+					answerA.opacity = 0.3;
+					answerD.opacity = 0.3;					
+
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
 					
@@ -1897,8 +1957,12 @@ function handleClickAnswerC(){
                     
 					correctAnswer();
 				} else {
-					answerC.image = IMAGE_PATH+'question/wrong/c.png';
-					labelQuestion.opacity = 0.5;
+					answerC.image = IMAGE_PATH+'question/answers/wrong.png';
+					
+					answerB.opacity = 0.3;
+					answerA.opacity = 0.3;
+					answerD.opacity = 0.3;
+					
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
 					
@@ -1928,12 +1992,7 @@ function handleClickAnswerD(){
 	if(ANSWERS_ENABLED){
 		
 		//Fade remaining questions
-		answerB.image = IMAGE_PATH+'question/faded/b.png';
-		answerB.opacity = 0.5;
-		answerC.image = IMAGE_PATH+'question/faded/c.png';
-		answerC.opacity = 0.5;
-		answerA.image = IMAGE_PATH+'question/faded/a.png';
-		answerA.opacity = 0.5;
+		answerC.image = IMAGE_PATH+'question/answers/pressed.png';
 		
 		//Blink the selected answer
 		var blinkCounter = 0;
@@ -1942,7 +2001,7 @@ function handleClickAnswerD(){
 			blinkCounter++;
 			if(!on){
 				on = true;
-				answerD.image = IMAGE_PATH+'question/correct/d.png';
+				answerD.image = IMAGE_PATH+'question/answers/pressed.png';
 			} else {
 				on = false;
 				answerD.image = IMAGE_PATH+'question/answers/D.png';
@@ -1954,8 +2013,12 @@ function handleClickAnswerD(){
 				
 				//mark user answer as correct/wrong and show outcome
 				if(currentCorrectAnswer == 'd'){
-					answerD.image = IMAGE_PATH+'question/correct/d.png';
-					labelQuestion.opacity = 0.5;
+					answerD.image = IMAGE_PATH+'question/answers/D.png';
+					
+					answerB.opacity = 0.3;
+					answerC.opacity = 0.3;
+					answerA.opacity = 0.3;
+					
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultCorrect.show();
 					
@@ -1965,8 +2028,12 @@ function handleClickAnswerD(){
 					
 					correctAnswer();
 				} else {
-					answerD.image = IMAGE_PATH+'question/wrong/d.png';
-					labelQuestion.opacity = 0.5;
+					answerD.image = IMAGE_PATH+'question/answers/wrong.png';
+					
+					answerB.opacity = 0.3;
+					answerC.opacity = 0.3;
+					answerA.opacity = 0.3;
+					
 					bg.image = IMAGE_PATH+'question/question_back2.png';
 					resultWrong.show();
 					
