@@ -48,42 +48,31 @@ var bigFont = 25;
 var smallFont = 18;
 
 //UI components
-var noFacebookConnectionOopsButton = null;
-var noFacebookConnectionLabel = null;
-var noFacebookConnectionButton = null;
-var noFacebookConnectionView = null;
 var noScoresConnectionView = null;
 var noScoresOopsImage = null;
 var noScoresLabel = null;
 var noScoresPlayButton = null;
-var tabAll = null;
-var tabFriends = null;
 var rankingsCategoryTag = null;
-var iconImageTopView = null;
-var barImageTopView = null;
-var iconReflectionImageTopView = null;
-var titleImageTopView = null;
-var alertNoFacebookConnection = null;
-var alertNoFacebookConnectionLabel = null;
-var alertNoFacebookConnectionButton = null;
 
 //Bottom bar components
-var scoresBottomBar = null;
-var scoresButtonCategory = null;
-var scoresButtonReplay = null;
-var scoresButtonDottedLine = null;
-var scoresButtonHome = null;
-var inviteFriendsIcon = null;
 var scoresCategoryPopup = null;
 var scoresCategoriesSelectionTable = null;
-var scoresReplayPopup = null;
-var scoresReplaySelectionTable = null;
 
 //handle variables
 var categoryScoresShown = false;
 var replayShown = false;
 var highScoresSelectedGameType = null;
 var topViewAfterGameplay = null;
+
+var rankingsTitleBackgroundBar = null;
+var rankingsLogoImage = null;
+var rankingsTitleLabel = null;
+var rankingsBottomBackgroundBar = null;
+var rankingsCategorySelectionButton = null;
+
+var rankingsReplayButton = null;
+var rankingsButtonDottedLine = null;
+var rankingsHomeButton = null;
 
 //Init table views to maintain them across instatiations
 /*Table view for ALL highscores*/
@@ -109,13 +98,12 @@ var tableViewFriendsScores = Titanium.UI.createTableView({
 	
 //Add the tables to the view
 viewTopCategory.add(tableViewGlobalScores);
-//viewTopCategory.add(tableViewFriendsScores);
 
 //Data components
 var selectedCategoryInHighScores = null;
 
 function buildTopScoresView(currentCategoryId, afterGameplay){
-	var shouldCreateView = noFacebookConnectionOopsButton == null;
+	var shouldCreateView = rankingsCategoryTag == null;
 	
 	if(shouldCreateView){
 		VIEWING_HIGH_SCORES = true;
@@ -125,7 +113,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		Ti.API.warn('buildTopScoresView() called for '+currentCategoryId);
 		
 		//title background bar
-		var rankingsTitleBackgroundBar = Titanium.UI.createView({
+		rankingsTitleBackgroundBar = Titanium.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:192,
 			top:0
@@ -141,7 +129,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		rankingsTitleBackgroundBar.add(rankingsCategoryTag);
 		
 		//logo image
-		var rankingsLogoImage = Titanium.UI.createImageView({
+		rankingsLogoImage = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'top/rankings_icon.png',
 			top:20,
 			right:31
@@ -149,7 +137,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		rankingsTitleBackgroundBar.add(rankingsLogoImage);
 		
 		//Name Label value
-		var rankingsTitleLabel = Titanium.UI.createLabel({
+		rankingsTitleLabel = Titanium.UI.createLabel({
 			text:'ΚΑΤΑΤΑΞΗ',
 			color:'white',
 			top:103,
@@ -159,13 +147,13 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		
 		viewTopCategory.add(rankingsTitleBackgroundBar);
 		
-		var rankingsBottomBackgroundBar = Titanium.UI.createView({
+		rankingsBottomBackgroundBar = Titanium.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:115,
 			bottom:0
 		});
 		
-		var rankingsCategorySelectionButton = Titanium.UI.createButton({
+		rankingsCategorySelectionButton = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'top/bottom-bar/icon_categ.png',
 			left:29,
 			width:75,
@@ -212,7 +200,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		//Only show replay and home buttons if we landed here after a game session
 		if(topViewAfterGameplay){
 		
-			var rankingsReplayButton = Titanium.UI.createButton({
+			rankingsReplayButton = Titanium.UI.createButton({
 				backgroundImage:IMAGE_PATH+'top/bottom-bar/restart.png',
 				right:160,
 				width:45,
@@ -223,13 +211,13 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 			rankingsReplayButton.addEventListener('click', handleReplayButton); 
 			
 			//Dotted Line
-			var rankingsButtonDottedLine = Titanium.UI.createImageView({
+			rankingsButtonDottedLine = Titanium.UI.createImageView({
 				image:IMAGE_PATH+'top/bottom-bar/dotted.png',
 				right:119	
 			});
 			rankingsBottomBackgroundBar.add(rankingsButtonDottedLine);
 			
-			var rankingsHomeButton = Titanium.UI.createButton({
+			rankingsHomeButton = Titanium.UI.createButton({
 				backgroundImage:IMAGE_PATH+'top/bottom-bar/icon_home.png',
 				right:27,
 				width:60,
@@ -242,165 +230,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		
 		viewTopCategory.add(rankingsBottomBackgroundBar);
 		
-		var scoresIconPath = '';
-		var scoresIconPathTop = 0;
-		var scoresIconReflectionPath = '';
-		var scoresTitleIconPath = '';
-		
-		/*if(gameType == BUZZ_GAME_SOLO){
-			scoresIconPath = IMAGE_PATH+'top/icon.png';
-			scoresIconPathTop = 44;
-			scoresIconReflectionPath = IMAGE_PATH+'top/icon_r.png';
-			scoresTitleIconPath = IMAGE_PATH+'top/title.png';
-			
-			//reuse the tabs (ALL, FRIENDS) for the group games as well
-			tabAllSelected = IMAGE_PATH+'top/tabAllSelected.png';
-			tabAllDeselected = IMAGE_PATH+'top/tabAllDeselected.png';
-			tabFriendsSelected = IMAGE_PATH+'top/tabFriendsSelected.png';
-			tabFriendsDeselected = IMAGE_PATH+'top/tabFriendsDeselected.png';
-		} else if(gameType == BUZZ_GAME_GROUP){
-			scoresIconPathTop = 24;
-			scoresIconPath = IMAGE_PATH+'top/icon_group.png';
-			scoresIconReflectionPath = IMAGE_PATH+'top/icon_r_group.png';
-			scoresTitleIconPath = IMAGE_PATH+'top/title_group.png';
-			
-			//reuse the tabs (ALL, FRIENDS) for the group games as well
-			tabAllSelected = IMAGE_PATH+'top/tabLastGameSelected.png';
-			tabAllDeselected = IMAGE_PATH+'top/tabLastGameDeselected.png';
-			tabFriendsSelected = IMAGE_PATH+'top/tabAllTimeSelected.png';
-			tabFriendsDeselected = IMAGE_PATH+'top/tabAllTimeDeselected.png';
-		}*/
-		
-		//Bottom bar components
-		//the scores bar
-		scoresBottomBar = Titanium.UI.createView({
-		 	backgroundColor:'black',
-		 	bottom:0,
-		 	width:'100%',
-		 	height:80,
-		 	zIndex:100
-		 });
-		
-		//viewTopCategory.add(scoresBottomBar);
-		
-		//Choose category for scores
-		scoresButtonCategory = Titanium.UI.createButton({
-			backgroundImage:IMAGE_PATH+'top/bar/button_categ.png',
-			left:34,
-			height:50,
-			width:65
-		});
-		
-		//scoresBottomBar.add(scoresButtonCategory);
-		
-		Ti.API.info('scoresButtonCategory starts');
-		
-		//Only show replay and home buttons if we landed here after a game session
-		if(topViewAfterGameplay){
-			//Replay Button
-			scoresButtonReplay = Titanium.UI.createButton({
-				backgroundImage:IMAGE_PATH+'top/bar/button_replay.png',
-				left:300,
-				width:50,
-				height:50
-			});
-			
-			//scoresBottomBar.add(scoresButtonReplay);
-			
-			//Dotted Line
-			scoresButtonDottedLine = Titanium.UI.createImageView({
-				image:IMAGE_PATH+'top/bar/dotted_line.png'
-			});
-			
-			//scoresBottomBar.add(scoresButtonDottedLine);
-			
-			//Button Home
-			scoresButtonHome = Titanium.UI.createButton({
-				backgroundImage:IMAGE_PATH+'top/bar/button_home.png',
-				right:300,
-				width:50,
-				height:50
-			});
-			
-			//scoresBottomBar.add(scoresButtonHome);
-			
-			scoresReplayPopup = Titanium.UI.createImageView({
-				image:IMAGE_PATH+'top/bar/replay_popup/popup_replay.png',
-				left:200,
-				bottom:81,
-				zIndex:2,
-				visible:false
-			});
-			
-			//viewTopCategory.add(scoresReplayPopup);
-			
-			scoresReplaySelectionTable = Titanium.UI.createTableView({
-				backgroundColor:'transparent',
-				data:populateScoresReplayTableData(),
-				separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
-				showVerticalScrollIndicator:false,
-				minRowHeight:40,
-				top:25,
-				bottom:15,
-				width:210,
-				height:150
-			});
-			
-			//scoresReplayPopup.add(scoresReplaySelectionTable);
-			scoresReplaySelectionTable.addEventListener('click', handleReplaySelection);
-		}
-		
-		//Friends Invite
-		inviteFriendsIcon = Titanium.UI.createButton({
-			backgroundImage:IMAGE_PATH+'top/bar/button_friend.png',
-			right:34,
-			width:55,
-			height:50
-		});
-		
-		//scoresBottomBar.add(inviteFriendsIcon);
-		
-		//viewTopCategory.add(scoresCategoryPopup);
-		
-		//End of bottom bar components
-		
-		//No facebook connection button
-		noFacebookConnectionOopsButton = Ti.UI.createImageView({
-			image:IMAGE_PATH+'top/oops.png',
-			top:25
-		});
-	
-		//No facebook connection label
-		noFacebookConnectionLabel = Ti.UI.createLabel({
-			text:'Δεν έχεις συνδεθεί ακόμα μέσω Facebook. \nΤρέχα να συνδεθείς για να δεις τα σκορ των φίλων σου!',
-			color:'white',
-			textAlign:'center',
-			width:250,
-			top:215,
-			font:{fontSize:27, fontWeight:'reguar', fontFamily:'Myriad Pro'}
-		});
-	
-		//No facebook connection button
-		noFacebookConnectionButton = Ti.UI.createImageView({
-			image:IMAGE_PATH+'top/connect.png',
-			bottom: 170
-		});
-		
-		//No facebook connection wrapper view
-		noFacebookConnectionView = Ti.UI.createView({
-			top:315,
-			visible:false
-		});
-	
-		//noFacebookConnectionView.add(noFacebookConnectionOopsButton);
-		//noFacebookConnectionView.add(noFacebookConnectionLabel);
-		//noFacebookConnectionView.add(noFacebookConnectionButton);
-		
-		//Event listener for no facebook connection button - takes you to the settings view
-		noFacebookConnectionButton.addEventListener('click', handleNoFacebookConnectionButtonClick);
-		
-		//viewTopCategory.add(noFacebookConnectionView);
-		///////////////
+		///////////////NOT USED
 		
 		//No scores wrapper view
 		noScoresConnectionView = Ti.UI.createView({//TODO
@@ -429,114 +259,13 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 			bottom: 190
 		});
 		
-		//noScoresConnectionView.add(noScoresOopsImage);
-		//noScoresConnectionView.add(noScoresLabel);
-		//noScoresConnectionView.add(noScoresPlayButton);
-		//viewTopCategory.add(noScoresConnectionView);
-		///////////////////
-		
-		/*All scores tab*/
-		tabAll = Ti.UI.createImageView({
-			image:tabAllSelected,
-			top:232,
-			left:0
-		});
-		
-		/*Friends' scores tab'*/
-		tabFriends = Ti.UI.createImageView({
-			image:tabFriendsDeselected,
-			top:232,
-			right:0
-		});
-		
-		//viewTopCategory.add(tabAll);
-		//viewTopCategory.add(tabFriends);
-		///////////////
-		
-		//viewTopCategory.add(scoreCategoryBanner);
-	
-		//Icon image
-		iconImageTopView = Titanium.UI.createImageView({
-			image:scoresIconPath,
-			top:scoresIconPathTop,
-			right:15
-		});
-		
-		//viewTopCategory.add(iconImageTopView);
-	
-		//Bar image
-		barImageTopView = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'top/bar.png',
-			top:128
-		});
-		
-		//viewTopCategory.add(barImageTopView);
-	
-		//Icon image reflection
-		iconReflectionImageTopView = Titanium.UI.createImageView({
-			image:scoresIconReflectionPath,
-			top:0,
-			right:15
-		});
-		
-		//barImageTopView.add(iconReflectionImageTopView);
-	
-		//Title image
-		titleImageTopView = Titanium.UI.createImageView({
-			image:scoresTitleIconPath,
-			top:76,
-			zIndex:2
-		});
-		
-		//viewTopCategory.add(titleImageTopView);
-		////////////////////
-		
-		//Alert for no Facebook connection
-		alertNoFacebookConnection = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'alert/alert_zoafuta.png',
-			zIndex:12,
-			visible:false
-		});
-	
-		//Alert view score label
-		alertNoFacebookConnectionLabel = Titanium.UI.createLabel({
-			text:'Πρέπει να συνδεθείς μέσω Facebook πρώτα!',
-			color:'white',
-			textAlign:'center',
-			top:60,
-			left:45,
-			right:45,
-			width:400,
-			height:'auto',
-			font:{fontSize:31, fontWeight:'regular', fontFamily:'Myriad Pro'}
-		});
-	
-		//Alert view score button
-		alertNoFacebookConnectionButton = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'alert/yes.png',
-			bottom:20,
-			zIndex:12
-		});
-	
-		//alertNoFacebookConnection.add(alertNoFacebookConnectionLabel);
-		//alertNoFacebookConnection.add(alertNoFacebookConnectionButton);
-		//viewTopCategory.add(alertNoFacebookConnection);
-		
-		//Event handler for No facebook connection button
-		alertNoFacebookConnectionButton.addEventListener('click', handleNoFacebookConnectionAlertButtonClick);
-		//////////////////
-		//Event listener for invite friends image
-		inviteFriendsIcon.addEventListener('click', handleInviteButtonClick);
-		
-		
 		//No scores play button event listener
-		noScoresPlayButton.addEventListener('click', handleNoScoresPlayButtonClick);
-		//Event listener for the ALL USERS tab
-		tabAll.addEventListener('click', handleTabAllClick);
-		//Event listener for the FRIENDS tab
-		tabFriends.addEventListener('click', handleTabFriendsClick);
+		//noScoresPlayButton.addEventListener('click', handleNoScoresPlayButtonClick);
 		
 		//sync();
+		
+		////////////
+		
 		win.add(viewTopCategory);
 	} else {
 		Ti.API.warn('NOT building TopView view - already in progress');
@@ -545,7 +274,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 
 function destroyTopScoresView(){
 	Ti.API.warn('destroyTopScoresView() called');
-	var shouldDestroyView = noFacebookConnectionOopsButton != null;
+	var shouldDestroyView = rankingsCategoryTag != null;
 	
 	if(shouldDestroyView){
 		VIEWING_HIGH_SCORES = false;
@@ -556,94 +285,47 @@ function destroyTopScoresView(){
 			tableViewFriendsScores.hide();
 		});
 		
-		//Event listener for invite friends image
-		inviteFriendsIcon.removeEventListener('click', handleInviteButtonClick);
-		//Event listener for no facebook connection button - takes you to the settings view
-		noFacebookConnectionButton.removeEventListener('click', handleNoFacebookConnectionButtonClick);
 		//No scores play button event listener
-		noScoresPlayButton.removeEventListener('click', handleNoScoresPlayButtonClick);
-		//Event listener for the ALL USERS tab
-		tabAll.removeEventListener('click', handleTabAllClick);
-		//Event listener for the FRIENDS tab
-		tabFriends.removeEventListener('click', handleTabFriendsClick);
-		//Event handler for No facebook connection button
-		alertNoFacebookConnectionButton.removeEventListener('click', handleNoFacebookConnectionAlertButtonClick);
+		//noScoresPlayButton.removeEventListener('click', handleNoScoresPlayButtonClick);
 		//Event handler for categories selected from scores popup
 		scoresCategoriesSelectionTable.removeEventListener('click', handleScoresCategoryType);
+		rankingsCategorySelectionButton.removeEventListener('click', handleScoresCategorySelection);
+		
+		rankingsTitleBackgroundBar.remove(backHomeFromTopButton);
+		rankingsTitleBackgroundBar.remove(rankingsCategoryTag);
+		rankingsTitleBackgroundBar.remove(rankingsTitleLabel);
+		
+		viewTopCategory.remove(rankingsTitleBackgroundBar);
+		rankingsTitleBackgroundBar.remove(rankingsTitleLabel);
+		
+		rankingsBottomBackgroundBar.remove(rankingsCategorySelectionButton);
 		 
 		//Only destroy the home/replay buttons if we landed here after a game session
 		if(topViewAfterGameplay){
-			//Event handle for replay button
-			scoresButtonReplay.removeEventListener('click', handleReplayButton);	
-			
-			scoresReplaySelectionTable.removeEventListener('click', handleReplaySelection);
-			scoresButtonHome.removeEventListener('click',handleHomeSelection);
-		
-			scoresBottomBar.remove(scoresButtonReplay);
-			scoresBottomBar.remove(scoresButtonDottedLine);
-			scoresBottomBar.remove(scoresButtonHome);
-			
-			scoresReplayPopup.remove(scoresReplaySelectionTable);
-			viewTopCategory.remove(scoresReplayPopup);
-		
-			scoresReplayPopup = null;
-			scoresReplaySelectionTable = null;
-		
-			scoresButtonReplay = null;
-			scoresButtonDottedLine = null;
-			scoresButtonHome = null;
+			rankingsReplayButton.removeEventListener('click', handleReplayButton); 
+			rankingsHomeButton.removeEventListener('click', handleHomeSelection);
+			rankingsBottomBackgroundBar.remove(rankingsReplayButton);
+			rankingsBottomBackgroundBar.remove(rankingsButtonDottedLine);
+			rankingsBottomBackgroundBar.remove(rankingsHomeButton);
 		}
 		
-		viewTopCategory.remove(inviteFriendsIcon);
-		viewTopCategory.remove(rankingsCategoryTag);
-		viewTopCategory.remove(iconImageTopView);
-		barImageTopView.remove(iconReflectionImageTopView);
-		viewTopCategory.remove(barImageTopView);
-		viewTopCategory.remove(titleImageTopView);
+		viewTopCategory.remove(rankingsBottomBackgroundBar);
+		
+		rankingsTitleBackgroundBar.remove(rankingsCategoryTag);
 		
 		//remove bottom bar completely
-		scoresBottomBar.remove(scoresButtonCategory);
-		scoresBottomBar.remove(inviteFriendsIcon);
 		viewTopCategory.remove(scoresCategoryPopup);
 		scoresCategoryPopup.remove(scoresCategoriesSelectionTable);
-		//viewTopCategory.remove(scoresReplayPopup);
-		//scoresReplayPopup.remove(scoresReplaySelectionTable);
-	
-		noFacebookConnectionView.remove(noFacebookConnectionOopsButton);
-		noFacebookConnectionView.remove(noFacebookConnectionLabel);
-		noFacebookConnectionView.remove(noFacebookConnectionButton);
 		
 		noScoresConnectionView.remove(noScoresOopsImage);
 		noScoresConnectionView.remove(noScoresLabel);
 		noScoresConnectionView.remove(noScoresPlayButton);
 		
-		alertNoFacebookConnection.remove(alertNoFacebookConnectionLabel);
-		alertNoFacebookConnection.remove(alertNoFacebookConnectionButton);
-		viewTopCategory.remove(alertNoFacebookConnection);
-		
-		viewTopCategory.remove(tabAll);
-		viewTopCategory.remove(tabFriends);
-		
-		viewTopCategory.remove(noFacebookConnectionView);
 		viewTopCategory.remove(noScoresConnectionView);
 		
-		//make bottom bar values null
-		scoresBottomBar = null;
-		scoresButtonCategory = null;
-		inviteFriendsIcon = null;
 		scoresCategoryPopup = null;
 		scoresCategoriesSelectionTable = null;
-		//scoresReplayPopup = null;
-		//scoresReplaySelectionTable = null;
 		
-		//No facebook connection button
-		noFacebookConnectionOopsButton = null;
-		//No facebook connection label
-		noFacebookConnectionLabel = null;
-		//No facebook connection button
-		noFacebookConnectionButton = null;
-		//No facebook connection wrapper view
-		noFacebookConnectionView = null;
 		//No scores wrapper view
 		noScoresConnectionView = null;
 		noScoresOopsImage = null;
@@ -651,28 +333,19 @@ function destroyTopScoresView(){
 		noScoresLabel = null;
 		//No scores play button
 		noScoresPlayButton = null;
-		inviteFriendsIcon = null;
 		
-		/*All scores tab*/
-		tabAll = null;
-		/*Friends' scores tab'*/
-		tabFriends = null;
 		//Selected category banner
 		rankingsCategoryTag = null;
-		//Icon image
-		iconImageTopView = null;
-		//Bar image
-		barImageTopView = null;
-		//Icon image reflection
-		iconReflectionImageTopView = null;
-		//Title image
-		titleImageTopView = null;
-		//Alert for no Facebook connection
-		alertNoFacebookConnection = null;
-		//Alert view score label
-		alertNoFacebookConnectionLabel = null;
-		//Alert view score button
-		alertNoFacebookConnectionButton = null;
+		
+		rankingsTitleBackgroundBar = null;
+		rankingsLogoImage = null;
+		rankingsTitleLabel = null;
+		rankingsBottomBackgroundBar = null;
+		rankingsCategorySelectionButton = null;
+		
+		rankingsReplayButton = null;
+		rankingsButtonDottedLine = null;
+		rankingsHomeButton = null;
 		
 		win.remove(viewTopCategory);
 	} else {
@@ -690,7 +363,6 @@ function startHighScoresUpdateAnimation(){
 		width:20
 	});
 	
-	scoresBottomBar.add(highScoresActivityIndicator);
 	highScoresActivityIndicator.show();
 	Ti.API.info('startHighScoresUpdateAnimation() ends');
 }
@@ -718,10 +390,6 @@ function handleScoresCategorySelection(){
 	if(!categoryScoresShown){
 		scoresCategoryPopup.show();
 		categoryScoresShown=true;
-		//hide replay popup when category popup clicked
-		if(scoresReplayPopup != null){
-			scoresReplayPopup.hide();
-		}
 		
 	}else{
 		scoresCategoryPopup.hide();
@@ -738,17 +406,11 @@ function handleReplayButton(){
 	Ti.API.warn('handleReplayButton starts');
 	if(gameSession.getGameType() == BUZZ_GAME_GROUP){
 		if(!replayShown){
-			if(scoresReplayPopup != null){
-				scoresReplayPopup.show();
-			}
 			
 			replayShown=true;
 			//hide categories popup when replay popup clicked
 			scoresCategoryPopup.hide();
 		}else{
-			if(scoresReplayPopup != null){
-				scoresReplayPopup.hide();
-			}
 		 	replayShown=false;
 		}
 	} else {
@@ -781,9 +443,6 @@ function handleInviteButtonClick(){
 	
 	Ti.API.warn('Invite friends icon clicked');
 	
-	if(scoresReplayPopup != null){
-		scoresReplayPopup.hide();
-	}
 	
 	scoresCategoryPopup.hide();
 	
@@ -792,22 +451,6 @@ function handleInviteButtonClick(){
 	
 	//Animate the invite friends background image
 	inviteFriendsBackgroundImage.animate({transform:SCALE_ONE, duration:400});
-	
-	inviteFriendsIcon.hide();
-}
-
-//Event handler for no-facebook-connection-button-click
-function handleNoFacebookConnectionButtonClick(){
-	mtbImport("settings.js");
-	buildSettingsView();
-	
-	viewSettings.animate({opacity:1, duration:400}, function(){
-		mtbImport('top_selection.js');
-		mtbImport('top_view.js');
-		
-		destroyTopScoresView();
-		destroyTopSelectionView();
-	});
 }
 
 //Event handler for no-scores-play-button-click
@@ -857,10 +500,6 @@ function handleNoScoresPlayButtonClick(){
 function handleTabAllClick(){
 	var targetImage = '';
 	var targetImageOther = '';
-	//Hide other popups
-	if(scoresReplayPopup != null){
-		scoresReplayPopup.hide();
-	}
 	
 	scoresCategoryPopup.hide();
 	
@@ -872,7 +511,6 @@ function handleTabAllClick(){
 		tabFriends.image = tabFriendsDeselected;
 		tableViewGlobalScores.show();
 		tableViewFriendsScores.hide();
-		noFacebookConnectionView.hide();
 		noScoresConnectionView.hide();
 	}
 	
@@ -882,11 +520,6 @@ function handleTabAllClick(){
 //Event handler for tabFriends-click
 function handleTabFriendsClick(){
 	var targetImage = '';
-	
-	//Hide other popups
-	if(scoresReplayPopup != null){
-		scoresReplayPopup.hide();
-	}
 	
 	scoresCategoryPopup.hide();
 	
@@ -900,23 +533,12 @@ function handleTabFriendsClick(){
 		
 		//Only show the friends scores if we are connected to FB
 		if(highScoresSelectedGameType == BUZZ_GAME_SOLO){
-			if(Titanium.Facebook.loggedIn){
-				noFacebookConnectionView.hide();
-				
-				if(hasFriendScoresToRender){
-					tableViewFriendsScores.show();
-				} else {
-					noScoresConnectionView.show();
-				}
-				
+			if(hasFriendScoresToRender){
+				tableViewFriendsScores.show();
 			} else {
-				noFacebookConnectionView.show();
+				noScoresConnectionView.show();
 			}
-		} else if(highScoresSelectedGameType == BUZZ_GAME_GROUP){
-			noFacebookConnectionView.hide();
-			tableViewFriendsScores.show();
-		}
-			
+		}	
 	}
 	
 	tabFriends.image = targetImage;
@@ -924,7 +546,7 @@ function handleTabFriendsClick(){
 
 //Event handler for No-facebook-connection-button click
 function handleNoFacebookConnectionAlertButtonClick(){
-	alertNoFacebookConnection.hide();
+	
 }
 
 //Load score listener
