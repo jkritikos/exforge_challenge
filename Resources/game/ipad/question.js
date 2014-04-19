@@ -38,10 +38,6 @@ var currentQuestionStatsPlaceholder = null;
 var currentQuestionIndexLabel = null;
 var currentQuestionPointsLabel = null;
 
-var currentPlayerNameLabel = null;
-var currentPlayerNameIcon = null;
-
-var scoreValueLabel = null;
 var answerA = null;
 var answerB = null;
 var answerC = null;
@@ -51,17 +47,6 @@ var labelAnswerB = null;
 var labelAnswerC = null;
 var labelAnswerD = null;
 var alertViewGameOver = null;
-var gameOverCategoryBanner = null;
-var gameOverImage = null;
-var gameOverQuestionStats = null;
-var gameOverScoreLabelValue = null;
-var gameOverArrowImage = null;
-var gameOverScoresLabel = null;
-var gameOverPlayImage = null;
-var gameOverPlayLabel = null;
-var gameOverGroupRankingsImage = null;
-var gameOverTopScoreLabel = null;
-var gameOverTopScoreLabelUnderscore = null;
 
 var selectedCategoryBanner = null;
 var bg = null;
@@ -75,6 +60,24 @@ var timeBarEmpty = null;
 var questionTopLogo = null;
 var questionScoreLabel = null;
 var questionClockIcon = null;
+
+var answerCharLabelA = null;
+var answerCharLabelB = null;
+var answerCharLabelC = null;
+var answerCharLabelD = null;
+var answerCharSepparator = null;
+
+//Game Over UI components
+var alertViewGameOverTitleBackground = null;
+var alertViewGameOverTitle = null;
+var alertViewGameOverMiddleBox = null;
+var alertViewGameOverUpperBar = null;
+var alertViewGameOverBottomBackground = null;
+var gameOverPlayImage = null;
+var gameOverArrowImage = null;
+var gameOverScoreLabelValue = null;
+var gameOverQuestionStats = null;
+var gameOverCategoryBanner = null;
 
 var continueBarAnimation = true;
 var barLeft = 768;
@@ -349,7 +352,7 @@ function buildQuestionView(defaultQuestionBanner){
 		});
 		
 		//Answer A label
-		var answerCharLabelA = Titanium.UI.createLabel({
+		answerCharLabelA = Titanium.UI.createLabel({
 			text:'Α',
 			color:'white',
 			left:40,
@@ -359,7 +362,7 @@ function buildQuestionView(defaultQuestionBanner){
 		});
 		
 		//Answer B label
-		var answerCharLabelB = Titanium.UI.createLabel({
+		answerCharLabelB = Titanium.UI.createLabel({
 			text:'Β',
 			color:'white',
 			left:40,
@@ -369,7 +372,7 @@ function buildQuestionView(defaultQuestionBanner){
 		});
 		
 		//Answer C label
-		var answerCharLabelC = Titanium.UI.createLabel({
+		answerCharLabelC = Titanium.UI.createLabel({
 			text:'Γ',
 			color:'white',
 			left:40,
@@ -379,7 +382,7 @@ function buildQuestionView(defaultQuestionBanner){
 		});
 		
 		//Answer D label
-		var answerCharLabelD = Titanium.UI.createLabel({
+		answerCharLabelD = Titanium.UI.createLabel({
 			text:'Δ',
 			color:'white',
 			left:40,
@@ -388,7 +391,7 @@ function buildQuestionView(defaultQuestionBanner){
 			font:{fontSize:55, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
-		var answerCharSepparator = Titanium.UI.createView({
+		answerCharSepparator = Titanium.UI.createView({
 			backgroundColor:'white',
 			bottom:32,
 			left:116,
@@ -435,14 +438,14 @@ function buildQuestionView(defaultQuestionBanner){
 		});
 		
 		//blue background of the title in game over
-		var alertViewGameOverTitleBackground = Ti.UI.createView({
+		alertViewGameOverTitleBackground = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:193,
 			top:0
 		});
 		
 		//game over title label
-		var alertViewGameOverTitle = Titanium.UI.createLabel({
+		alertViewGameOverTitle = Titanium.UI.createLabel({
 			text:'GAME OVER',
 			color:'white',
 			height:74,
@@ -455,7 +458,7 @@ function buildQuestionView(defaultQuestionBanner){
 		alertViewGameOver.add(alertViewGameOverTitleBackground);
 		
 		//blue box for the score
-		var alertViewGameOverMiddleBox = Ti.UI.createView({
+		alertViewGameOverMiddleBox = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:311,
 			width:478,
@@ -509,7 +512,7 @@ function buildQuestionView(defaultQuestionBanner){
 		}
 		
 		//game over bar which changes according to category played
-		var alertViewGameOverUpperBar = Ti.UI.createView({
+		alertViewGameOverUpperBar = Ti.UI.createView({
 			backgroundColor:gameOverUpperBarColor,
 			height:29,
 			top:193
@@ -525,7 +528,7 @@ function buildQuestionView(defaultQuestionBanner){
 		alertViewGameOver.add(gameOverCategoryBanner);
 		
 		//bottom background for the buttons
-		var alertViewGameOverBottomBackground = Ti.UI.createView({
+		alertViewGameOverBottomBackground = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:257,
 			bottom:0
@@ -561,140 +564,6 @@ function buildQuestionView(defaultQuestionBanner){
 		
 		win.add(alertViewGameOver);
 		
-		//For group games we also show the current player
-		/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-			
-			currentPlayerNameIcon = Ti.UI.createImageView({
-				image:IMAGE_PATH+'player_selection/avatars_q/'+gameSession.getCurrentPlayer().avatarFile,
-				top:12,
-				left:10,
-				zIndex:52
-			});
-			
-			viewQuestion.add(currentPlayerNameIcon);
-			
-			//DO NOT DELETE
-			
-			currentPlayerNameLabel = Titanium.UI.createLabel({
-				text:gameSession.getCurrentPlayer().name,
-				color:'#fee600',
-				left:87,
-				textAlign:'left',
-				top:30,
-				width:145,
-				height:40,
-				minimumFontSize:22,
-				font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
-			});
-			
-			//viewQuestion.add(currentPlayerNameLabel);
-		}*/
-		
-		//Time bar
-		/*timeBarFull = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'question/time_full.png',
-			top:IPHONE5 ? 101 : 181,
-			left:0,
-			zIndex:20
-		});
-		
-		//viewQuestion.add(timeBarFull);
-	
-		//Time bar EMPTY
-		timeBarEmpty = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'question/time_empty.png',
-			top:IPHONE5 ? 101 : 181,
-			left:0,
-			zIndex:1
-		});
-		
-		//viewQuestion.add(timeBarEmpty);*/
-		
-		//////////////////////////////////////Game over
-		var GROUP_PLAY_GAMEOVER_HEIGHT_OFFSET = 50;
-		
-		
-		//For group play we also show a top score label
-		/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-			gameOverTopScoreLabel = Titanium.UI.createLabel({
-				text:'TOPSCORE',
-				color:'white',
-				top:90,
-				height:80,
-				font:{fontSize:50, fontWeight:'regular', fontFamily:'321impact'},
-				zIndex:10
-			});
-			
-			alertViewGameOver.add(gameOverTopScoreLabel);
-			
-			gameOverTopScoreLabelUnderscore = Ti.UI.createView({
-				backgroundColor:'white',
-				height:2,
-				top:159,
-				width:217
-			});
-			
-			alertViewGameOver.add(gameOverTopScoreLabelUnderscore);
-		}*/
-		
-		//Gameover bottom buttons
-		//if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-			
-			
-			//Gameover playAgain label
-			gameOverScoresLabel = Titanium.UI.createLabel({
-				text:'HIGH SCORES',
-				color:'white',
-				shadowColor:'#000000',
-				textAlign:'center',
-			    shadowOffset:{x:1,y:1},
-			    bottom:65,
-			    right:90,
-				font:{fontSize:28, fontWeight:'bold', fontFamily:'Myriad Pro'}
-			});
-		
-			//alertViewGameOver.add(gameOverScoresLabel);
-		
-			//Gameover playAgain label
-			gameOverPlayLabel = Titanium.UI.createLabel({
-				text:'ΠΑΙΞΕ ΞΑΝΑ',
-				color:'white',
-				shadowColor:'#000000',
-				textAlign:'center',
-			    shadowOffset:{x:1,y:1},
-			    bottom:65,
-			    left:92,
-				font:{fontSize:28, fontWeight:'bold', fontFamily:'Myriad Pro'}
-			});
-			
-			//alertViewGameOver.add(gameOverPlayLabel);
-		/*} else if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-			//Gameover group rankings image
-			gameOverGroupRankingsImage = Ti.UI.createButton({
-				backgroundImage:IMAGE_PATH+'question/rankings.png',
-				bottom:97,
-				width:536,
-				height:177
-			});
-			
-			alertViewGameOver.add(gameOverGroupRankingsImage);
-			
-			//Event listener for game over group rankings
-			gameOverGroupRankingsImage.addEventListener('click', handleGameOverShowScoresClick);
-		}*/
-		
-		
-		
-		//////////////////////////////////////End game over
-		/*barImages.push(IMAGE_PATH+'timer/time_full.png');
-		
-		for(var tt=195; tt>=0; tt--){
-			var targetSlice = IMAGE_PATH+'timer/TIME-LINE'+tt+'.png';
-			barImages.push(targetSlice);
-		}*/
-		
-		//Timer frame change
-		//timeBarFull2.addEventListener('change', handleTimebarChange); 
 		win.add(viewQuestion);
 		
 		Ti.API.warn('buildQuestionView() ends');
@@ -739,18 +608,6 @@ function destroyQuestionView(){
 		labelQuestion = null;
 		
 		viewQuestion.remove(questionScoreLabel);
-	
-		//Score value label
-		//scoreValueLabel = null;
-		
-		//Remove group-specific UI components
-		if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-			//viewQuestion.remove(currentPlayerNameLabel);
-			viewQuestion.remove(currentPlayerNameIcon);
-			
-			//currentPlayerNameLabel = null;
-			currentPlayerNameIcon = null;
-		}
 		
 		viewQuestion.remove(heartIcon1);
 		viewQuestion.remove(heartIcon2);
@@ -820,45 +677,45 @@ function destroyQuestionView(){
 		//////////////////////////////////////End answers
 		
 		//////////////////////////////////////Game over
-		if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-			gameOverPlayImage.removeEventListener('click', handleGameOverPlayAgainClick);
-			//Event listener for game over arrow image
-			gameOverArrowImage.removeEventListener('click', handleGameOverShowScoresClick);
-			
-			alertViewGameOver.remove(gameOverArrowImage);
-			alertViewGameOver.remove(gameOverPlayImage);
-			alertViewGameOver.remove(gameOverScoresLabel);
-			alertViewGameOver.remove(gameOverPlayLabel);
-			
-			//Gameover arrow image
-			gameOverArrowImage = null;
-			//Gameover playAgain label
-			gameOverScoresLabel = null;
-			//Gameover playAgain image
-			gameOverPlayImage = null;
-			//Gameover playAgain label
-			gameOverPlayLabel = null;
-			
-		} else if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-			gameOverGroupRankingsImage.removeEventListener('click', handleGameOverShowScoresClick);
-			
-			alertViewGameOver.remove(gameOverTopScoreLabel);
-			alertViewGameOver.remove(gameOverTopScoreLabelUnderscore);
-			alertViewGameOver.remove(gameOverGroupRankingsImage);
-			
-			gameOverGroupRankingsImage = null;
-			gameOverTopScoreLabel = null;
-			gameOverTopScoreLabelUnderscore = null;
-		}
+		gameOverPlayImage.removeEventListener('click', handleGameOverPlayAgainClick);
+		//Event listener for game over arrow image
+		gameOverArrowImage.removeEventListener('click', handleGameOverShowScoresClick);
+		
+		alertViewGameOverBottomBackground.remove(gameOverArrowImage);
+		alertViewGameOverBottomBackground.remove(gameOverPlayImage);
+		
+		//Gameover arrow image
+		gameOverArrowImage = null;
+		//Gameover playAgain image
+		gameOverPlayImage = null;
 		
 		alertViewGameOver.remove(gameOverCategoryBanner);
-		alertViewGameOver.remove(gameOverQuestionStats);
-		alertViewGameOver.remove(gameOverScoreLabelValue);
+		alertViewGameOverMiddleBox.remove(gameOverQuestionStats);
+		alertViewGameOverMiddleBox.remove(gameOverScoreLabelValue);
+		
+		alertViewGameOverTitleBackground.remove(alertViewGameOverTitle);
+		alertViewGameOver.remove(alertViewGameOverTitleBackground);
+		
+		alertViewGameOver.remove(alertViewGameOverMiddleBox);
+		
+		alertViewGameOver.remove(alertViewGameOverUpperBar);
+		
+		alertViewGameOver.remove(alertViewGameOverBottomBackground);
+		
+		answerCharLabelA = null;
+		answerCharLabelB = null;
+		answerCharLabelC = null;
+		answerCharLabelD = null;
+		answerCharSepparator = null;
+		
+		alertViewGameOverTitleBackground = null;
+		alertViewGameOverTitle = null;
+		alertViewGameOverMiddleBox = null;
+		alertViewGameOverUpperBar = null;
+		alertViewGameOverBottomBackground = null;
 			
 		//Game over category banner
 		gameOverCategoryBanner = null;
-		//Game over image for the game over view
-		gameOverImage = null;
 		//Game over question stats
 		gameOverQuestionStats = null;
 		//Gameover view label points value
@@ -867,14 +724,8 @@ function destroyQuestionView(){
 		win.remove(alertViewGameOver);
 		//Alert view for game over
 		alertViewGameOver = null;	
-		//////////////////////////////////////End game over
-	
-		//Timer frame change
-		//timeBarFull2.removeEventListener('change', handleTimebarChange);
 		
-		//viewQuestion.remove(timeBarFull2);
 		barImages = [];
-		//timeBarFull2 = null;
 		
 		win.remove(viewQuestion);
 	}
@@ -1200,7 +1051,6 @@ function stopTime(){
 //Starts the timebar animation
 function startTime(){
 	//animate timebar
-	//timeBarFull2.start();
 	Ti.API.info('TIMER START');
 }
 
@@ -1259,10 +1109,6 @@ function looseLife(){
 
 //Updates the score and the heart icons, according to the specified number of lives
 function updateMultiplayerUI(){
-	//Current player
-	//currentPlayerNameLabel.text = gameSession.getCurrentPlayer().name;
-	currentPlayerNameIcon.image = IMAGE_PATH+'player_selection/avatars_q/'+gameSession.getCurrentPlayer().avatarFile;
-	
 	//Score
 	questionScoreLabel.text = gameSession.getCurrentPlayer().score;
 	
@@ -1353,11 +1199,6 @@ function nextQuestion(gameStart){
 		setTimeout(function(){
 			currentQuestionStatsPlaceholder.hide();
 					
-			//if not paused
-			/*if(!timeBarFull2.paused){
-				startTime();
-			}*/
-			
 			//reset question images
 			answerA.image = IMAGE_PATH+'question/answers/A.png';
 			answerB.image = IMAGE_PATH+'question/answers/B.png';
@@ -1440,9 +1281,7 @@ function displayGameOver(){
 	
 	//Adjust Gameover UI
 	if(gameOverNoMoreQuestions){//TODO ask jason what will show if has no more questions
-		//gameOverImage.image = IMAGE_PATH+'question/gameover_termatismos.png';
-	} else {
-		//gameOverImage.image = IMAGE_PATH+'question/gameover.png';
+		
 	}
 	
 	alertViewGameOver.show();
@@ -1696,7 +1535,6 @@ var viewQuestion = Ti.UI.createView({
 viewQuestion.addEventListener('gameStart', function(data){
 	Ti.API.info('EVENT: gameStart for category '+gameSession.getSelectedGameCategoryId()+' with banner '+gameSession.getCurrentCategoryBanner());
     selectedCategoryBanner.image = gameSession.getCurrentCategoryBanner();
-    //gameOverCategoryBanner.image = gameSession.getCurrentCategoryBanner();
 	
 	//Reset game mechanics
 	newGame(gameSession.getSelectedGameCategoryId());
@@ -1768,14 +1606,6 @@ function handleClickAnswerA(){
 	enableAnswersUI(false);
 	
 	if(ANSWERS_ENABLED){
-	
-		//Fade remaining questions
-		/*answerB.image = IMAGE_PATH+'question/faded/b.png';
-		answerB.opacity = 0.5;
-		answerC.image = IMAGE_PATH+'question/faded/c.png';
-		answerC.opacity = 0.5;
-		answerD.image = IMAGE_PATH+'question/faded/d.png';
-		answerD.opacity = 0.5;*/
 		
 		answerA.image = IMAGE_PATH+'question/answers/pressed.png';
 		

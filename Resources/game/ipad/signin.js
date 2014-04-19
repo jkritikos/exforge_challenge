@@ -41,20 +41,6 @@ backHomeFromPlayerButton.addEventListener('click', function() {
 	
 
 //UI components
-/*var alertImageBg = IMAGE_PATH+'alert/alert_zoafuta.png';
-var alertPlayerOK = IMAGE_PATH+'alert/yes.png';
-var loginLabel = null;
-var alertViewPlayer = null;
-var alertPlayerLabel = null;
-var alertViewPlayerButton = null;
-var confirmationViewPlayer = null;
-var confirmationPlayerLabel = null;
-var confirmationViewPlayerButton = null;
-var confirmationViewCancelButton = null;
-//var buttonStart = null;
-var loginBarImage = null;
-var barLabel = null;*/
-
 var signinPlayNowBar = null;
 var signinPlayNowLabel = null;
 var signinPlayNowLabelAttributes = null;
@@ -203,98 +189,6 @@ function buildPlayerLoginView(){
 		
 		signinPlayNowBar.add(signinPlayNowLabel);
 		
-		
-		//Alert view
-		/*alertViewPlayer = Titanium.UI.createImageView({
-			image:alertImageBg,
-			zIndex:12,
-			visible:false
-		});
-			
-		//Alert view score label
-		alertPlayerLabel = Titanium.UI.createLabel({
-			text:'Γράψε το όνομα σου για να παίξεις!',
-			color:'white',
-			textAlign:'center',
-			top:65,
-			left:35,
-			right:35,
-			width:415,
-			font:{fontSize:30, fontWeight:'regular', fontFamily:'Myriad Pro'}
-		});
-			
-		//Alert view score button
-		alertViewPlayerButton = Titanium.UI.createImageView({
-			image:alertPlayerOK,
-			bottom:20,
-			zIndex:12
-		});
-			
-		alertViewPlayer.add(alertPlayerLabel);
-		alertViewPlayer.add(alertViewPlayerButton);
-		
-		//Confirmation view
-		confirmationViewPlayer = Titanium.UI.createImageView({
-			image:alertImageBg,
-			zIndex:12,
-			visible:false
-		});
-	
-		//FB disconect alert OK button
-		confirmationViewPlayerButton = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'alert/yes.png',
-			left:30,
-			bottom:10,
-			zIndex:12
-		});
-	
-		//FB disconnect alert CANCEL button
-		confirmationViewCancelButton = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'alert/no.png',
-			bottom:10,
-			right:30,
-			zIndex:12
-		});
-		
-		//FB disconnect OK event listener
-		confirmationViewPlayerButton.addEventListener('click', handleFacebookDisconnectOK);
-		
-		//FB disconnect cancel event listener
-		confirmationViewCancelButton.addEventListener('click', handleFacebookDisconnectCancel);
-		
-		//confirmationViewPlayer.hide();
-		//confirmationViewPlayer.add(confirmationPlayerLabel);
-		confirmationViewPlayer.add(confirmationViewPlayerButton);
-		confirmationViewPlayer.add(confirmationViewCancelButton);
-		
-		
-		//buttonStart.animate(scaleAnimation);
-		
-		//Event listener for player alert OK button
-		alertViewPlayerButton.addEventListener('click', handleAlertViewPlayerOK);
-		
-		//Bar image
-		loginBarImage = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'login/bar.png',
-			right:0,
-			bottom:30,
-			height:'auto',
-			width:'auto'
-		});
-		
-	
-		barLabel = Titanium.UI.createLabel({
-			text:'* Τα στοιχεία που δίνεις θα χρησιμοποιηθούν μόνο για χρήση βαθμολογίας του παιχνιδιού!',
-			color:'white',
-			textAlign:'center',
-			width:'auto',
-			height:'auto',
-			top:43,
-			font:{fontSize:19, fontWeight:'regular', fontFamily:'Myriad Pro'}
-		});
-		
-		loginBarImage.add(barLabel);*/
-		
 		win.add(viewSignin);
 	} else {
 		Ti.API.warn('NOT building PlayerLogin view - already in progress');
@@ -307,27 +201,10 @@ function destroyPlayerLoginView(){
 	VIEWING_LOGIN = false;
 	viewSignin.animate(anim_out);
 	
-	//Event listener for player alert OK button
-	//alertViewPlayerButton.removeEventListener('click', handleAlertViewPlayerOK);
-	//FB disconnect OK event listener
-	//confirmationViewPlayerButton.removeEventListener('click', handleFacebookDisconnectOK);
-	//FB disconnect cancel event listener
-	//confirmationViewCancelButton.removeEventListener('click', handleFacebookDisconnectCancel);
-	
 	//Event listeners
 	signinTextField.removeEventListener('change', handleSigninTextFieldChange);
 	signinPlayNowBar.removeEventListener('click', handleButtonStartEvent);
 	signinBackButton.removeEventListener('click', handleBackButton);
-	
-	//alertViewPlayer.hide();
-	//palertViewPlayer.remove(alertPlayerLabel);
-	//alertViewPlayer.remove(alertViewPlayerButton);
-	
-	//confirmationViewPlayer.hide();
-	//confirmationViewPlayer.remove(confirmationPlayerLabel);
-	//confirmationViewPlayer.remove(confirmationViewPlayerButton);
-	//confirmationViewPlayer.remove(confirmationViewCancelButton);
-	//loginBarImage.remove(barLabel);
 	
 	signinTitleBackgroundBar.remove(signinTitleLabel);
 	viewSignin.remove(signinTitleBackgroundBar);
@@ -340,29 +217,6 @@ function destroyPlayerLoginView(){
 	viewSignin.remove(signinBackgroundLogo);
 	viewSignin.remove(signinPlayNowBar);
 	signinPlayNowBar.remove(signinPlayNowLabel);
-	
-	//Alert view
-	//alertViewPlayer = null;
-	//loginLabel = null;
-	//Alert view score label
-	//alertPlayerLabel = null;
-	//Alert view score button
-	//alertViewPlayerButton = null;
-	//Confirmation view
-	//confirmationViewPlayer = null;
-	//Confirmation view score label
-	//confirmationPlayerLabel = null;
-	//FB disconect alert OK button
-	//confirmationViewPlayerButton = null;
-	//FB disconnect alert CANCEL button
-	//confirmationViewCancelButton = null;
-	//Play button
-	//buttonStart = null;
-	//Facebook button
-	//fbButton = null;	
-	//Bar image
-	//loginBarImage = null;
-	//barLabel = null;
 	
 	signinPlayNowBar = null;
 	signinPlayNowLabel = null;
@@ -388,37 +242,6 @@ function handleSigninTextFieldChange(){
 		signinTextfieldHintText.show();
 	}
 }
-
-//Event handler for FB disconnect OK
-/*function handleFacebookDisconnectOK(){
-	confirmationViewPlayer.hide();
-	backHomeFromPlayerButton.touchEnabled = true;
-	playButton.touchEnabled = true;
-	//Titanium.Facebook.logout();
-}
-
-//Event handler for FB disconnect Cancel
-function handleFacebookDisconnectCancel(){
-	confirmationViewPlayer.hide();
-	backHomeFromPlayerButton.touchEnabled = true;
-	playButton.touchEnabled = true;
-}
-
-//Displays the FB disconnect dialog and blocks the UI
-function showFacebookDisconnectConfirmation(){
-	confirmationViewPlayer.show();
-	backHomeFromPlayerButton.touchEnabled = false;
-	playButton.touchEnabled = false;
-}
-
-function handleAlertViewPlayerOK(){
-	alertViewPlayer.hide();
-	signinTextField.enabled = true;
-	backHomeFromPlayerButton.touchEnabled = true;
-	//fbButton.touchEnabled = true;
-}
-	
-Ti.API.info('Player.js persisted player is '+playerName + ' persisted facebook is '+fbId);*/
 
 //back button
 function handleBackButton()	{
@@ -455,12 +278,6 @@ function handleButtonStartEvent(){
 		});
 		
 	} else {
-		alert('You need to choose a name!');
-		//alertViewPlayer.show();
-		//signinTextField.enabled = false;
-		//backHomeFromPlayerButton.touchEnabled = false;
-		//fbButton.touchEnabled = false;
+		alert('You need to choose a name!');//TODO
 	}
-	
-	//buttonStart.image = IMAGE_PATH+'login/play.png';
 }

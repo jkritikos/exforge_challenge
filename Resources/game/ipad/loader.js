@@ -81,27 +81,11 @@ viewLoader.addEventListener('loaderStart', function(data){
     	}
     	
     	//Start the game UI
-    	/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-    		mtbImport("question_next.js");
-		  	buildQuestionNextView();
-		  	viewQuestionNext.animate(anim_in);
-		  	
-		  	//Destroy game-setup views
-		  	destroyGroupPlayerNamesSelectionView();
-		  	destroyGroupPlayerSelectionView();
-		  	destroyGroupSelectionView();
-		  	destroyGameSelectionView();
-		  	
-    	} else {*/
 		buildQuestionView(targetCategoryIcon);
 	
     	//show questions view
 		viewQuestion.fireEvent('gameStart');
 		viewQuestion.animate(anim_in);
-		
-		//Destroy game-setup views
-	  	//destroyGameSelectionView();
-    	//}
 	};
     
     //prepare for game
