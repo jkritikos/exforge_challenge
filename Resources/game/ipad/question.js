@@ -1036,7 +1036,7 @@ function wrongAnswer(fromResumeEvent){
 
 //Adds the score earned by the latest answer to the total score
 function calculateScore(){
-	var pointsWorth = Math.round((barLeft * currentQuestionPointsValue) / 320);
+	var pointsWorth = Math.round((barLeft * currentQuestionPointsValue) / 768);
 	Ti.API.info('calculateScore gives '+pointsWorth+' points');
 	
 	//Trigger the animation for the score counter
@@ -1822,7 +1822,7 @@ function handleClickAnswerD(){
 	if(ANSWERS_ENABLED){
 		
 		//Fade remaining questions
-		answerC.image = IMAGE_PATH+'question/answers/pressed.png';
+		answerD.image = IMAGE_PATH+'question/answers/pressed.png';
 		
 		//Blink the selected answer
 		var blinkCounter = 0;

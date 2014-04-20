@@ -1,11 +1,8 @@
 //UI components
 var badgeAwardBackground = null;
 var badgeAwardCloseImage = null;
-var badgeAwardHeader = null;
 var badgeAwardLabel = null;
 var awardedBadge1 = null;
-var awardedBadge2 = null;
-var awardedBadge3 = null;
 var awardedBadge1Stars = null;
 var awardedBadge2Stars = null;
 var awardedBadge3Stars = null;
@@ -13,18 +10,19 @@ var awardedBadge1Label = null;
 var awardedBadge2Label = null;
 var awardedBadge3Label = null;
 
+var badgeAwardTitleBackground = null;
+var badgeAwardMiddleBox = null;
+var badgeAwardUpperBar = null;
+var badgeAwardCategoryBanner = null;
+var badgeAwardBottomBackground = null;
+var badgeAwardPlayImage = null;
+var badgeAwardArrowImage = null;
+
 var badgeAwardQuestionStats = null;
 var badgeAwardScoreLabelValue = null;
 
 function buildAwardBadgePopup(){
 	//Badge UI background
-	//badgeAwardBackground = Ti.UI.createImageView({
-		//image:IPHONE5 ? IMAGE_PATH+'profile/stat_bg-568h@2x.png' : IMAGE_PATH+'profile/stat_bg.png',
-		//transform:SCALE_ZERO,
-		//zIndex:210
-	//});
-	
-	//Alert view for game over
 	badgeAwardBackground = Titanium.UI.createView({
 		backgroundImage:IMAGE_PATH+'signin/background.jpg',
 		top:0,
@@ -35,7 +33,7 @@ function buildAwardBadgePopup(){
 	});
 	
 	//blue background of the title in badges award
-	var badgeAwardTitleBackground = Ti.UI.createView({
+	badgeAwardTitleBackground = Ti.UI.createView({
 		backgroundColor:'0b4b7f',
 		height:193,
 		top:29
@@ -71,7 +69,7 @@ function buildAwardBadgePopup(){
 	badgeAwardBackground.add(badgeAwardTitleBackground);
 	
 	//blue box for the score
-	var badgeAwardMiddleBox = Ti.UI.createView({
+	badgeAwardMiddleBox = Ti.UI.createView({
 		backgroundColor:'0b4b7f',
 		height:311,
 		width:478,
@@ -125,7 +123,7 @@ function buildAwardBadgePopup(){
 	}
 	
 	//badge award bar which changes according to category played
-	var badgeAwardUpperBar = Ti.UI.createView({
+	badgeAwardUpperBar = Ti.UI.createView({
 		backgroundColor:badgeAwardUpperBarColor,
 		height:29,
 		top:0
@@ -133,7 +131,7 @@ function buildAwardBadgePopup(){
 	badgeAwardBackground.add(badgeAwardUpperBar);
 	
 	//badge award category banner
-	var badgeAwardCategoryBanner = Ti.UI.createImageView({
+	badgeAwardCategoryBanner = Ti.UI.createImageView({
 		image:badgeAwardBannerImage,
 		top:268,
 		zIndex:2
@@ -141,14 +139,14 @@ function buildAwardBadgePopup(){
 	badgeAwardBackground.add(badgeAwardCategoryBanner);
 	
 	//bottom background for the buttons
-	var badgeAwardBottomBackground = Ti.UI.createView({
+	badgeAwardBottomBackground = Ti.UI.createView({
 		backgroundColor:'0b4b7f',
 		height:257,
 		bottom:0
 	});
 	
-	//Game over play again button
-	var badgeAwardPlayImage = Ti.UI.createButton({
+	//bagde Award play again button
+	badgeAwardPlayImage = Ti.UI.createButton({
 		backgroundImage:IMAGE_PATH+'game_over/button_playagain.png',
 		top:45,
 		width:205,
@@ -159,8 +157,8 @@ function buildAwardBadgePopup(){
 	badgeAwardBottomBackground.add(badgeAwardPlayImage);
 	badgeAwardPlayImage.addEventListener('click', handleAwardBadgePlayAgainClick);
 	
-	//Game over rankings button
-	var badgeAwardArrowImage = Ti.UI.createButton({
+	//bagde Award rankings button
+	badgeAwardArrowImage = Ti.UI.createButton({
 		backgroundImage:IMAGE_PATH+'game_over/button_rankings.png',
 		top:45,
 		width:205,
@@ -173,49 +171,13 @@ function buildAwardBadgePopup(){
 	
 	badgeAwardBackground.add(badgeAwardBottomBackground);
 	
-	//Award badge background close button
-	/*badgeAwardCloseImage = Ti.UI.createImageView({
-		image:IMAGE_PATH+'top/invite_x.png',
-		top:IPHONE5 ? 45 : 135,
-		right:115
-	});
-	
-	//Badge yeah image
-	badgeAwardHeader = Ti.UI.createImageView({
-		top:IPHONE5 ? 123 : 220,
-		image:IMAGE_PATH+'various/yeah_epistimi.png'
-	});
-	
-	//badge 1
-	awardedBadge1 = Ti.UI.createImageView({
-		image:IMAGE_PATH+'stars/badges/n/badge1.png',
-		top:IPHONE5 ? 293 : 500
-	});
-
-	//badge 2
-	awardedBadge2 = Ti.UI.createImageView({
-		image:IMAGE_PATH+'stars/badges/n/badge1.png',
-		top:IPHONE5 ? 293 : 500,
-		visible:false,
-		left:180
-	});
-	
-	//badge 3 (for dual badges)
-	awardedBadge3 = Ti.UI.createImageView({
-		image:IMAGE_PATH+'stars/badges/n/badge1.png',
-		top:IPHONE5 ? 293 : 500,
-		right:180,
-		visible:false
-	});*/
-	
 	//badge 2 stars
-	awardedBadge2Stars = Ti.UI.createImageView({
+	awardedBadge2Stars = Ti.UI.createImageView({//TODO what are these for?
 		image:IMAGE_PATH+'stars/star_1.png',
 		top:85,
 		left:200,
 		visible:false
 	});
-	//badgeAwardTitleBackground.add(awardedBadge2Stars);
 	
 	//badge 3 stars
 	awardedBadge3Stars = Ti.UI.createImageView({
@@ -224,7 +186,6 @@ function buildAwardBadgePopup(){
 		right:203,
 		visible:false
 	});
-	//badgeAwardTitleBackground.add(awardedBadge3Stars);
 
 	//badge 2 title
 	awardedBadge2Label = Ti.UI.createLabel({
@@ -250,23 +211,6 @@ function buildAwardBadgePopup(){
 		visible:false
 	});
 	
-	//badgeAwardBackground.add(badgeAwardCloseImage);
-	//badgeAwardBackground.add(awardedBadge1);
-	//badgeAwardBackground.add(awardedBadge1Stars);
-	//badgeAwardBackground.add(awardedBadge1Label);
-	
-	//badgeAwardCloseImage.addEventListener('click', handleCloseBadgeAwardPopup);
-		
-	//badgeAwardBackground.add(awardedBadge2);
-	//badgeAwardBackground.add(awardedBadge2Stars);
-	//badgeAwardBackground.add(awardedBadge2Label);
-	
-	//badgeAwardBackground.add(awardedBadge3);
-	//badgeAwardBackground.add(awardedBadge3Stars);
-	//badgeAwardBackground.add(awardedBadge3Label);
-	
-	//badgeAwardBackground.add(badgeAwardLabel);
-	//badgeAwardBackground.add(badgeAwardHeader);
 	alertViewGameOver.add(badgeAwardBackground);
 }
 
@@ -274,24 +218,38 @@ function destroyAwardBadgePopup(){
 	Ti.API.warn('destroyAwardBadgePopup() called');
 	
 	//Remove event listener
-	//badgeAwardCloseImage.removeEventListener('click', handleCloseBadgeAwardPopup);
+	badgeAwardPlayImage.removeEventListener('click', handleAwardBadgePlayAgainClick);
+	badgeAwardArrowImage.removeEventListener('click', handleAwardBadgeShowScoresClick);
 	
-	//badgeAwardBackground.remove(badgeAwardCloseImage);
-	//badgeAwardBackground.remove(awardedBadge1);
-	badgeAwardBackground.remove(awardedBadge1Stars);
-	badgeAwardBackground.remove(awardedBadge1Label);
+	badgeAwardTitleBackground.remove(badgeAwardLabel);
+	badgeAwardTitleBackground.remove(awardedBadge1Stars);
+	badgeAwardTitleBackground.remove(awardedBadge1Label);
+	badgeAwardTitleBackground.remove(awardedBadge1Stars);
+	badgeAwardTitleBackground.remove(awardedBadge1Label);
+	badgeAwardBackground.remove(badgeAwardTitleBackground);
 	
-	//badgeAwardBackground.remove(awardedBadge2);
-	badgeAwardBackground.remove(awardedBadge2Stars);
-	badgeAwardBackground.remove(awardedBadge2Label);
+	badgeAwardMiddleBox.remove(badgeAwardScoreLabelValue);
+	badgeAwardMiddleBox.remove(badgeAwardQuestionStats);
+	badgeAwardBackground.remove(badgeAwardMiddleBox);
 	
-	//badgeAwardBackground.remove(awardedBadge3);
-	badgeAwardBackground.remove(awardedBadge3Stars);
-	badgeAwardBackground.remove(awardedBadge3Label);
+	badgeAwardBackground.remove(badgeAwardUpperBar);
+	badgeAwardBackground.remove(badgeAwardCategoryBanner);
 	
-	badgeAwardBackground.remove(badgeAwardLabel);
-	//badgeAwardBackground.remove(badgeAwardHeader);
+	badgeAwardBottomBackground.remove(badgeAwardPlayImage);
+	badgeAwardBottomBackground.remove(badgeAwardArrowImage);
+	badgeAwardBackground.remove(badgeAwardBottomBackground);
 	alertViewGameOver.remove(badgeAwardBackground);
+	
+	badgeAwardTitleBackground = null;
+	badgeAwardMiddleBox = null;
+	badgeAwardUpperBar = null;
+	badgeAwardCategoryBanner = null;
+	badgeAwardBottomBackground = null;
+	badgeAwardPlayImage = null;
+	badgeAwardArrowImage = null;
+	
+	badgeAwardQuestionStats = null;
+	badgeAwardScoreLabelValue = null;
 	
 	//Badge UI background
 	badgeAwardBackground = null;
@@ -299,20 +257,11 @@ function destroyAwardBadgePopup(){
 	//Award badge background close button
 	badgeAwardCloseImage = null;
 	
-	//Badge yeah image
-	badgeAwardHeader = null;
-	
 	//Badge UI label
 	badgeAwardLabel = null;
 
 	//badge 1
 	awardedBadge1 = null;
-
-	//badge 2
-	awardedBadge2 = null;
-	
-	//badge 3 (for dual badges)
-	awardedBadge3 = null;
 
 	//badge 1 stars
 	awardedBadge1Stars = null;
@@ -379,7 +328,7 @@ function handleAwardBadgeShowScoresClick(){
 	
 		Ti.API.info('Show high scores - ANIM COMPLETE');
 		//hide previous views
-		view.opacity = 0;
+		viewCategories.opacity = 0;
 		viewQuestion.opacity = 0;
 		viewLoader.opacity = 0;
 		
@@ -421,34 +370,19 @@ function awardBadgesNotification(playerId, currentCategoryId, currentScore, stat
 		
 		//Single badge, set up badge icon
 		if(categoryBadge == CAT_EXFORGE){
-			//awardedBadge1.image = IMAGE_PATH+'stars/badges/n/badge1.png';
 			awardedBadge1Label.text = BADGE1_LABEL;
-			
-			awardedBadge2.image = IMAGE_PATH+'stars/badges/n/badge1.png';
 			awardedBadge2Label.text = BADGE1_LABEL;
 		} else if(categoryBadge == CAT_EPISTIMI){
-			//awardedBadge1.image = IMAGE_PATH+'stars/badges/n/badge2.png';
 			awardedBadge1Label.text = BADGE2_LABEL;
-			
-			awardedBadge2.image = IMAGE_PATH+'stars/badges/n/badge2.png';
 			awardedBadge2Label.text = BADGE2_LABEL;
 		} else if(categoryBadge == CAT_GEOGRAFIA){
-			//awardedBadge1.image = IMAGE_PATH+'stars/badges/n/badge3.png';
 			awardedBadge1Label.text = BADGE3_LABEL;
-			
-			awardedBadge2.image = IMAGE_PATH+'stars/badges/n/badge3.png';
 			awardedBadge2Label.text = BADGE3_LABEL;
 		} else if(categoryBadge == CAT_ISTORIA){
-			//awardedBadge1.image = IMAGE_PATH+'stars/badges/n/badge4.png';
 			awardedBadge1Label.text = BADGE4_LABEL;
-			
-			awardedBadge2.image = IMAGE_PATH+'stars/badges/n/badge4.png';
 			awardedBadge2Label.text = BADGE4_LABEL;
 		} else if(categoryBadge == CAT_ATHLITIKA){
-			//awardedBadge1.image = IMAGE_PATH+'stars/badges/n/badge5.png';
 			awardedBadge1Label.text = BADGE5_LABEL;
-			
-			awardedBadge2.image = IMAGE_PATH+'stars/badges/n/badge5.png';
 			awardedBadge2Label.text = BADGE5_LABEL;
 		}
 		
@@ -475,7 +409,7 @@ function awardBadgesNotification(playerId, currentCategoryId, currentScore, stat
 			createdUI = true;
 		}
 		
-		//Set the speed badge icon according to the number of badges won
+		//Set the speed badge icon according to the number of badges won TODO ?
 		var targetBadgeIconForSpeedBadge = '';
 		//var targetStarIconForSpeedBadge = '';
 		var targetBadgeLabelForSpeedBadge = '';
@@ -485,7 +419,6 @@ function awardBadgesNotification(playerId, currentCategoryId, currentScore, stat
 			targetStarIconForSpeedBadge = awardedBadge1Stars;
 			targetBadgeLabelForSpeedBadge = awardedBadge1Label;
 		} else if(totalBadges == 2){
-			//targetBadgeIconForSpeedBadge = awardedBadge3;
 			targetStarIconForSpeedBadge = awardedBadge3Stars;
 			targetBadgeLabelForSpeedBadge = awardedBadge3Label;
 		}
@@ -502,31 +435,25 @@ function awardBadgesNotification(playerId, currentCategoryId, currentScore, stat
 	}
 	
 	if(totalBadges == 1){
-		badgeAwardLabel.text = 'ΚΕΡΔΙΣΕΣ 1 ΠΑΡΑΣΗΜΟ!';
+		badgeAwardLabel.text = 'ΜΟΛΙΣ ΚΕΡΔΙΣΕΣ 1 ΠΑΡΑΣΗΜΟ!';
 		
-		//awardedBadge1.show();
 		awardedBadge1Stars.show();
 		awardedBadge1Label.show();
 		
-		//awardedBadge2.hide();
 		awardedBadge2Stars.hide();
 		awardedBadge2Label.hide();
 
-		//awardedBadge3.hide();
 		awardedBadge3Stars.hide();
 		awardedBadge3Label.hide();
 	} else if(totalBadges == 2){
-		badgeAwardLabel.text = 'ΚΕΡΔΙΣΕΣ 2 ΠΑΡΑΣΗΜΑ!';
+		badgeAwardLabel.text = 'ΜΟΛΙΣ ΚΕΡΔΙΣΕΣ 2 ΠΑΡΑΣΗΜΑ!';
 		
-		//awardedBadge1.hide();
 		awardedBadge1Stars.hide();
 		awardedBadge1Label.hide();
 		
-		//awardedBadge2.show();
 		awardedBadge2Stars.show();
 		awardedBadge2Label.show();
 
-		//awardedBadge3.show();
 		awardedBadge3Stars.show();
 		awardedBadge3Label.show();
 	}
@@ -534,19 +461,6 @@ function awardBadgesNotification(playerId, currentCategoryId, currentScore, stat
 	//Animate the badge background image
 	if(totalBadges > 0){
 		Ti.API.warn('totalBadges = '+totalBadges);
-		
-		//Set up notification UI
-		/*if(currentCategoryId == CAT_EXFORGE){
-			badgeAwardHeader.image = IMAGE_PATH+'various/yeah_epistimi.png';
-		} else if(currentCategoryId == CAT_EPISTIMI){
-			badgeAwardHeader.image = IMAGE_PATH+'various/yeah_kinimatografos.png';
-		} else if(currentCategoryId == CAT_GEOGRAFIA){
-			badgeAwardHeader.image = IMAGE_PATH+'various/yeah_geografia.png';
-		} else if(currentCategoryId == CAT_ISTORIA){
-			badgeAwardHeader.image = IMAGE_PATH+'various/yeah_athlitika.png';
-		} else if(currentCategoryId == CAT_ATHLITIKA){
-			badgeAwardHeader.image = IMAGE_PATH+'various/yeah_texnologia.png';
-		}*/
 		
 		var a = Ti.UI.createAnimation();
 		a.transform = SCALE_ONE;
@@ -574,7 +488,7 @@ function awardBadges(playerId, currentCategoryId, currentScore){
 		
 		if(userLevelBadge1 < achievedLevel){
 			badgeAwared = true;
-			saveBadge(playerId, achievedLevel, CAT_EPISTIMI);
+			saveBadge(playerId, achievedLevel, CAT_EXFORGE);
 		}  
 	} else if(currentCategoryId == CAT_EPISTIMI){
 		if(currentScore >= BADGE2_LEVEL3) achievedLevel = 3;
@@ -585,7 +499,7 @@ function awardBadges(playerId, currentCategoryId, currentScore){
 		
 		if(userLevelBadge2 < achievedLevel){
 			badgeAwared = true;
-			saveBadge(playerId, achievedLevel, CAT_KINIMATOGRAFOS);
+			saveBadge(playerId, achievedLevel, CAT_EPISTIMI);
 		}  
 	} else if(currentCategoryId == CAT_GEOGRAFIA){
 		if(currentScore >= BADGE3_LEVEL3) achievedLevel = 3;
@@ -607,7 +521,7 @@ function awardBadges(playerId, currentCategoryId, currentScore){
 		
 		if(userLevelBadge4 < achievedLevel){
 			badgeAwared = true;
-			saveBadge(playerId, achievedLevel, CAT_ATHLITIKA);
+			saveBadge(playerId, achievedLevel, CAT_ISTORIA);
 		}  
 	} else if(currentCategoryId == CAT_ATHLITIKA){
 		if(currentScore >= BADGE5_LEVEL3) achievedLevel = 3;
@@ -618,7 +532,7 @@ function awardBadges(playerId, currentCategoryId, currentScore){
 		
 		if(userLevelBadge5 < achievedLevel){
 			badgeAwared = true;
-			saveBadge(playerId, achievedLevel, CAT_TEXNOLOGIA);
+			saveBadge(playerId, achievedLevel, CAT_ATHLITIKA);
 		}  
 	}
 	
@@ -640,7 +554,6 @@ function awardBadges(playerId, currentCategoryId, currentScore){
 		
 		if(userLevelBadge12 < megaBadgeLevelAchieved){
 			
-			awardedBadge3.image = IMAGE_PATH+'stars/badges/n/badge12.png';
 			awardedBadge3Label.text = BADGE12_LABEL;
 			awardedBadge3Stars.image = IMAGE_PATH+'stars/star_'+megaBadgeLevelAchieved+'.png'; 
 			

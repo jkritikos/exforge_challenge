@@ -13,48 +13,37 @@ var viewQuestionNext = Ti.UI.createView({
 var QUESTION_NEXT_HEIGHT_OFFSET_FOR_LOST_PLAYER = 52;
 
 //UI components
-var questionNextLogo = null;
-var questionNextButtonRestart = null;
-var questionNextButtonReport = null;
-var questionNextButtonQuit = null;
-var questionNextButtonNext = null;
-var questionNextLabelPlayerName = null;
-var questionNextLabelPlayerNo = null;
-var questionNextWikipedia = null;
-var questionNextBackground = null;
-var questionNextArrowLeft = null;
-var questionNextArrowRight = null;
-
-var questionNextButtonQuitPopup = null;
-var questionNextButtonRestartPopup = null;
 var questionNextWikipediaWebView = null;
 var quitShown = false;
 var restartShown = false;
-
-var questionNextWikipediaView = null;
-var nextQuestionPointsLabel = null;
-var questionNextWikipedia2 = null;
 var wikipediaURL = null;
-
-var questionNextQuitPopupTable = null;
-var questionNextRestartPopupTable = null;
-var closeWikipediaButton = null;
 var questionNextActivityInd = null;
 
 //Group popup lost player
-var questionNextPopupLostBackground = null;
+var questionNextPopupLostBackground = null;//TODO remove lost player alert?
 var questionNextPopupLostAvatar = null;
 var questionNextPopupLostNameLabel = null;
 var questionNextPopupLostImage = null;
 var questionNextPlayerLostLabel = null;
 var questionNextPopupLostOKButton = null;
 var loserAudio = null;
-
 var questionNextPlayerLostScoreLabel = null;
 var questionNextPlayerLostScoreValue = null;
 
+
+var questionNextWikipediaBackground = null;
+var questionNextWikipedia = null;
 var questionNextLowerBackgroundBar = null;
+var questionNextButtonQuit = null;
+var questionNextButtonReport = null;
+var questionNextButtonRestart = null;
 var nextQuestionLabel = null;
+var nextQuestionPointsLabel = null;
+var questionNextButtonNext = null;
+
+var questionNextWikipediaView = null;
+var questionNextWikipedia2 = null;
+var closeWikipediaButton = null;
 
 //build
 function buildQuestionNextView(){
@@ -62,27 +51,9 @@ function buildQuestionNextView(){
 	
 	//Build the Player/Team 1 label
 	var questionNextLabelPlayerText = '';
-	var questionNextLogoImg = '';
-	
-	/*if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-		if(gameSession.getGameGroupType() == BUZZ_GROUP_TYPE_PLAYERS){
-			questionNextLabelPlayerText = 'Player ' + gameSession.getCurrentPlayer().playerIndex;
-			questionNextLogoImg = IMAGE_PATH+'categories/r/logo/icon_group.png';
-		} else if(gameSession.getGameGroupType() == BUZZ_GROUP_TYPE_TEAMS){
-			questionNextLabelPlayerText = 'Team ' + gameSession.getCurrentPlayer().playerIndex;
-			questionNextLogoImg = IMAGE_PATH+'categories/r/logo/icon_teams.png';
-		}
-	} else if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-		questionNextLogoImg = IMAGE_PATH+'categories/r/logo/solo.png';
-	}*/
 	
 	var shouldCreateView = questionNextWikipedia == null;
 	if(shouldCreateView){
-		
-		questionNextBackground = Ti.UI.createImageView({
-			image:gameSession.getGameType() == BUZZ_GAME_SOLO ? IMAGE_PATH+'question_next/background_solo.png' : IMAGE_PATH+'question_next/background.png',
-			top:0
-		});
 		
 		questionNextWikipediaBackground = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
@@ -179,118 +150,6 @@ function buildQuestionNextView(){
 		viewQuestionNext.add(questionNextButtonNext);
 		questionNextButtonNext.addEventListener('click', handleQuestionNextButtonNext);
 		animateButtonNext();
-		
-		//Number of the player label
-		/*questionNextLabelPlayerNo = Ti.UI.createLabel({
-			text:questionNextLabelPlayerText,
-			top:210,
-			textAlign:'center',
-			height:130,
-			width:280,
-			color:'yellow',
-			font:{fontSize: 63, fontWeight: 'bold', fontFamily:'321Impact'}
-		});
-		
-		questionNextBackground.add(questionNextLabelPlayerNo);
-		
-		//if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-		
-		} else {
-			
-			questionNextPlayImageButton = IMAGE_PATH+'player_selection/avatars_next/'+gameSession.getCurrentPlayer().avatarFile;
-			
-			//Name of the player label
-			questionNextLabelPlayerName = Ti.UI.createLabel({
-				text:gameSession.getCurrentPlayer().name,
-				top:325,
-				textAlign:'center',
-				height:70,
-				width:650,
-				color:'white',
-				font:{fontSize: 63, fontWeight: 'regular', fontFamily:'Myriad Pro'}
-			});
-			
-			questionNextBackground.add(questionNextLabelPlayerName);
-			
-			//create left/right arrows surrounding the avatar icon
-			questionNextArrowLeft = Ti.UI.createImageView({
-				image:IMAGE_PATH+'question_next/arrow_r.png',
-				top:600,
-				left:206
-			});
-			
-			viewQuestionNext.add(questionNextArrowLeft);
-			
-			questionNextArrowRight = Ti.UI.createImageView({
-				image:IMAGE_PATH+'question_next/arrow_l.png',
-				top:600,
-				right:206
-			});
-			
-			viewQuestionNext.add(questionNextArrowRight);
-		}*/
-		
-		questionNextPlayerLostLabel = Ti.UI.createLabel({
-			text:'',
-			top:150,
-			textAlign:'center',
-			height:90,
-			width:480,
-			color:'white',
-			font:{fontSize: 27, fontWeight: 'regular', fontFamily:'Myriad Pro'}
-		});
-		
-		questionNextBackground.add(questionNextPlayerLostLabel);
-		
-		//Quit popup
-		questionNextButtonQuitPopup = Ti.UI.createImageView({
-			image:IMAGE_PATH+'question_next/quit/quit_bubble.png',
-			bottom:40,
-			left:154
-		});
-		
-		viewQuestionNext.add(questionNextButtonQuitPopup);
-		questionNextButtonQuitPopup.hide();
-		
-		//Quit popup table
-		questionNextQuitPopupTable = Titanium.UI.createTableView({
-			backgroundColor:'transparent',
-			data:populatePopupQuitTableData(),
-			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
-			showVerticalScrollIndicator:false,
-			minRowHeight:40,
-			width:292,
-			left:34,
-			height:160
-		});
-		
-		questionNextButtonQuitPopup.add(questionNextQuitPopupTable);
-		questionNextQuitPopupTable.addEventListener('click', handleQuestionNextQuitPopupSelection);
-		
-		//Restart popup
-		questionNextButtonRestartPopup = Ti.UI.createImageView({
-			image:IMAGE_PATH+'question_next/restart/restart_bubble.png',
-			bottom:40,
-			right:154
-		});
-		
-		viewQuestionNext.add(questionNextButtonRestartPopup);
-		questionNextButtonRestartPopup.hide();
-		
-		//Restart popup table
-		questionNextRestartPopupTable = Titanium.UI.createTableView({
-			backgroundColor:'transparent',
-			data:populatePopupRestartTableData(),
-			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
-			showVerticalScrollIndicator:false,
-			minRowHeight:40,
-			width:292,
-			right:34,
-			height:160
-		});
-		
-		questionNextButtonRestartPopup.add(questionNextRestartPopupTable);
-		questionNextRestartPopupTable.addEventListener('click', handleQuestionNextRestartPopupSelection);
 		
 		questionNextWikipediaView = Ti.UI.createView({
 			backgroundColor:'black',
@@ -471,10 +330,6 @@ function updateQuestionNextView(fromResumeEvent){
 	//Show lost player, if any
 	if(gameSession.getLastLostPlayer() != null){
 		showQuestionNextPopupLost();
-		
-		//Move next player labels to fit the lost player msg
-		questionNextLabelPlayerNo.top = questionNextLabelPlayerNo.top + QUESTION_NEXT_HEIGHT_OFFSET_FOR_LOST_PLAYER;
-		questionNextLabelPlayerName.top = questionNextLabelPlayerName.top + QUESTION_NEXT_HEIGHT_OFFSET_FOR_LOST_PLAYER;
 	}
 	
 	var questionNextLabelPlayerText = '';
@@ -486,103 +341,65 @@ function updateQuestionNextView(fromResumeEvent){
 	}
 	
 	//Update player index and name
-	//if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-		//questionNextLabelPlayerNo.text = questionNextLabelPlayerText;
-		//questionNextLabelPlayerName.text = gameSession.getCurrentPlayer().name;
-		//questionNextButtonNext.setBackgroundImage(IMAGE_PATH+'player_selection/avatars_next/'+gameSession.getCurrentPlayer().avatarFile);
-	//} else if(gameSession.getGameType() == BUZZ_GAME_SOLO){
 	if(!fromResumeEvent){
 		var tmpQuestionIdx = gameSession.getCurrentPlayer().questionIndex;
 		nextQuestionPointsLabel.text = gameSession.getCurrentPlayer().questions.data[tmpQuestionIdx].value + ' ΠΟΝΤΟΙ';
 	} else {
 		nextQuestionPointsLabel.text = '(Hey, αυτό δεν είναι δίκαιο!)';
 	}
-	//}
 }
 
 function destroyQuestionNextView(){
 	Ti.API.info('destroyQuestionNextView started!');
 	
-	var shouldDestroyView = questionNextLogo != null;
+	var shouldDestroyView = questionNextWikipedia != null;
 	if(shouldDestroyView){
 		
-		questionNextWikipedia.removeEventListener('click', handleQuestionNextWikipedia);
-		
-		viewQuestionNext.remove(questionNextBackground);
-		viewQuestionNext.remove(questionNextLogo);
-		viewQuestionNext.remove(questionNextWikipedia);
-		questionNextBackground.remove(questionNextLabelPlayerNo);
-		
-		if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-			questionNextBackground.remove(nextQuestionPointsLabel);
-			//The text we show in the next question image
-			nextQuestionPointsLabel = null;
-		} else {
-			questionNextBackground.remove(questionNextLabelPlayerName);
-			//Name of the player label
-			questionNextLabelPlayerName = null;
-			
-			//left/right arrows
-			viewQuestionNext.remove(questionNextArrowLeft);
-			viewQuestionNext.remove(questionNextArrowRight);
-			
-			questionNextArrowLeft = null;
-			questionNextArrowRight = null;
-		}
-		
+		questionNextWikipediaBackground.removeEventListener('click', handleQuestionNextWikipedia);
+		closeWikipediaButton.removeEventListener('click', handleQuestionNextWikipedia);
 		questionNextButtonNext.removeEventListener('click', handleQuestionNextButtonNext);
+		questionNextButtonRestart.removeEventListener('click', handleQuestionNextButtonRestart);
 		questionNextButtonQuit.removeEventListener('click', handleQuestionNextButtonQuit);
 		questionNextButtonReport.removeEventListener('click', handleQuestionNextButtonReport);
-		questionNextButtonRestart.removeEventListener('click', handleQuestionNextButtonRestart);
-		questionNextQuitPopupTable.removeEventListener('click', handleQuestionNextQuitPopupSelection);
-		questionNextRestartPopupTable.removeEventListener('click', handleQuestionNextRestartPopupSelection);
-		closeWikipediaButton.removeEventListener('click', handleQuestionNextWikipedia);
+		
+		viewQuestionNext.remove(questionNextWikipedia);
 		
 		viewQuestionNext.remove(questionNextButtonNext);
-		
-		if(questionNextPlayerLostLabel != null){
-			questionNextBackground.remove(questionNextPlayerLostLabel);
-		}
-		
 		viewQuestionNext.remove(questionNextButtonQuit);
 		viewQuestionNext.remove(questionNextButtonRestart);
-		viewQuestionNext.remove(questionNextButtonQuitPopup);
 		viewQuestionNext.remove(questionNextButtonReport);
-		questionNextButtonQuitPopup.remove(questionNextQuitPopupTable);
-		viewQuestionNext.remove(questionNextButtonRestartPopup);
-		questionNextButtonRestartPopup.remove(questionNextRestartPopupTable);
 		viewQuestionNext.remove(questionNextWikipediaView);
 		questionNextWikipediaView.remove(questionNextWikipedia2);
 		questionNextWikipediaView.remove(closeWikipediaButton);
+		viewQuestionNext.remove(nextQuestionPointsLabel);
+		viewQuestionNext.remove(nextQuestionLabel);
+		viewQuestionNext.remove(questionNextWikipediaBackground);
+		questionNextWikipediaBackground.remove(questionNextWikipedia);
 		
-		//Hands Logo
-		questionNextLogo = null;
-		//Blue Background
-		questionNextBackground = null;
+		questionNextLowerBackgroundBar.remove(questionNextButtonQuit);
+		questionNextLowerBackgroundBar.remove(questionNextButtonReport);
+		questionNextLowerBackgroundBar.remove(questionNextButtonRestart);
+		
+		viewQuestionNext.remove(questionNextLowerBackgroundBar);
+		
+		//The text we show in the next question image
+		nextQuestionPointsLabel = null;
 		//Wikipedia image
 		questionNextWikipedia = null;
-		//Number of the player label
-		questionNextLabelPlayerNo = null;
 		//Next animated button 
 		questionNextButtonNext = null;
-		questionNextPlayerLostLabel = null;
 		//Quit button
 		questionNextButtonQuit = null;
 		 //Report Button
 		questionNextButtonReport = null;
 		//Restart Button
 		questionNextButtonRestart = null;
-		//Quit popup
-		questionNextButtonQuitPopup = null;
-		//Quit popup table
-		questionNextQuitPopupTable = null;
-		//Restart popup
-		questionNextButtonRestartPopup = null;
-		//Restart popup table
-		questionNextRestartPopupTable = null;
 		questionNextWikipediaView = null;
 		questionNextWikipedia2 = null;
 		closeWikipediaButton = null;
+		questionNextWikipediaBackground = null;
+		questionNextLowerBackgroundBar = null;
+		nextQuestionLabel = null;
 		
 		win.remove(viewQuestionNext);
 	}else {
@@ -724,9 +541,7 @@ function populatePopupRestartTableData(){
 function handleQuestionNextWikipedia(e){
 	
 	//hide the popup
-	questionNextButtonQuitPopup.hide();
  	quitShown=false;
- 	questionNextButtonRestartPopup.hide();
  	restartShown=false;
 	
 	var clickedButton = e.source.clicked;
@@ -792,9 +607,7 @@ function handleQuestionNextButtonNext(){
 	}
 	
 	//hide the popup
-	questionNextButtonQuitPopup.hide();
  	quitShown=false;
- 	questionNextButtonRestartPopup.hide();
  	restartShown=false;
 	
 	var dummyTimeoutValue = 0;
@@ -828,8 +641,6 @@ function handleQuestionNextButtonNext(){
 			if(questionNextPlayerLostLabel != null){
 				questionNextPlayerLostLabel.text = '';
 			}
-			questionNextLabelPlayerNo.top = questionNextLabelPlayerNo.top - QUESTION_NEXT_HEIGHT_OFFSET_FOR_LOST_PLAYER;
-			questionNextLabelPlayerName.top = questionNextLabelPlayerName.top - QUESTION_NEXT_HEIGHT_OFFSET_FOR_LOST_PLAYER;
 		}
 	}, dummyTimeoutValue);	
 	
@@ -854,7 +665,6 @@ function handleQuestionNextQuitPopupSelection(e){
 	var selectedQuitOption = e.row.quitOption;
 	
 	//hide the popup
-	questionNextButtonQuitPopup.hide();
  	quitShown=false;
  	
  	questionNextButtonRestart.show();
@@ -866,7 +676,6 @@ function handleQuestionNextRestartPopupSelection(e){
 	var selectedRestartOption = e.row.restartOption;
 	
 	//hide the popup and show the other buttons again
-	questionNextButtonRestartPopup.hide();
  	restartShown=false;
  	
  	questionNextButtonQuit.show();
