@@ -24,7 +24,6 @@ viewProfile.addEventListener('myProfile', function(e) {
 		myFacebookImage = 'http://graph.facebook.com/'+fbId+'/picture?height=130&width=130';
 	}
 	
-	friendImage.image = myFacebookImage;
 	playerData = e.profileHighScores;
 	profileDataInfo = e.profileData;
 	displayProfileData(playerData,profileDataInfo);
@@ -52,24 +51,27 @@ backHomeFromProfileButton.addEventListener('click', function() {
 viewProfile.add(backHomeFromProfileButton);
 
 //Profile view UI components
-var iconImageProfile = null;
-var barImageProfile = null;
-var iconReflectionImageProfile = null;
-var titleImageProfile = null;
-var topBackground = null;
 var nameLabelValue = null;
-var friendImage = null;
-var tagEpitixiaImage = null;
-var tagParasimaImage = null;
-var tagTopScoreImage = null;
 var topScoreLabelValue = null;
 var badgesLabelValue = null;
-var successPercentageValue = null;
 var tableViewDetails = null;
-var highScoresLabel = null;
+
+var profileTitleBackgroundBar = null;
+var profileLogoImage = null;
+var profileTitleLabel = null;
+var profileMiddleBackgroundBar = null;
+var profileLeftSepparator = null;
+var profileRightSepparator = null;
+var profileGamesLabel = null;
+var profileGamesBackground = null;
+var gamesLabelValue = null;
+var profileBadgesLabel = null;
+var profileBadgesBackground = null;
+var profileTopScoreLabel = null;
+var profileTopScoreBackground = null;
 
 function buildProfileView(){
-	var shouldCreateView = highScoresLabel == null;
+	var shouldCreateView = profileLogoImage == null;
 	if(shouldCreateView){
 		VIEWING_PROFILE = true;
 		
@@ -83,7 +85,7 @@ function buildProfileView(){
 		profileTitleBackgroundBar.add(backHomeFromProfileButton);
 		
 		//logo image
-		var profileLogoImage = Titanium.UI.createImageView({
+		profileLogoImage = Titanium.UI.createImageView({
 			image:IMAGE_PATH+'profile/profile_icon.png',
 			top:20,
 			right:28
@@ -91,7 +93,7 @@ function buildProfileView(){
 		profileTitleBackgroundBar.add(profileLogoImage);
 		
 		//Name Label value
-		var profileTitleLabel = Titanium.UI.createLabel({
+		profileTitleLabel = Titanium.UI.createLabel({
 			text:'ΠΡΟΦΙΛ',
 			color:'white',
 			top:103,
@@ -111,7 +113,7 @@ function buildProfileView(){
 		viewProfile.add(nameLabelValue);
 		
 		//middle background bar
-		var profileMiddleBackgroundBar = Titanium.UI.createView({
+		profileMiddleBackgroundBar = Titanium.UI.createView({
 			backgroundColor:'5e9fd5',
 			height:173,
 			top:353
@@ -119,7 +121,7 @@ function buildProfileView(){
 		viewProfile.add(profileMiddleBackgroundBar);
 		
 		//left sepparator on middle bar
-		var profileLeftSepparator = Titanium.UI.createView({
+		profileLeftSepparator = Titanium.UI.createView({
 			backgroundColor:'white',
 			width:2,
 			height:89,
@@ -129,7 +131,7 @@ function buildProfileView(){
 		profileMiddleBackgroundBar.add(profileLeftSepparator);
 		
 		//right sepparator on middle bar
-		var profileRightSepparator = Titanium.UI.createView({
+		profileRightSepparator = Titanium.UI.createView({
 			backgroundColor:'white',
 			width:2,
 			height:89,
@@ -139,7 +141,7 @@ function buildProfileView(){
 		profileMiddleBackgroundBar.add(profileRightSepparator);
 		
 		//Games label
-		var profileGamesLabel = Titanium.UI.createLabel({
+		profileGamesLabel = Titanium.UI.createLabel({
 			text:'ΠΑΙΧΝΙΔΙΑ',
 			color:'white',
 			textAlign:'left',
@@ -150,7 +152,7 @@ function buildProfileView(){
 		profileMiddleBackgroundBar.add(profileGamesLabel);
 		
 		//left games background on middle bar
-		var profileGamesBackground = Titanium.UI.createView({
+		profileGamesBackground = Titanium.UI.createView({
 			backgroundColor:'transparent',
 			width:255,
 			height:89,
@@ -159,7 +161,7 @@ function buildProfileView(){
 		});
 		
 		//Games played value
-		var gamesLabelValue = Titanium.UI.createLabel({
+		gamesLabelValue = Titanium.UI.createLabel({
 			text:'0',
 			color:'white',
 			textAlign:'center',
@@ -173,7 +175,7 @@ function buildProfileView(){
 		profileMiddleBackgroundBar.add(profileGamesBackground);
 		
 		//Badges label
-		var profileBadgesLabel = Titanium.UI.createLabel({
+		profileBadgesLabel = Titanium.UI.createLabel({
 			text:'ΠΑΡΑΣΗΜΑ',
 			color:'white',
 			textAlign:'left',
@@ -184,13 +186,14 @@ function buildProfileView(){
 		profileMiddleBackgroundBar.add(profileBadgesLabel);
 		
 		//left badges background on middle bar
-		var profileBadgesBackground = Titanium.UI.createView({
+		profileBadgesBackground = Titanium.UI.createView({
 			backgroundColor:'transparent',
 			width:255,
 			height:89,
 			top:55,
 			right:0
 		});
+		profileBadgesBackground.addEventListener('click', goToBadges);
 		
 		//Badges value
 		badgesLabelValue = Titanium.UI.createLabel({
@@ -207,7 +210,7 @@ function buildProfileView(){
 		profileMiddleBackgroundBar.add(profileBadgesBackground);
 		
 		//Top Score label
-		var profileTopScoreLabel = Titanium.UI.createLabel({
+		profileTopScoreLabel = Titanium.UI.createLabel({
 			text:'TOP SCORE',
 			color:'white',
 			textAlign:'center',
@@ -217,12 +220,13 @@ function buildProfileView(){
 		profileMiddleBackgroundBar.add(profileTopScoreLabel);
 		
 		//left badges background on middle bar
-		var profileTopScoreBackground = Titanium.UI.createView({
+		profileTopScoreBackground = Titanium.UI.createView({
 			backgroundColor:'transparent',
 			width:254,
 			height:89,
 			top:55
 		});
+		profileTopScoreBackground.addEventListener('click', goToHighScores);
 		
 		//Top score value
 		topScoreLabelValue = Titanium.UI.createLabel({
@@ -250,127 +254,6 @@ function buildProfileView(){
 		
 		viewProfile.add(tableViewDetails);
 		
-		//High scores label
-		highScoresLabel = Titanium.UI.createLabel({
-			text:'HIGH SCORES',
-			color:'white',
-			left:10,
-			top:500,
-			height:50,
-			font:{fontSize:38, fontWeight:'bold', fontFamily:'321impact'}
-		});
-		
-		//viewProfile.add(highScoresLabel);
-	
-		//Icon image
-		iconImageProfile = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/icon.png',
-			top:16,
-			right:15
-		});
-		
-		//viewProfile.add(iconImageProfile);
-		
-		//Bar image
-		barImageProfile = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/bar.png',
-			top:108
-		});
-		
-		//viewProfile.add(barImageProfile);
-		
-		//Icon image reflection
-		iconReflectionImageProfile = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/icon_r.png',
-			top:1,
-			right:15
-		});
-		
-		//barImageProfile.add(iconReflectionImageProfile);
-		
-		//Title image
-		titleImageProfile = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/title.png',
-			top:49,
-			zIndex:2
-		});
-		
-		//viewProfile.add(titleImageProfile);
-		
-		//Info background
-		topBackground = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/top_bg.png',
-			top:213
-		});
-		
-		//viewProfile.add(topBackground);
-		
-		//topBackground.add(nameLabelValue);
-		
-		//My facebook image
-		friendImage = Ti.UI.createImageView({
-			image:myFacebookImage,
-			defaultImage:IMAGE_PATH+'profile/user_noimage.png',
-			left:33,
-			top:80,
-			borderColor:'white',
-			borderWidth:2
-		});
-		
-		//friendImage.addEventListener('click', goToSettings)
-				
-		//Success tag image
-		tagEpitixiaImage = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/tag_epitixia.png',
-			top:80,
-			left:553
-		});
-		
-		//Success tag image event listener
-		//tagEpitixiaImage.addEventListener('click', showStats);
-		
-		tagParasimaImage = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/tag_parasima.png',
-			top:80,
-			left:368
-		});
-	
-		//Top score tag image
-		tagTopScoreImage = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'profile/tag_topscore.png',
-			top:80,
-			left:183
-		});
-		
-		//Stats Success rate value
-		successPercentageValue = Titanium.UI.createLabel({
-			text:'100%',
-			color:'white',
-			left:553,
-			width:181,
-			top:140,
-			textAlign:'center',
-			height:70,
-			font:{fontSize:50, fontWeight:'bold', fontFamily:'321impact'}
-		});
-		
-		//topBackground.add(friendImage);
-		//topBackground.add(tagEpitixiaImage);
-		//topBackground.add(tagParasimaImage);
-		//topBackground.add(tagTopScoreImage);
-		//topBackground.add(topScoreLabelValue);
-		//topBackground.add(badgesLabelValue);
-		//topBackground.add(successPercentageValue);
-		
-		//Top score tag image event listener
-		tagTopScoreImage.addEventListener('click', goToHighScores);
-		//Top score label event listener
-		topScoreLabelValue.addEventListener('click', goToHighScores);
-		//Event listener for badges
-		tagParasimaImage.addEventListener('click', 	goToBadges);
-		badgesLabelValue.addEventListener('click', goToBadges);
-		successPercentageValue.addEventListener('click', showStats);
-		
 		win.add(viewProfile);
 		
 	} else {
@@ -384,63 +267,57 @@ function destroyProfileView(){
 	
 	viewProfile.animate(anim_out);
 	
-	//Top score tag image event listener
-	tagTopScoreImage.removeEventListener('click', goToHighScores);
 	//Top score label event listener
-	topScoreLabelValue.removeEventListener('click', goToHighScores);
-	//Event listener for badges
-	tagParasimaImage.removeEventListener('click', 	goToBadges);
+	profileTopScoreBackground.removeEventListener('click', goToHighScores);
 	badgesLabelValue.removeEventListener('click', goToBadges);
-	successPercentageValue.removeEventListener('click', showStats);
-	friendImage.removeEventListener('click', goToSettings);
-	//Success tag image event listener
-	tagEpitixiaImage.removeEventListener('click', showStats);
 	
-	topBackground.remove(nameLabelValue);
-	topBackground.remove(friendImage);
-	topBackground.remove(tagEpitixiaImage);
-	topBackground.remove(tagParasimaImage);
-	topBackground.remove(tagTopScoreImage);
-	topBackground.remove(topScoreLabelValue);
-	topBackground.remove(badgesLabelValue);
-	topBackground.remove(successPercentageValue);
+	profileTitleBackgroundBar.remove(backHomeFromProfileButton);
+	profileTitleBackgroundBar.remove(profileLogoImage);
+	profileTitleBackgroundBar.remove(profileTitleLabel);
+	viewProfile.remove(profileTitleBackgroundBar);
 	
-	barImageProfile.remove(iconReflectionImageProfile);
-	viewProfile.remove(barImageProfile);
-	viewProfile.remove(titleImageProfile);
-	viewProfile.remove(topBackground);
-	viewProfile.remove(iconImageProfile);
+	viewProfile.remove(nameLabelValue);
+	viewProfile.remove(profileMiddleBackgroundBar);
+	
+	profileMiddleBackgroundBar.remove(profileLeftSepparator);
+	profileMiddleBackgroundBar.remove(profileRightSepparator);
+	
+	profileMiddleBackgroundBar.remove(profileGamesLabel);
+	profileMiddleBackgroundBar.remove(profileGamesBackground);
+	profileGamesBackground.remove(gamesLabelValue);
+	
+	profileMiddleBackgroundBar.remove(profileBadgesLabel);
+	profileMiddleBackgroundBar.remove(profileBadgesBackground);
+	profileBadgesBackground.remove(badgesLabelValue);
+	
+	profileMiddleBackgroundBar.remove(profileTopScoreLabel);
+	profileMiddleBackgroundBar.remove(profileTopScoreBackground);
+	profileTopScoreBackground.remove(topScoreLabelValue);
+	
 	viewProfile.remove(tableViewDetails);
-	viewProfile.remove(highScoresLabel);
 	
-	highScoresLabel = null;
 	//scores table
 	tableViewDetails = null;
-	//Bar image
-	barImageProfile = null;
-	//Icon image
-	iconImageProfile = null;
-	//Icon image reflection
-	iconReflectionImageProfile = null;
-	//Title image
-	titleImageProfile = null;
-	//Info background
-	topBackground = null;
 	//Name Label value
 	nameLabelValue = null;
-	//My facebook image
-	friendImage = null;
-	//Success tag image
-	tagEpitixiaImage = null;
-	tagParasimaImage = null;
-	//Top score tag image
-	tagTopScoreImage = null;
 	//Top score value
 	topScoreLabelValue = null;
-	//Stats Success rate value
-	successPercentageValue = null;
 	//Badges value
 	badgesLabelValue = null;
+	
+	profileTitleBackgroundBar = null;
+	profileLogoImage = null;
+	profileTitleLabel = null;
+	profileMiddleBackgroundBar = null;
+	profileLeftSepparator = null;
+	profileRightSepparator = null;
+	profileGamesLabel = null;
+	profileGamesBackground = null;
+	gamesLabelValue = null;
+	profileBadgesLabel = null;
+	profileBadgesBackground = null;
+	profileTopScoreLabel = null;
+	profileTopScoreBackground = null;
 	
 	win.remove(viewProfile);
 }
@@ -450,10 +327,14 @@ function goToHighScores(){
 	if(SOUNDS_MODE){
 		audioClick.play();	
 	}
+	var currentCategoryId = CAT_EXFORGE;
 	
-	mtbImport("top_selection.js");
-	buildTopSelectionView();
-	viewTopCategorySelection.animate(anim_in);
+    //show loader view
+    mtbImport("top_view.js");
+    buildTopScoresView(currentCategoryId, false);
+    //Load cached scores so the UI has something to display
+    viewTopCategory.fireEvent('loadScore', {currentCategoryId:currentCategoryId, loadRemoteData:true});    
+    viewTopCategory.animate(anim_in);
 }
 
 /*Shows the Settings screen*/
@@ -483,6 +364,7 @@ function goToBadges(){
 	
 	mtbImport("stars_scroll.js");
 	buildBadgesListView();
+	viewStars.animate(anim_in);
 }
 
 //Stats popup UI components
@@ -739,7 +621,6 @@ function showInfo(d){
 	nameLabelValue.text = d.name;
 	topScoreLabelValue.text = d.maxScore;
 	badgesLabelValue.text = d.badges;
-	successPercentageValue.text = d.successRate + '%';
 }
 
 function displayProfileData(playerData,profileDataInfo){
