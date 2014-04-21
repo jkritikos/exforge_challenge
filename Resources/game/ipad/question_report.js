@@ -22,7 +22,6 @@ var questionReportButton4 = null;
 var questionReportButtonLabel4 = null;
 var questionReportButton5 = null;
 var questionReportButtonLabel5 = null;
-var questionReportSendArrow = null;
 var questionReportSendReportButton = null;
 
 //boolean to see if any choise checked
@@ -33,6 +32,9 @@ var questionReportcheck4 = false;
 var questionReportcheck5 = false;
 //offset for buttons and labels
 var questionReportButtonOffset = null;
+
+var questionReportUpperBackgroundBar = null;
+var questionReportLowerBackgroundBar = null;
 
 var questionReportSubmissionActIndicator = null;
 var validateErrors = 0;
@@ -54,7 +56,7 @@ function buildQuestionReportView(){
 	
 		viewQuestionReport.add(questionReportBackground);
 		
-		var questionReportUpperBackgroundBar = Ti.UI.createView({
+		questionReportUpperBackgroundBar = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:152,
 			top:0
@@ -184,17 +186,8 @@ function buildQuestionReportView(){
 		});
 		
 		questionReportBackground.add(questionReportButtonLabel5);
-		//Send Arrow image
-		questionReportSendArrow = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/send_arrow.png',
-			bottom:53,
-			right:122
-		});
 		
-		//questionReportBackground.add(questionReportSendArrow);
-		questionReportSendArrow.hide();
-		
-		var questionReportLowerBackgroundBar = Ti.UI.createView({
+		questionReportLowerBackgroundBar = Ti.UI.createView({
 			backgroundColor:'0b4b7f',
 			height:257,
 			bottom:0
@@ -253,8 +246,11 @@ function destroyQuestionReportView(){
 		questionReportBackground.remove(questionReportButtonLabel4);
 		questionReportBackground.remove(questionReportButton5);
 		questionReportBackground.remove(questionReportButtonLabel5);
-		questionReportBackground.remove(questionReportSendArrow);
-		viewQuestionReport.remove(questionReportSendReportButton);
+		questionReportLowerBackgroundBar.remove(questionReportSendReportButton);
+		viewQuestionReport.remove(questionReportUpperBackgroundBar);
+		viewQuestionReport.remove(questionReportLowerBackgroundBar);
+		questionReportLowerBackgroundBar.remove(questionReportSendReportButton);
+		questionReportSendReportButton.remove(questionReportSubmissionActIndicator);
 		win.remove(reportWin);
 		
 		reportWin = null;
@@ -269,8 +265,10 @@ function destroyQuestionReportView(){
 		questionReportButtonLabel4 = null;
 		questionReportButton5 = null;
 		questionReportButtonLabel5 = null;
-		questionReportSendArrow = null;
 		questionReportSendReportButton = null;
+		
+		questionReportUpperBackgroundBar = null;
+		questionReportLowerBackgroundBar = null;
 		
 		questionReportcheck1 = false;
 		questionReportcheck2 = false;
@@ -310,10 +308,8 @@ function handleQuestionReportCheckButton(e){
 	}
 	
 	if(validateErrors > 0){
-		questionReportSendArrow.show();
 		questionReportSendReportButton.image = IMAGE_PATH+'report/sending/send.png';
 	}else{
-		questionReportSendArrow.hide();
 		questionReportSendReportButton.image = IMAGE_PATH+'report/sending/report2.png';
 	}
 	
