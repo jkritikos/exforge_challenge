@@ -193,7 +193,7 @@ looserTips.push("Παίζει ρόλο και η τύχη...");
 var MSG_NO_INTERNET_CONNECTION = "Είσαι offline man...";
 var MSG_FB_INVITE_SUCCESS = "Ελήφθη. Όβερ!";
 var MSG_FB_INVITE_FAILURE = "Ουπς, κάτι δεν πήγε καλά...";
-var MSG_FB_INVITE_IN_PROCESS = 'Η πρόσκληση σου διακτινίζεται...'
+var MSG_FB_INVITE_IN_PROCESS = 'Η πρόσκληση σου διακτινίζεται...';
 var FORCE_UPDATE_ALERT_MSG = "Πρέπει να κάνεις ένα γρήγορο update πρώτα και μετά είμαστε έτοιμοι για παιχνίδι.";
 
 //Security server actions

@@ -34,21 +34,17 @@ backHomeTipsButton.addEventListener('click', function() {
 });
 
 //UI components
-var iconImageAbout = null;
-var barImageAbout = null;
-var iconReflectionImageAbout = null;
-var titleImageAbout = null;
-var aboutMenuArrowImage = null;
-
 var tipsTableMenu = null;
 var aboutTableData = null;
+var tipsTitleBackgroundBar = null;
+var tipsTitleLabel = null;
 
 function buildTipsView(){
-	var shouldCreateView = iconImageAbout == null;
+	var shouldCreateView = tipsTitleLabel == null;
 	if(shouldCreateView){
 		
 		//title background bar
-		var tipsTitleBackgroundBar = Titanium.UI.createView({
+		tipsTitleBackgroundBar = Titanium.UI.createView({
 			backgroundColor:'fb494a',
 			height:192,
 			top:0
@@ -57,7 +53,7 @@ function buildTipsView(){
 		tipsTitleBackgroundBar.add(backHomeTipsButton);
 		
 		//Name Label value
-		var tipsTitleLabel = Titanium.UI.createLabel({
+		tipsTitleLabel = Titanium.UI.createLabel({
 			text:'ΟΔΗΓΙΕΣ',
 			color:'white',
 			top:103,
@@ -85,48 +81,6 @@ function buildTipsView(){
 		viewTips.add(tipsTableMenu);
 		tipsTableMenu.addEventListener('click', handleTipsMenuTableClick);
 		
-		//Icon image
-		iconImageAbout = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'about/icon.png',
-			top:16,
-			right:15
-		});
-		
-		//viewAbout.add(iconImageAbout);
-		
-		//Bar image
-		barImageAbout = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'top/bar.png',
-			top:108
-		});
-		
-		//viewAbout.add(barImageAbout);
-		
-		//Icon image reflection
-		iconReflectionImageAbout = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'about/icon_r.png',
-			top:1,
-			right:15
-		});
-		
-		barImageAbout.add(iconReflectionImageAbout);
-		
-		//Title image
-		titleImageAbout = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'about/title.png',
-			top:49,
-			zIndex:2
-		});
-		
-		//viewAbout.add(titleImageAbout);
-		
-		aboutMenuArrowImage = Titanium.UI.createImageView({
-			image:IMAGE_PATH+'about/arrow.png',
-			top:250
-		});
-		
-		//viewAbout.add(aboutMenuArrowImage);
-		
 		win.add(viewTips);
 	} else {
 		Ti.API.warn('NOT building Tips view - already in progress');
@@ -134,29 +88,22 @@ function buildTipsView(){
 }
 
 function destroyTipsView(){
-	var shouldDestroyView = iconImageAbout != null;
+	var shouldDestroyView = tipsTitleLabel != null;
 	if(shouldDestroyView){
 		
 		//Remove listeners
 		tipsTableMenu.removeEventListener('click', handleTipsMenuTableClick);
 		
 		//Remove components
-		barImageAbout.remove(iconReflectionImageAbout);
-		//viewAbout.remove(barImageAbout);
-		//viewAbout.remove(titleImageAbout);
-		//viewAbout.remove(iconImageAbout);
-		//viewAbout.remove(aboutMenuArrowImage);
+		tipsTitleBackgroundBar.remove(backHomeTipsButton);
+		tipsTitleBackgroundBar.remove(tipsTitleLabel);
+		viewTips.remove(tipsTitleBackgroundBar);
 		viewTips.remove(tipsTableMenu);
+		tipsTableMenu.setData(null);
 		
-		//Destroy components
-		barImageAbout = null;
-		iconImageAbout = null;
-		//Icon image reflection
-		iconReflectionImageAbout = null;	
-		//Title image
-		titleImageAbout = null;
-		aboutMenuArrowImage = null;
 		//top menu table
+		tipsTitleBackgroundBar = null;
+		tipsTitleLabel = null;
 		tipsTableMenu = null;
 		aboutTableData = null;
 		
