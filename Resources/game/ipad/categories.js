@@ -142,35 +142,36 @@ function createCategoriesRow(cat){
 	
 	var logo, titleLabel;
 	if(cat == CATEGORY_EXFORGE){
-		backgroundColor = 'fb494a';
+		backgroundImage = IMAGE_PATH+'categories/categ_back/exforge.png';
 		logo = IMAGE_PATH+'categories/categ/1_exforge.png';
 		titleLabel = 'EXFORGE';
 		descriptionLabel = 'Η απόλυτη πρόκληση!';
 	} else if(cat == CATEGORY_EPISTIMI){
-		backgroundColor = '6fb042';
+		backgroundImage = IMAGE_PATH+'categories/categ_back/science.png';
 		logo = IMAGE_PATH+'categories/categ/2_science.png';
 		titleLabel = 'ΕΠΙΣΤΗΜΗ';
 		descriptionLabel = 'Τί βαθμό είχες Φυσική και Χημεία?';
 	} else if(cat == CATEGORY_GEOGRAPHY){
-		backgroundColor = '569bd4';
+		backgroundImage = IMAGE_PATH+'categories/categ_back/geo.png';
 		logo = IMAGE_PATH+'categories/categ/3_geo.png';
 		titleLabel = 'ΓΕΩΓΡΑΦΙΑ';
 		descriptionLabel = 'Όσο ταξιδεύεις, τόσο μαθαίνεις!';
 	} else if(cat == CATEGORY_HISTORY){
-		backgroundColor = 'fb9a01';
+		backgroundImage = IMAGE_PATH+'categories/categ_back/history.png';
 		logo = IMAGE_PATH+'categories/categ/4_history.png';
 		titleLabel = 'ΙΣΤΟΡΙΑ';
 		descriptionLabel = 'Μπες στη μηχανή του χρόνου!';
 	} else if(cat == CATEGORY_SPORT){
-		backgroundColor = '9b52e7';
+		backgroundImage = IMAGE_PATH+'categories/categ_back/sports.png';
 		logo = IMAGE_PATH+'categories/categ/5_sports.png';
 		titleLabel = 'ΑΘΛΗΤΙΚΑ';
 		descriptionLabel = 'Σκόραρε και μπες στην 10άδα!';
 	}
 	
-	var rowBackground =  Titanium.UI.createView({
-		backgroundColor:backgroundColor,
+	var rowBackground =  Titanium.UI.createButton({
+		backgroundImage:backgroundImage,
 		bottom:0,
+		width:768,
 		height:145
 	});
 	
