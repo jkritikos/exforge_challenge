@@ -332,15 +332,15 @@ function handleAwardBadgeShowScoresClick(){
 		viewQuestion.opacity = 0;
 		viewLoader.opacity = 0;
 		
-		if(LOADED_PLAYER2_JS){
-			viewPlayer.opacity = 0;
+		if(LOADED_SIGNIN_JS){
+			viewSignin.opacity = 0;
 		}
 
 		//close game over screen
 		alertViewGameOver.hide();
 		
-		destroyQuestionView();
 		destroyAwardBadgePopup();
+		destroyQuestionView();
 	});
 }
 
@@ -371,92 +371,28 @@ function awardBadgesNotification(playerId, currentCategoryId, currentScore, stat
 		//Single badge, set up badge icon
 		if(categoryBadge == CAT_EXFORGE){
 			awardedBadge1Label.text = BADGE1_LABEL;
-			awardedBadge2Label.text = BADGE1_LABEL;
 		} else if(categoryBadge == CAT_EPISTIMI){
 			awardedBadge1Label.text = BADGE2_LABEL;
-			awardedBadge2Label.text = BADGE2_LABEL;
 		} else if(categoryBadge == CAT_GEOGRAFIA){
 			awardedBadge1Label.text = BADGE3_LABEL;
-			awardedBadge2Label.text = BADGE3_LABEL;
 		} else if(categoryBadge == CAT_ISTORIA){
 			awardedBadge1Label.text = BADGE4_LABEL;
-			awardedBadge2Label.text = BADGE4_LABEL;
 		} else if(categoryBadge == CAT_ATHLITIKA){
 			awardedBadge1Label.text = BADGE5_LABEL;
-			awardedBadge2Label.text = BADGE5_LABEL;
 		}
 		
 		//Single badge, set up stars
 		if(categoryBadgeLevel == 1){
-			awardedBadge1Stars.image = IMAGE_PATH+'stars/1stars.png';
-			awardedBadge2Stars.image = IMAGE_PATH+'stars/1stars.png';
+			awardedBadge1Stars.image = IMAGE_PATH+'stars/1star.png';
 		} else if(categoryBadgeLevel == 2){
 			awardedBadge1Stars.image = IMAGE_PATH+'stars/2stars.png';
-			awardedBadge2Stars.image = IMAGE_PATH+'stars/2stars.png';
 		} else if(categoryBadgeLevel == 3){
 			awardedBadge1Stars.image = IMAGE_PATH+'stars/3stars.png';
-			awardedBadge2Stars.image = IMAGE_PATH+'stars/3stars.png';
 		}
 		
 	}
 	
-	var awardedSpeedBadge = awardSpeedBadge(playerId);
-	if(awardedSpeedBadge != null){
-		totalBadges++;
-		
-		if(!createdUI){
-			buildAwardBadgePopup();
-			createdUI = true;
-		}
-		
-		//Set the speed badge icon according to the number of badges won TODO ?
-		var targetBadgeIconForSpeedBadge = '';
-		//var targetStarIconForSpeedBadge = '';
-		var targetBadgeLabelForSpeedBadge = '';
-		
-		if(totalBadges == 1){
-			//targetBadgeIconForSpeedBadge = awardedBadge1;
-			targetStarIconForSpeedBadge = awardedBadge1Stars;
-			targetBadgeLabelForSpeedBadge = awardedBadge1Label;
-		} else if(totalBadges == 2){
-			targetStarIconForSpeedBadge = awardedBadge3Stars;
-			targetBadgeLabelForSpeedBadge = awardedBadge3Label;
-		}
-		
-		if(awardedSpeedBadge == 1){
-			targetStarIconForSpeedBadge.image = IMAGE_PATH+'stars/1stars.png';
-		} else if(awardedSpeedBadge == 2){
-			targetStarIconForSpeedBadge.image = IMAGE_PATH+'stars/2stars.png';
-		} else if(awardedSpeedBadge == 3){
-			targetStarIconForSpeedBadge.image = IMAGE_PATH+'stars/3stars.png';
-		}
-		//targetBadgeIconForSpeedBadge.image = IMAGE_PATH+'stars/badges/n/badge11.png';
-		targetBadgeLabelForSpeedBadge.text = BADGE11_LABEL;
-	}
-	
-	if(totalBadges == 1){
-		badgeAwardLabel.text = 'ΜΟΛΙΣ ΚΕΡΔΙΣΕΣ 1 ΠΑΡΑΣΗΜΟ!';
-		
-		awardedBadge1Stars.show();
-		awardedBadge1Label.show();
-		
-		awardedBadge2Stars.hide();
-		awardedBadge2Label.hide();
-
-		awardedBadge3Stars.hide();
-		awardedBadge3Label.hide();
-	} else if(totalBadges == 2){
-		badgeAwardLabel.text = 'ΜΟΛΙΣ ΚΕΡΔΙΣΕΣ 2 ΠΑΡΑΣΗΜΑ!';
-		
-		awardedBadge1Stars.hide();
-		awardedBadge1Label.hide();
-		
-		awardedBadge2Stars.show();
-		awardedBadge2Label.show();
-
-		awardedBadge3Stars.show();
-		awardedBadge3Label.show();
-	}
+	badgeAwardLabel.text = 'ΜΟΛΙΣ ΚΕΡΔΙΣΕΣ 1 ΠΑΡΑΣΗΜΟ!';
 	
 	//Animate the badge background image
 	if(totalBadges > 0){

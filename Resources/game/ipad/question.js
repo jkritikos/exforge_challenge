@@ -1612,61 +1612,48 @@ function handleClickAnswerA(){
 		//Blink the selected answer
 		var blinkCounter = 0;
 		var on = false;
-		var interval = setInterval(function(){
-			blinkCounter++;
-			if(!on){
-				on = true;
-				answerA.image = IMAGE_PATH+'question/answers/pressed.png';
-			} else {
-				on = false;
-				answerA.image = IMAGE_PATH+'question/answers/A.png';
-			}
-			
-			//after some blinks
-			if(blinkCounter == numberOfBlinks){
-				clearInterval(interval);
+		var timeout = setTimeout(function(){
 				
-				//mark user answer as correct/wrong and show outcome
-				if(currentCorrectAnswer == 'a'){
-					answerA.image = IMAGE_PATH+'question/answers/A.png';
-					//labelQuestion.opacity = 0.5;
-					
-					answerB.opacity = 0.3;
-					answerC.opacity = 0.3;
-					answerD.opacity = 0.3;
-					
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultCorrect.show();
-					
-					resultCorrect.animate(scaleAnimationAnswer, function(){
-                        resultCorrect.animate(scaleAnimationAnswerInverse);
-                    });
-					
-					correctAnswer();
-				} else {
-					answerA.image = IMAGE_PATH+'question/answers/wrong.png';
-					//labelQuestion.opacity = 0.5;
-					
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultWrong.show();
-					
-					answerB.opacity = 0.3;
-					answerC.opacity = 0.3;
-					answerD.opacity = 0.3;
-					
-					resultWrong.animate(scaleAnimationAnswer, function(){
-	                    resultWrong.animate(scaleAnimationAnswerInverse);
-	                });
-					
-					wrongAnswer(false);
-					
-					//highlight correct answer
-					currentCorrectAnswerImage.opacity = 1;
-					currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
-				}
+			//mark user answer as correct/wrong and show outcome
+			if(currentCorrectAnswer == 'a'){
+				answerA.image = IMAGE_PATH+'question/answers/A.png';
+				//labelQuestion.opacity = 0.5;
+				
+				answerB.opacity = 0.3;
+				answerC.opacity = 0.3;
+				answerD.opacity = 0.3;
+				
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultCorrect.show();
+				
+				resultCorrect.animate(scaleAnimationAnswer, function(){
+                    resultCorrect.animate(scaleAnimationAnswerInverse);
+                });
+				
+				correctAnswer();
+			} else {
+				answerA.image = IMAGE_PATH+'question/answers/wrong.png';
+				//labelQuestion.opacity = 0.5;
+				
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultWrong.show();
+				
+				answerB.opacity = 0.3;
+				answerC.opacity = 0.3;
+				answerD.opacity = 0.3;
+				
+				resultWrong.animate(scaleAnimationAnswer, function(){
+                    resultWrong.animate(scaleAnimationAnswerInverse);
+                });
+				
+				wrongAnswer(false);
+				
+				//highlight correct answer
+				currentCorrectAnswerImage.opacity = 1;
+				currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
 			}
 			
-		},400);
+		},1500);
 		ANSWERS_ENABLED = false;
 	}
 }
@@ -1685,59 +1672,45 @@ function handleClickAnswerB(){
 		//Blink the selected answer
 		var blinkCounter = 0;
 		var on = false;
-		var interval = setInterval(function(){
-			blinkCounter++;
-			if(!on){
-				on = true;
-				answerB.image = IMAGE_PATH+'question/answers/pressed.png';
-			} else {
-				on = false;
+		var timeout = setTimeout(function(){
+			
+			//mark user answer as correct/wrong and show outcome
+			if(currentCorrectAnswer == 'b'){
 				answerB.image = IMAGE_PATH+'question/answers/B.png';
-			}
-			
-			//after some blinks
-			if(blinkCounter == numberOfBlinks){
-				clearInterval(interval);
 				
-				//mark user answer as correct/wrong and show outcome
-				if(currentCorrectAnswer == 'b'){
-					answerB.image = IMAGE_PATH+'question/answers/B.png';
-					
-					answerA.opacity = 0.3;
-					answerC.opacity = 0.3;
-					answerD.opacity = 0.3;
-					
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultCorrect.show();
-					
-					resultCorrect.animate(scaleAnimationAnswer, function(){
-                        resultCorrect.animate(scaleAnimationAnswerInverse);
-                    });
-                    
-					correctAnswer();
-				} else {
-					answerB.image = IMAGE_PATH+'question/answers/wrong.png';
-					
-					answerA.opacity = 0.3;
-					answerC.opacity = 0.3;
-					answerD.opacity = 0.3;
-					
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultWrong.show();
-					
-					resultWrong.animate(scaleAnimationAnswer, function(){
-	                    resultWrong.animate(scaleAnimationAnswerInverse);
-	                });
-	                
-					wrongAnswer(false);
-					
-					//highlight correct answer
-					currentCorrectAnswerImage.opacity = 1;
-					currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
-				}
+				answerA.opacity = 0.3;
+				answerC.opacity = 0.3;
+				answerD.opacity = 0.3;
+				
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultCorrect.show();
+				
+				resultCorrect.animate(scaleAnimationAnswer, function(){
+                    resultCorrect.animate(scaleAnimationAnswerInverse);
+                });
+                
+				correctAnswer();
+			} else {
+				answerB.image = IMAGE_PATH+'question/answers/wrong.png';
+				
+				answerA.opacity = 0.3;
+				answerC.opacity = 0.3;
+				answerD.opacity = 0.3;
+				
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultWrong.show();
+				
+				resultWrong.animate(scaleAnimationAnswer, function(){
+                    resultWrong.animate(scaleAnimationAnswerInverse);
+                });
+                
+				wrongAnswer(false);
+				
+				//highlight correct answer
+				currentCorrectAnswerImage.opacity = 1;
+				currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
 			}
-			
-		},400);
+		},1500);
 		ANSWERS_ENABLED = false;
 	}
 }
@@ -1756,59 +1729,45 @@ function handleClickAnswerC(){
 		//Blink the selected answer
 		var blinkCounter = 0;
 		var on = false;
-		var interval = setInterval(function(){
-			blinkCounter++;
-			if(!on){
-				on = true;
-				answerC.image = IMAGE_PATH+'question/answers/pressed.png';
-			} else {
-				on = false;
+		var timeout = setTimeout(function(){
+			
+			//mark user answer as correct/wrong and show outcome
+			if(currentCorrectAnswer == 'c'){
 				answerC.image = IMAGE_PATH+'question/answers/C.png';
-			}
-			
-			//after some blinks
-			if(blinkCounter == numberOfBlinks){
-				clearInterval(interval);
 				
-				//mark user answer as correct/wrong and show outcome
-				if(currentCorrectAnswer == 'c'){
-					answerC.image = IMAGE_PATH+'question/answers/C.png';
-					
-					answerB.opacity = 0.3;
-					answerA.opacity = 0.3;
-					answerD.opacity = 0.3;					
+				answerB.opacity = 0.3;
+				answerA.opacity = 0.3;
+				answerD.opacity = 0.3;					
 
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultCorrect.show();
-					
-					resultCorrect.animate(scaleAnimationAnswer, function(){
-                        resultCorrect.animate(scaleAnimationAnswerInverse);
-                    });
-                    
-					correctAnswer();
-				} else {
-					answerC.image = IMAGE_PATH+'question/answers/wrong.png';
-					
-					answerB.opacity = 0.3;
-					answerA.opacity = 0.3;
-					answerD.opacity = 0.3;
-					
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultWrong.show();
-					
-					resultWrong.animate(scaleAnimationAnswer, function(){
-	                    resultWrong.animate(scaleAnimationAnswerInverse);
-	                });
-	                
-					wrongAnswer(false);
-					
-					//highlight correct answer
-					currentCorrectAnswerImage.opacity = 1;
-					currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
-				}
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultCorrect.show();
+				
+				resultCorrect.animate(scaleAnimationAnswer, function(){
+                    resultCorrect.animate(scaleAnimationAnswerInverse);
+                });
+                
+				correctAnswer();
+			} else {
+				answerC.image = IMAGE_PATH+'question/answers/wrong.png';
+				
+				answerB.opacity = 0.3;
+				answerA.opacity = 0.3;
+				answerD.opacity = 0.3;
+				
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultWrong.show();
+				
+				resultWrong.animate(scaleAnimationAnswer, function(){
+                    resultWrong.animate(scaleAnimationAnswerInverse);
+                });
+                
+				wrongAnswer(false);
+				
+				//highlight correct answer
+				currentCorrectAnswerImage.opacity = 1;
+				currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
 			}
-			
-		},400);
+		},1500);
 		ANSWERS_ENABLED = false;
 	}
 }
@@ -1827,59 +1786,45 @@ function handleClickAnswerD(){
 		//Blink the selected answer
 		var blinkCounter = 0;
 		var on = false;
-		var interval = setInterval(function(){
-			blinkCounter++;
-			if(!on){
-				on = true;
-				answerD.image = IMAGE_PATH+'question/answers/pressed.png';
-			} else {
-				on = false;
+		var timeout = setTimeout(function(){
+			
+			//mark user answer as correct/wrong and show outcome
+			if(currentCorrectAnswer == 'd'){
 				answerD.image = IMAGE_PATH+'question/answers/D.png';
-			}
-			
-			//after some blinks
-			if(blinkCounter == numberOfBlinks){
-				clearInterval(interval);
 				
-				//mark user answer as correct/wrong and show outcome
-				if(currentCorrectAnswer == 'd'){
-					answerD.image = IMAGE_PATH+'question/answers/D.png';
-					
-					answerB.opacity = 0.3;
-					answerC.opacity = 0.3;
-					answerA.opacity = 0.3;
-					
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultCorrect.show();
-					
-					resultCorrect.animate(scaleAnimationAnswer, function(){
-                        resultCorrect.animate(scaleAnimationAnswerInverse);
-                    });
-					
-					correctAnswer();
-				} else {
-					answerD.image = IMAGE_PATH+'question/answers/wrong.png';
-					
-					answerB.opacity = 0.3;
-					answerC.opacity = 0.3;
-					answerA.opacity = 0.3;
-					
-					bg.image = IMAGE_PATH+'question/question_back2.png';
-					resultWrong.show();
-					
-					resultWrong.animate(scaleAnimationAnswer, function(){
-	                    resultWrong.animate(scaleAnimationAnswerInverse);
-	                });
-					
-					wrongAnswer(false);
-					
-					//highlight correct answer
-					currentCorrectAnswerImage.opacity = 1;
-					currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
-				}
+				answerB.opacity = 0.3;
+				answerC.opacity = 0.3;
+				answerA.opacity = 0.3;
+				
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultCorrect.show();
+				
+				resultCorrect.animate(scaleAnimationAnswer, function(){
+                    resultCorrect.animate(scaleAnimationAnswerInverse);
+                });
+				
+				correctAnswer();
+			} else {
+				answerD.image = IMAGE_PATH+'question/answers/wrong.png';
+				
+				answerB.opacity = 0.3;
+				answerC.opacity = 0.3;
+				answerA.opacity = 0.3;
+				
+				bg.image = IMAGE_PATH+'question/question_back2.png';
+				resultWrong.show();
+				
+				resultWrong.animate(scaleAnimationAnswer, function(){
+                    resultWrong.animate(scaleAnimationAnswerInverse);
+                });
+				
+				wrongAnswer(false);
+				
+				//highlight correct answer
+				currentCorrectAnswerImage.opacity = 1;
+				currentCorrectAnswerImage.image = currentCorrectAnswerImagePath;
 			}
-			
-		},400);
+		},1500);
 		ANSWERS_ENABLED = false;
 	}
 }

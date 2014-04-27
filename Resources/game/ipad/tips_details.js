@@ -104,6 +104,7 @@ function buildTipsDetails(tipType){
 			data:[],
 			backgroundColor:'transparent',
 			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
+			allowsSelection: false,
 			top:336,
 			bottom:20
 		});
@@ -168,7 +169,7 @@ function destroyTipsDetails(){
 function buildTipsDetailsTableRow(rowText){
 	var row1 = Ti.UI.createTableViewRow({
 		height:'auto',
-		className:'TIPS_DETAILS_ROW',
+		className:'TIPS_DETAILS_ROW'
 	});
 	
 	var textLabel = Ti.UI.createLabel({

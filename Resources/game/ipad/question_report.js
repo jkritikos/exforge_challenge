@@ -66,10 +66,11 @@ function buildQuestionReportView(){
 		//close view x button
 		questionReportCloseImage = Ti.UI.createButton({
 			backgroundImage:IMAGE_PATH+'top/invite_x.png',
-			top:45,
+			top:5,
 			right:69,
 			width:78,
-			height:76
+			height:76,
+			zIndex:3
 		});
 		
 		viewQuestionReport.add(questionReportCloseImage);
@@ -205,7 +206,8 @@ function buildQuestionReportView(){
 		
 		questionReportSubmissionActIndicator = Ti.UI.createActivityIndicator({
 			style:Titanium.UI.iPhone.ActivityIndicatorStyle.BIG,
-			bottom:77
+			bottom:101,
+			right:60
 		});
 		questionReportSendReportButton.add(questionReportSubmissionActIndicator);
 		

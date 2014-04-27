@@ -117,10 +117,11 @@ function buildPlayerLoginView(){
 		
 		signinTextField = Titanium.UI.createTextField({
 			value:playerName,
+			color:'white',
 			left:158,
 			height:110,
 			width:622,
-			enabled: true,//Titanium.Facebook.loggedIn ? false : true,
+			enabled: true,
 			font:{fontSize:35, fontWeight:'regular'}
 		});
 		
@@ -278,6 +279,6 @@ function handleButtonStartEvent(){
 		});
 		
 	} else {
-		alert('You need to choose a name!');//TODO
+		alert('Πρέπει να επιλέξεις το όνομα σου.');
 	}
 }
