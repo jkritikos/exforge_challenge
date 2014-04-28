@@ -262,7 +262,7 @@ function handleCategorySelection(e){
     
     if(e.row.available){
     	if(Titanium.Network.online == true && NEW_CONTENT_AVAILABLE && shouldRenderPopup){
-			buildPopupContentUpdate();
+			buildPopupContentUpdate(categoryId);
 			NEW_CONTENT_POPUP_COUNTER = 0;
 	    } else {
 	    	//Increment the content update bypass counter
