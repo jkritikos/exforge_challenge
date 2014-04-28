@@ -27,6 +27,8 @@ if(!isIpad && Ti.Platform.displayCaps.platformHeight == 568){
 	IPHONE5 = true;	
 }
 
+var PLATFORM_HEIGHT = Ti.Platform.displayCaps.platformHeight;
+
 var IMAGE_PATH = 'images/iphone/';
 var BUZZ_PATH = 'game/iphone/';
 

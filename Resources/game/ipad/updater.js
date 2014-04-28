@@ -30,6 +30,7 @@ function buildPopupContentUpdate(catId){
 			backgroundColor:'white',
             width:'100%',
             height:'100%',
+            top:PLATFORM_HEIGHT + 100,
             bottom:0,
             left:0,
             right:0,
@@ -68,7 +69,7 @@ function buildPopupContentUpdate(catId){
 			text:'ΥΠΕΝΘΥΜΙΣΗ ΓΙΑ ΑΡΓΟΤΕΡΑ',
 			color:'white',
 			textAlign:'center',
-			font:{fontSize:33, fontWeight:'regular', fontFamily:'Myriad Pro'},
+			font:{fontSize:36, fontWeight:'regular', fontFamily:'Myriad Pro'},
 			top:33
 		});
         
@@ -82,7 +83,7 @@ function buildPopupContentUpdate(catId){
         var topBarLabel1 = Ti.UI.createLabel({
             text:'ΝΕΕΣ ΕΡΩΤΗΣΕΙΣ!',
 			color:'white',
-			top:103,
+			top:88,
 			font:{fontSize:64, fontWeight:'bold', fontFamily:'Myriad Pro'}
         });
         
@@ -103,18 +104,16 @@ function buildPopupContentUpdate(catId){
 			text:'MORE QUESTIONS',
 			color:'#0b4b7f',
 			textAlign:'center',
-			width:250,
-			font:{fontSize:31, fontWeight:'regular', fontFamily:'Myriad Pro'},
-			top:281
+			font:{fontSize:35, fontWeight:'regular', fontFamily:'Myriad Pro'},
+			top:278
 		});
 		
 		updaterPopupLabel2 = Ti.UI.createLabel({
 			text:'MORE PLAY',
 			color:'#0b4b7f',
 			textAlign:'center',
-			width:250,
-			font:{fontSize:50, fontWeight:'regular', fontFamily:'Myriad Pro'},
-			top:322
+			font:{fontSize:54, fontWeight:'regular', fontFamily:'Myriad Pro'},
+			top:318
 		});
 		
 		updaterPopupLabel3 = Ti.UI.createLabel({
@@ -156,7 +155,7 @@ function buildPopupContentUpdate(catId){
 		});
 		
 		updaterAnimationBox1 = Ti.UI.createView({
-            backgroundColor:'#8ec63d',
+            backgroundColor:'fb494a',
             width:42,
             height:42,
             left:'32%',
@@ -164,7 +163,7 @@ function buildPopupContentUpdate(catId){
         });
         
         updaterAnimationBox2 = Ti.UI.createView({
-            backgroundColor:'#5e9fd5',
+            backgroundColor:'6fb042',
             width:42,
             height:42,
             left:'42%',
@@ -172,7 +171,7 @@ function buildPopupContentUpdate(catId){
         });
         
         updaterAnimationBox3 = Ti.UI.createView({
-            backgroundColor:'#d275ac',
+            backgroundColor:'569bd4',
             width:42,
             height:42,
             left:'52%',
@@ -180,7 +179,7 @@ function buildPopupContentUpdate(catId){
         });
         
         updaterAnimationBox4 = Ti.UI.createView({
-            backgroundColor:'#fbc11f',
+            backgroundColor:'fb9a01',
             width:42,
             height:42,
             left:'62%',
@@ -261,7 +260,11 @@ function closePopupContentUpdate(){
 		audioBack.play();
 	}
 	
-	destroyPopupContentUpdate();  
+	NEW_CONTENT_POPUP_COUNTER++;
+	
+	updaterPopupBackgroundImage.animate({top:PLATFORM_HEIGHT+100, duration:300}, function(){
+	   destroyPopupContentUpdate();    
+	}); 
 }
 
 
