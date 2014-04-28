@@ -34,7 +34,7 @@ function buildPopupContentUpdate(catId){
 	if(shouldCreateView){
 		//popup background
 		updaterPopupBackgroundImage = Ti.UI.createImageView({
-			backgroundColor:'white',
+			image:IMAGE_PATH+'signin/background.jpg',
             width:'100%',
             height:'100%',
             top:PLATFORM_HEIGHT + 100,

@@ -63,11 +63,10 @@ function buildQuestionNextView(){
 		});
 		
 		//Wikipedia image
-		questionNextWikipedia = Ti.UI.createButton({
-			backgroundImage:IMAGE_PATH+'question_next/w.png',
+		questionNextWikipedia = Ti.UI.createImageView({
+			image:IMAGE_PATH+'question_next/w.png',
 			top:45,
-			width:113,
-			height:72
+			clicked:'wikipedia'
 		});
 		
 		questionNextWikipediaBackground.add(questionNextWikipedia);
