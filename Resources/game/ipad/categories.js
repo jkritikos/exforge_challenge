@@ -132,11 +132,13 @@ function handleCategoriesBackButton(){
 
 //Creates a single row for the categories table
 function createCategoriesRow(cat){
+	var currentCategoryObject = getCategoryProperties(cat);
 	
 	var row = Ti.UI.createTableViewRow({
 		height:163, 
 		backgroundColor:'transparent',
 		selectedBackgroundColor:'transparent',
+		available:currentCategoryObject.available,
 		categoryId:cat
 	});
 	
@@ -251,11 +253,29 @@ function handleCategorySelection(e){
 	targetCategoryLabel = categoryPropeties.name;
 	
     var shouldRenderPopup = false;
+    //if the popup has never been shown OR if you have played more times than we allow
+	if(NEW_CONTENT_POPUP_COUNTER == 0 || (NEW_CONTENT_POPUP_COUNTER > 0 && NEW_CONTENT_POPUP_COUNTER >= NEW_CONTENT_POPUP_MAX_DECLINES_ALLOWED)){
+		shouldRenderPopup = true;
+	}
+    	
+	Ti.API.info('NEW_CONTENT_AVAILABLE='+NEW_CONTENT_AVAILABLE+' shouldRenderPopup is '+shouldRenderPopup+" because NEW_CONTENT_POPUP_COUNTER="+NEW_CONTENT_POPUP_COUNTER);
     
-    //START game
-    viewLoader.fireEvent('loaderStart', {currentCategoryIcon:targetCategoryIcon, currentCategoryLabel:targetCategoryLabel, categoryId:categoryId});
-    fadeIntroAudioOut();
-    viewLoader.animate({opacity:1, duration:400}, function(){
-    	destroyCategoriesView();
-    });
+    if(e.row.available){
+    	if(Titanium.Network.online == true && NEW_CONTENT_AVAILABLE && shouldRenderPopup){
+			buildPopupContentUpdate();
+			NEW_CONTENT_POPUP_COUNTER = 0;
+	    } else {
+	    	//Increment the content update bypass counter
+			if(NEW_CONTENT_AVAILABLE){
+				NEW_CONTENT_POPUP_COUNTER++;
+			}
+	    	
+		    //START game
+		    viewLoader.fireEvent('loaderStart', {currentCategoryIcon:targetCategoryIcon, currentCategoryLabel:targetCategoryLabel, categoryId:categoryId});
+		    fadeIntroAudioOut();
+		    viewLoader.animate({opacity:1, duration:400}, function(){
+		    	destroyCategoriesView();
+		    });
+	    }
+    }
 }

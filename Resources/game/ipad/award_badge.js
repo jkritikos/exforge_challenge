@@ -101,19 +101,19 @@ function buildAwardBadgePopup(){
 	var badgeAwardBannerImage = null;
 	var badgeAwardUpperBarColor = null;
 		
-	if(selectedCategId == 1){
+	if(selectedCategId == CAT_EXFORGE){
 		badgeAwardBannerImage = IMAGE_PATH+'game_over/icon_exforge.png';
 		badgeAwardUpperBarColor = 'fb494a'; 
-	}else if(selectedCategId == 2){
+	}else if(selectedCategId == CAT_EPISTIMI){
 		badgeAwardBannerImage = IMAGE_PATH+'game_over/icon_science.png';
 		badgeAwardUpperBarColor = '6fb042'; 
-	}else if(selectedCategId == 3){
+	}else if(selectedCategId == CAT_GEOGRAFIA){
 		badgeAwardBannerImage = IMAGE_PATH+'game_over/icon_geo.png';
 		badgeAwardUpperBarColor = '569bd4'; 
-	}else if(selectedCategId == 4){
+	}else if(selectedCategId == CAT_ISTORIA){
 		badgeAwardBannerImage = IMAGE_PATH+'game_over/icon_history.png';
 		badgeAwardUpperBarColor = 'fb9a01'; 
-	}else if(selectedCategId == 5){
+	}else if(selectedCategId == CAT_ATHLITIKA){
 		badgeAwardBannerImage = IMAGE_PATH+'game_over/icon_sports.png';
 		badgeAwardUpperBarColor = '9b52e7'; 
 	}

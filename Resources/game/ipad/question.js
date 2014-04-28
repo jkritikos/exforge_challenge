@@ -494,19 +494,19 @@ function buildQuestionView(defaultQuestionBanner){
 		var gameOverBannerImage = null;
 		var gameOverUpperBarColor = null;
 		
-		if(selectedCategId == 1){
+		if(selectedCategId == CAT_EXFORGE){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_exforge.png';
 			gameOverUpperBarColor = 'fb494a'; 
-		}else if(selectedCategId == 2){
+		}else if(selectedCategId == CAT_EPISTIMI){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_science.png';
 			gameOverUpperBarColor = '6fb042'; 
-		}else if(selectedCategId == 3){
+		}else if(selectedCategId == CAT_GEOGRAFIA){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_geo.png';
 			gameOverUpperBarColor = '569bd4'; 
-		}else if(selectedCategId == 4){
+		}else if(selectedCategId == CAT_ISTORIA){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_history.png';
 			gameOverUpperBarColor = 'fb9a01'; 
-		}else if(selectedCategId == 5){
+		}else if(selectedCategId == CAT_ATHLITIKA){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_sports.png';
 			gameOverUpperBarColor = '9b52e7'; 
 		}

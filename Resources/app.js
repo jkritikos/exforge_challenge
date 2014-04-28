@@ -265,6 +265,8 @@ var SOUNDS_MODE = getSoundsMode();
 var SCALE_ZERO = Ti.UI.create2DMatrix().scale(0);
 var SCALE_ONE = Ti.UI.create2DMatrix().scale(1.0);
 
+var SCALE_UP = Ti.UI.create2DMatrix().scale(1.1);
+
 //Get persisted player, if exists
 var playerObject = getCurrentPlayer();
 var playerName = playerObject.name;
