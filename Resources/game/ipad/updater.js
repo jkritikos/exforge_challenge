@@ -242,7 +242,7 @@ function buildPopupContentUpdate(catId){
 		updaterPopupBackgroundImage.add(updaterPlayNowBar);
 		
 		updateCompletedImage.hide();
-		//updaterPlayNowBar.hide();
+		updaterPlayNowBar.hide();
 		
 		updaterPopupDownloadButton.addEventListener('click', downloadUpdate);
 		
