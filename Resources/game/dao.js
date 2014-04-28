@@ -52,6 +52,9 @@ var CAT_GEOGRAFIA = 3;
 var CAT_ATHLITIKA = 4;
 var CAT_ISTORIA = 6;
 
+
+var CAT_EVERYTHING = 0;
+
 //Rest for badges
 var CAT_SPEED = 11;
 var CAT_ALL = 12;
@@ -327,6 +330,12 @@ function getCategoryProperties(id){
 			tag:IMAGE_PATH+'top/tags/sports.png',
 			square:IMAGE_PATH+'top/categ_popup/sports.png',
 			available:true
+		};
+	} else if(id == CAT_EVERYTHING){
+		obj = {
+			name:'ΟΛΕΣ ΟΙ ΚΑΤΗΓΟΡΙΕΣ',
+			tag:IMAGE_PATH+'top/tags/all.png',
+			square:IMAGE_PATH+'top/categ_popup/all.png'
 		};
 	}
 	
@@ -2026,7 +2035,14 @@ function getHighScores(categoryId){
 	var db = Ti.Database.install('buzz_db.sqlite', 'db');
 	//var rows = db.execute('select p.name, s.score, s.name from scores s left join players p on(p.id=s.player_id) where s.category_id=? order by s.score desc limit 10', categoryId);
 	//var rows = db.execute('select distinct(p.id), p.name, s.score, s.name from scores s left join players p on(p.id=s.player_id) where s.category_id=? group by p.id order by s.score desc limit 10', categoryId);
-	var rows = db.execute('select max(s.score), s.player_id, s.name from scores s where s.category_id=? group by s.player_id order by s.score desc limit 10', categoryId);
+	
+	//get scores from all categories if categoryId is 0
+	if(categoryId == CAT_EVERYTHING){
+		var rows = db.execute('select max(s.score), s.player_id, s.name from scores s group by s.player_id order by s.score desc limit 10');
+	}else{
+		var rows = db.execute('select max(s.score), s.player_id, s.name from scores s where s.category_id=? group by s.player_id order by s.score desc limit 10', categoryId);
+	}
+	
 	
 	var highScores = [];
 	var i = 0;

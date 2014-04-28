@@ -4,11 +4,7 @@ var badgeAwardCloseImage = null;
 var badgeAwardLabel = null;
 var awardedBadge1 = null;
 var awardedBadge1Stars = null;
-var awardedBadge2Stars = null;
-var awardedBadge3Stars = null;
 var awardedBadge1Label = null;
-var awardedBadge2Label = null;
-var awardedBadge3Label = null;
 
 var badgeAwardTitleBackground = null;
 var badgeAwardMiddleBox = null;
@@ -171,46 +167,6 @@ function buildAwardBadgePopup(){
 	
 	badgeAwardBackground.add(badgeAwardBottomBackground);
 	
-	//badge 2 stars
-	awardedBadge2Stars = Ti.UI.createImageView({//TODO what are these for?
-		image:IMAGE_PATH+'stars/star_1.png',
-		top:85,
-		left:200,
-		visible:false
-	});
-	
-	//badge 3 stars
-	awardedBadge3Stars = Ti.UI.createImageView({
-		image:IMAGE_PATH+'stars/star_1.png',
-		top:85,
-		right:203,
-		visible:false
-	});
-
-	//badge 2 title
-	awardedBadge2Label = Ti.UI.createLabel({
-		text:'Πορωμένος Μουσικός',
-		color:'white',
-		textAlign:'center',
-		width:180,
-		font:{fontSize:25, fontWeight:'bold', fontFamily:'Myriad Pro'},
-		top:IPHONE5 ? 383 : 705,
-		left:180,
-		visible:false
-	});
-	
-	//badge 3 title
-	awardedBadge3Label = Ti.UI.createLabel({
-		text:'Πορωμένος Μουσικός',
-		color:'white',
-		textAlign:'center',
-		width:180,
-		font:{fontSize:25, fontWeight:'bold', fontFamily:'Myriad Pro'},
-		top:IPHONE5 ? 383 : 705,
-		right:180,
-		visible:false
-	});
-	
 	alertViewGameOver.add(badgeAwardBackground);
 }
 
@@ -266,20 +222,8 @@ function destroyAwardBadgePopup(){
 	//badge 1 stars
 	awardedBadge1Stars = null;
 
-	//badge 2 stars
-	awardedBadge2Stars = null;
-	
-	//badge 3 stars
-	awardedBadge3Stars = null;
-
 	//badge 1 title
 	awardedBadge1Label = null;
-
-	//badge 2 title
-	awardedBadge2Label = null;
-	
-	//badge 3 title
-	awardedBadge3Label = null;
 }
 
 //Event handler for badge award popup close

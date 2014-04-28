@@ -1279,11 +1279,6 @@ function displayGameOver(){
 	var gameOverStats = winningPlayer.totalCorrectAnswers + '/' + (winningPlayer.questionIndex) + ' ερωτήσεις';
 	gameOverQuestionStats.text = gameOverStats;
 	
-	//Adjust Gameover UI
-	if(gameOverNoMoreQuestions){//TODO ask jason what will show if has no more questions
-		
-	}
-	
 	alertViewGameOver.show();
 	setGameInProgress(false);
 	gameSession.setGameStarted(false);

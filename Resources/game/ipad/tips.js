@@ -137,10 +137,11 @@ function buildTipsMenuTableRow(type){
 		tipType:type
 	});
 	
-	var rowBackground1 = Ti.UI.createView({
+	var rowBackground1 = Ti.UI.createButton({
+		backgroundImage:IMAGE_PATH+'tips/bluerow.png',
 		height:145,
-		bottom:0,
-		backgroundColor:'0b4b7f'
+		width:768,
+		bottom:0
 	});
 	
 	var rowLogoImage1 = Ti.UI.createImageView({

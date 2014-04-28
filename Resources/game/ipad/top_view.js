@@ -183,6 +183,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		});
 		
 		var scoresCategoriesTableData = [];
+		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_EVERYTHING));
 		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_EXFORGE));
 		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_EPISTIMI));
 		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_GEOGRAFIA));
@@ -637,12 +638,11 @@ function populateScoresReplayTableData(){
 function buildScoresCategorySelectionTableData(categoryId){
 	var categoryProperties = getCategoryProperties(categoryId);
 	var categoryName = categoryProperties.name;
-	var categorySquareImage=categoryProperties.square;
+	var categorySquareImage = categoryProperties.square;
 	
 	var row1 = Ti.UI.createTableViewRow({
 		height:64,
 		selectedBackgroundColor:'transparent',
-		//selectionStyle:Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
 		clickName:categoryId
 	});
 	
@@ -655,7 +655,7 @@ function buildScoresCategorySelectionTableData(categoryId){
 		text:categoryName,
 		color:'white',
 		left:50,
-		bottom:16,
+		bottom:12,
 		font:{fontSize:23, fontWeight:'bold', fontFamily:'Myriad Pro'}
 	});
 	

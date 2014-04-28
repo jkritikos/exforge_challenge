@@ -162,7 +162,7 @@ heartMenuRankingBackground.addEventListener('click', function(){
 	if(SOUNDS_MODE){
 		audioClick.play();	
 	}
-	var currentCategoryId = CAT_EXFORGE;
+	var currentCategoryId = CAT_EVERYTHING;
 	
     //show loader view
     mtbImport("top_view.js");
