@@ -423,7 +423,7 @@ Titanium.Facebook.addEventListener('login', function(e) {
 */
 
 //Modify our schema if needed
-updateSchema();
+//updateSchema();
 
 
 

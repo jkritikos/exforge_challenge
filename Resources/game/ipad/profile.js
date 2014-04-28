@@ -534,7 +534,6 @@ function buildRowsForScore(playerData){
 	var rowGames = '';
 	
 	for(var i=0; i < playerData.length; i++){
-		//Ti.API.info('looping in buildRowsForScore()');
 		rowScore = playerData[i].score != null ? playerData[i].score : 0;
 		rowGames = playerData[i].games != null ? playerData[i].games : 0;
 		
