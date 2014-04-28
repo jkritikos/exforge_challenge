@@ -17,6 +17,13 @@ var updateDownloaderActivityIndicator = null;
 var updateCompletedImage = null;
 var updaterPlayNowBar = null;
 var bottomBackgroundBar = null;
+var topBar = null;
+var updaterBottomRemindMeLabel = null;
+var bottomBar = null;
+var topBarLabel1 = null;
+var updaterBackButton = null;
+var updaterPlayNowLabelAttributes = null;
+var updaterPlayNowLabel = null;
 
 var updaterAnimationBox1, updaterAnimationBox2, updaterAnimationBox3, updaterAnimationBox4, updaterAnimationContainer = null;
 var updaterAnimationRunning = false;
@@ -51,13 +58,13 @@ function buildPopupContentUpdate(catId){
 			updaterBottomColor = '9b52e7'; 
 		}
 		
-		var topBar = Ti.UI.createView({
+		topBar = Ti.UI.createView({
             height:192,
             top:0,
             backgroundColor:'#0b4b7f'
         });
         
-        var bottomBackgroundBar = Ti.UI.createView({
+        bottomBackgroundBar = Ti.UI.createView({
             width:'100%',
             height:132,
             bottom:0,
@@ -65,7 +72,7 @@ function buildPopupContentUpdate(catId){
         });
         bottomBackgroundBar.addEventListener('click', closePopupContentUpdate);
         
-        var updaterBottomRemindMeLabel = Ti.UI.createLabel({
+        updaterBottomRemindMeLabel = Ti.UI.createLabel({
 			text:'ΥΠΕΝΘΥΜΙΣΗ ΓΙΑ ΑΡΓΟΤΕΡΑ',
 			color:'white',
 			textAlign:'center',
@@ -73,14 +80,14 @@ function buildPopupContentUpdate(catId){
 			top:33
 		});
         
-        var bottomBar = Ti.UI.createView({
+        bottomBar = Ti.UI.createView({
             width:'100%',
             height:35,
             bottom:0,
             backgroundColor:updaterBottomColor
         });
         
-        var topBarLabel1 = Ti.UI.createLabel({
+        topBarLabel1 = Ti.UI.createLabel({
             text:'ΝΕΕΣ ΕΡΩΤΗΣΕΙΣ!',
 			color:'white',
 			top:88,
@@ -88,7 +95,7 @@ function buildPopupContentUpdate(catId){
         });
         
         //back button
-		var updaterBackButton = Titanium.UI.createButton({
+		updaterBackButton = Titanium.UI.createButton({
 			backgroundImage:IMAGE_PATH+'categories/back.png',
 			left:30,
 			top:25,
@@ -196,7 +203,7 @@ function buildPopupContentUpdate(catId){
 		updaterPlayNowBar.addEventListener('click', handlePlayNowButton);
 		
 		//play now label attributes
-		var updaterPlayNowLabelAttributes = Titanium.UI.iOS.createAttributedString({
+		updaterPlayNowLabelAttributes = Titanium.UI.iOS.createAttributedString({
 			text:PLAY_NOW_TEXT,
 			attributes:[
 				{
@@ -214,7 +221,7 @@ function buildPopupContentUpdate(catId){
 		});
 		
 		//play now label
-		var updaterPlayNowLabel = Titanium.UI.createLabel({
+		updaterPlayNowLabel = Titanium.UI.createLabel({
 			attributedString:updaterPlayNowLabelAttributes,
 			font:{fontSize:67, fontWeight:'bold', fontFamily:'Arial'},
 			catId:catId
@@ -323,8 +330,22 @@ function destroyPopupContentUpdate(){
 			updaterPopupBackgroundImage.remove(updaterPopupLabelProgress);
 		}
 		
+		topBar.remove(topBarLabel1);
+		topBar.remove(updaterBackButton);
+		updaterPopupBackgroundImage.remove(topBar);
+		bottomBackgroundBar.remove(bottomBar);
+		bottomBackgroundBar.remove(updaterBottomRemindMeLabel);
+		updaterPopupBackgroundImage.remove(bottomBackgroundBar);
+		bottomBackgroundBar.remove(bottomBar);
+		updaterPopupBackgroundImage.remove(updateCompletedImage);
+		updaterPlayNowBar.remove(updaterPlayNowLabel);
+		updaterPopupBackgroundImage.remove(updaterPlayNowBar);
+		
 		//Event handlers
 		updaterPopupDownloadButton.removeEventListener('click', downloadUpdate);
+		bottomBackgroundBar.removeEventListener('click', closePopupContentUpdate);
+		updaterBackButton.removeEventListener('click', closePopupContentUpdate);
+		updaterPlayNowBar.removeEventListener('click', handlePlayNowButton);
 		//Add it to the categories view
 		viewCategories.remove(updaterPopupBackgroundImage);
 		
@@ -336,6 +357,17 @@ function destroyPopupContentUpdate(){
 		updaterPopupLabel4 = null;
 		updaterPopupDownloadButton = null;
 		updaterPopupLabelProgress = null;
+		
+		topBar = null;
+		updaterBottomRemindMeLabel = null;
+		bottomBar = null;
+		topBarLabel1 = null;
+		updaterBackButton = null;
+		updaterPlayNowLabelAttributes = null;
+		updaterPlayNowLabel = null;
+		updateCompletedImage = null;
+		bottomBackgroundBar = null;
+		updaterPlayNowBar = null;
 	} else {
 		Ti.API.warn('NOT destroying ContentPopup view - already in progress');
 	}
@@ -512,17 +544,6 @@ function loadOnlineQuestions(){
 				//Hide progress bar and update UI
 				updaterAnimationRunning = false;
 				updaterAnimationContainer.hide();
-				
-				
-				var playButton = Titanium.UI.createButton({
-                    backgroundImage:IMAGE_PATH+'menu/playB.png',
-                    bottom:IPHONE5 ? 220 : 177,
-                    width:130,
-                    height:130
-                });
-				
-				playButton.addEventListener('click', closePopupContentUpdate);
-				updaterPopupBackgroundImage.add(playButton);
 				
 				updaterPopupLabel4.text = 'UPDATE COMPLETE!';
 				
