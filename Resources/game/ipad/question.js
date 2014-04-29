@@ -727,6 +727,9 @@ function destroyQuestionView(){
 		
 		barImages = [];
 		
+		barLeft = BAR_LEFT_DEFAULT;
+        continueBarAnimation = true;
+		
 		win.remove(viewQuestion);
 	}
 	
@@ -1423,26 +1426,21 @@ var gameOverEvent = function(){
 	var playerName = currentPlayerObj.name;
 	
 	var highestScore = 0;
-	//if(gameSession.getGameType() == BUZZ_GAME_SOLO){
-		//Badges handling
-		mtbImport("award_badge.js");
-		var winningPlayer = gameSession.getWinner();
-		
-		var awardBadgeStats = winningPlayer.totalCorrectAnswers + '/' + (winningPlayer.questionIndex) + ' ερωτήσεις';
-		
-		awardBadgesNotification(playerId, gameSession.getSelectedGameCategoryId(), gameSession.getCurrentPlayer().score, awardBadgeStats);
-		
-		//Save game session
-		saveGameSession(playerId, gameSession.getSelectedGameCategoryId());
-		
-		//Save score
-		saveScore(playerName, playerId, playerRemoteId, gameSession.getSelectedGameCategoryId(), gameSession.getCurrentPlayer().score);
-		highestScore = gameSession.getCurrentPlayer().score;
-	//} else if(gameSession.getGameType() == BUZZ_GAME_GROUP){
-		//Save game session and scores
-		//saveGroupGameSession(gameSession.getSelectedGameCategoryId(), gameSession.getLostPlayers(), gameSession.getGameGroupType());
-		//highestScore = gameSession.getMaxScore();
-	//}
+	
+	//Badges handling
+	mtbImport("award_badge.js");
+	var winningPlayer = gameSession.getWinner();
+	
+	var awardBadgeStats = winningPlayer.totalCorrectAnswers + '/' + (winningPlayer.questionIndex) + ' ερωτήσεις';
+	
+	awardBadgesNotification(playerId, gameSession.getSelectedGameCategoryId(), gameSession.getCurrentPlayer().score, awardBadgeStats);
+	
+	//Save game session
+	saveGameSession(playerId, gameSession.getSelectedGameCategoryId());
+	
+	//Save score
+	saveScore(playerName, playerId, playerRemoteId, gameSession.getSelectedGameCategoryId(), gameSession.getCurrentPlayer().score);
+	highestScore = gameSession.getCurrentPlayer().score;
 	
 	//Set the max score for the game over view
 	gameOverScoreLabelValue.text = highestScore;
