@@ -76,9 +76,9 @@ function buildAwardBadgePopup(){
 	badgeAwardScoreLabelValue = Titanium.UI.createLabel({
 		text:'0',
 		color:'white',
-		bottom:51,
+		bottom:56,
 		height:81,
-		font:{fontSize:110, fontWeight:'bold', fontFamily:'Myriad Pro'}
+		font:{fontSize:115, fontWeight:'bold', fontFamily:'Myriad Pro'}
 	});
 	badgeAwardMiddleBox.add(badgeAwardScoreLabelValue);
 	

@@ -469,9 +469,9 @@ function buildQuestionView(defaultQuestionBanner){
 		gameOverScoreLabelValue = Titanium.UI.createLabel({
 			text:'0',
 			color:'white',
-			bottom:51,
+			bottom:56,
 			height:81,
-			font:{fontSize:110, fontWeight:'bold', fontFamily:'Myriad Pro'}
+			font:{fontSize:115, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		alertViewGameOverMiddleBox.add(gameOverScoreLabelValue);
 		
@@ -1381,7 +1381,6 @@ function quitGame(){
 	//hide stacked views first
 	viewLoader.opacity = 0;
 	viewCategories.opacity = 0;
-	viewQuestionNext.opacity = 0;
 	
 	//reset question obj index
 	currentQIndex = 0;
@@ -1397,6 +1396,7 @@ function quitGame(){
 	
 	//finally, hide the actual game view
 	viewQuestion.opacity = 0;
+	viewQuestionNext.opacity = 0;
 	destroyQuestionView();
 	destroyQuestionNextView();
 	
