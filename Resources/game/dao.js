@@ -5,8 +5,8 @@ if(!PRODUCTION_MODE){
 	UrbanAirship.secret ='xUCXrw0xQq-8fCqXbf7NdA';
 	UrbanAirship.master_secret='qK_-SzSeQP6NA_UQ8g-ENw';
 	UrbanAirship.baseurl = 'https://go.urbanairship.com';
-	//API = 'http://dev.mindthebuzz.com/api/';
-	API = 'http://buzz/api/';
+	API = 'https://exforge.boomar.gr/api/';
+	//API = 'http://buzz/api/';
 } else {
 	UrbanAirship.key='W1NHMmPjR56aHc3u6nu6iA';
 	UrbanAirship.secret ='KBiUUr_mQwKYNmTXX5oVpQ';
@@ -789,6 +789,9 @@ function updatePlayerRemoteId(playerId, remotePlayerId){
 	Ti.API.info('DAO: updatePlayerRemoteId() called with remote id '+remotePlayerId+' for player_id '+playerId);
 	db.execute('UPDATE PLAYERS SET PLAYER_ID=? WHERE ID=?', remotePlayerId, playerId);
 	db.close();
+	
+	//tmp just to test
+	var t = getCurrentPlayer();
 }
 
 /*Checks if the specified column exists in the specified table*/
@@ -1439,14 +1442,16 @@ function savePlayerOnline(playerId, name, facebook_id,gender){
 					updatePlayerRemoteId(playerId, remotePlayerId);
 					
 					//Enable push notifications for PAID version
+					/*
 					if(IS_FREE_APP == 0){
 						registerPushNotifications(remotePlayerId);
-					}
+					}*/
 					
 					//Determine if a content update is needed
 					isContentUpdateNeeded(jsonData.CONTENT_VERSION);
 					
 					handleSecurityAction(jsonData);
+					
 				}
 			};
 			
@@ -1560,6 +1565,23 @@ function removePlayer(){
 	Ti.App.Properties.removeProperty('FACEBOOK_FRIENDS');
 }
 
+function debugPlayers(){
+    var db = Ti.Database.install('buzz_db.sqlite', 'db');
+    var rows = db.execute('select id,player_id,facebook_id,name from PLAYERS');
+    while (rows.isValidRow()){
+        var id = rows.field(0);
+        var playerId = rows.field(1);
+        var facebookId = rows.field(2);
+        var name = rows.field(3);
+        
+        Ti.API.info('DAO: debugPlayers() reads id '+id+' remote id '+playerId+' facebookId ' +facebookId+ ' name '+name);
+        rows.next();
+    }
+    
+    rows.close();
+    db.close();
+}
+
 /*Returns the current player object*/
 function getCurrentPlayer(){
 	var persistedPlayer = '';
@@ -1577,7 +1599,8 @@ function getCurrentPlayer(){
 	
 	if(persistedPlayer != null){
 		var db = Ti.Database.install('buzz_db.sqlite', 'db');
-		var rows = db.execute('select id,player_id,facebook_id from PLAYERS where name=? AND facebook_id=?', persistedPlayer,persistedFacebookId);
+		//var rows = db.execute('select id,player_id,facebook_id from PLAYERS where name=? AND facebook_id=?', persistedPlayer,persistedFacebookId);
+		var rows = db.execute('select id,player_id,facebook_id from PLAYERS where name=?', persistedPlayer);
 		
 		while (rows.isValidRow()){
 			id = rows.field(0);
@@ -1693,6 +1716,8 @@ function saveScoreOnline(lScore, playerRemoteId, categoryId, score){
 
 /*Retrieve the online high sores and store them locally*/
 function getOnlineHighScores(friendString){
+    Ti.API.info('getOnlineHighScores() called with friendString='+friendString);
+    
 	if (Titanium.Network.online == true && !BLACKLISTED){
 		
 		//Update the scores UI if we're on that view
@@ -1877,6 +1902,7 @@ function sync(){
 		
 		//get online scores - get friends first
 		//facebookGetFriendsWithApp();
+		getOnlineHighScores(null);
 		
 		//get 10 unsynced local scores for synced players
 		rows = db.execute('select s.id, p.player_id, s.category_id, s.score from scores s inner join players p on (s.player_id=p.id) where s.sync is null and p.player_id is not null limit 10');

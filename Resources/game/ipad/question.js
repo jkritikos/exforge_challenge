@@ -1459,7 +1459,7 @@ var gameOverEvent = function(){
 	}
 	
 	displayGameOver();    
-}
+};
 
 //Event handler for game over play again button
 function handleGameOverPlayAgainClick(){

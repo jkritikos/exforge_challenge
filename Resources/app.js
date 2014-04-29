@@ -430,8 +430,9 @@ Titanium.Facebook.addEventListener('login', function(e) {
 //updateSchema();
 
 
-
-
+debugPlayers();
+var debugObj = getCurrentPlayer();
+Ti.API.info('player json is '+JSON.stringify(debugObj));
 
 //TMP DEBUG
 //Ti.include('game/tester.js');
