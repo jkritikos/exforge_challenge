@@ -2261,34 +2261,17 @@ function saveBadge(playerId, level, badgeId){
 	var db = Ti.Database.install('buzz_db.sqlite', 'db');
 	db.execute('UPDATE BADGES SET LEVEL=? WHERE PLAYER_ID=? AND BADGE_ID=?', level,playerId,badgeId);
 	
-	if(badgeId == 1){
+	if(badgeId == CAT_EXFORGE){
 		userLevelBadge1 = level;
-	} else if(badgeId == 2){
+	} else if(badgeId == CAT_EPISTIMI){
 		userLevelBadge2 = level;
-	} else if(badgeId == 3){
+	} else if(badgeId == CAT_GEOGRAFIA){
 		userLevelBadge3 = level;
-	} else if(badgeId == 4){
+	} else if(badgeId == CAT_ISTORIA){
 		userLevelBadge4 = level;
-	} else if(badgeId == 5){
+	} else if(badgeId == CAT_ATHLITIKA){
 		userLevelBadge5 = level;
-	} else if(badgeId == 6){
-		userLevelBadge6 = level;
-	} else if(badgeId == 7){
-		userLevelBadge7 = level;
-	} else if(badgeId == 8){
-		userLevelBadge8 = level;
-	} else if(badgeId == 9){
-		userLevelBadge9 = level;
-	} else if(badgeId == 10){
-		userLevelBadge10 = level;
-	} else if(badgeId == 11){
-		userLevelBadge11 = level;
-	} else if(badgeId == 12){
-		userLevelBadge12 = level;
-	} else if(badgeId == 13){
-		userLevelBadge13 = level;
 	}
-	
 	
 	db.close();
 }
@@ -2335,32 +2318,16 @@ function getBadgeData(playerId){
 		var level = rows.field(0);
 		var badgeId = rows.field(1);
 		
-		if(badgeId == 1) {
+		if(badgeId == CAT_EXFORGE){
 			userLevelBadge1 = level;
-		} else if(badgeId == 2) {
+		} else if(badgeId == CAT_EPISTIMI){
 			userLevelBadge2 = level;
-		} else if(badgeId == 3) {
+		} else if(badgeId == CAT_GEOGRAFIA){
 			userLevelBadge3 = level;
-		} else if(badgeId == 4) {
+		} else if(badgeId == CAT_ISTORIA){
 			userLevelBadge4 = level;
-		} else if(badgeId == 5) {
+		} else if(badgeId == CAT_ATHLITIKA){
 			userLevelBadge5 = level;
-		} else if(badgeId == 6) {
-			userLevelBadge6 = level;
-		} else if(badgeId == 7) {
-			userLevelBadge7 = level;
-		} else if(badgeId == 8) {
-			userLevelBadge8 = level;
-		} else if(badgeId == 9) {
-			userLevelBadge9 = level;
-		} else if(badgeId == 10) {
-			userLevelBadge10 = level;
-		} else if(badgeId == 11) {
-			userLevelBadge11 = level;
-		} else if(badgeId == 12) {
-			userLevelBadge12 = level;
-		} else if(badgeId == 13) {
-			userLevelBadge13 = level;
 		}
 		
 		rows.next();

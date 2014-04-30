@@ -469,7 +469,7 @@ function buildQuestionView(defaultQuestionBanner){
 		gameOverScoreLabelValue = Titanium.UI.createLabel({
 			text:'0',
 			color:'white',
-			bottom:56,
+			bottom:61,
 			height:81,
 			font:{fontSize:115, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});

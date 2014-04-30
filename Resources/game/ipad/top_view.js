@@ -566,7 +566,6 @@ viewTopCategory.addEventListener('loadScore', function(data){
 	    	
     	//global scores
     	var highScores = getHighScores(currentCategoryId);
-    	Ti.API.info(highScores);
 	    tableViewGlobalScores.setData(buildHighScoresData(highScores));
 	    
 	    //friend scores

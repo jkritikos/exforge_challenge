@@ -27,6 +27,9 @@ viewProfile.addEventListener('myProfile', function(e) {
 	playerData = e.profileHighScores;
 	profileDataInfo = e.profileData;
 	displayProfileData(playerData,profileDataInfo);
+	
+	//number of games label
+	gamesLabelValue.text = profileDataInfo.totalGames;
 });
 
 //Back button
@@ -327,7 +330,7 @@ function goToHighScores(){
 	if(SOUNDS_MODE){
 		audioClick.play();	
 	}
-	var currentCategoryId = CAT_EXFORGE;
+	var currentCategoryId = CAT_EVERYTHING;
 	
     //show loader view
     mtbImport("top_view.js");
@@ -575,15 +578,15 @@ function buildRowsForScore(playerData){
 			font:{fontSize:32, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		
-		var gamesLabelValue = '';
+		var gamesLabel = '';
 		if(rowGames == 1){
-			 gamesLabelValue = rowGames + ' παιχνίδι';
+			 gamesLabel = rowGames + ' παιχνίδι';
 		} else {
-			 gamesLabelValue = rowGames + ' παιχνίδια';	
+			 gamesLabel = rowGames + ' παιχνίδια';	
 		}
 		
 		var gamesLabel = Titanium.UI.createLabel({
-			text:gamesLabelValue,
+			text:gamesLabel,
 			color:'gray',
 			left:165,
 			top:85,
