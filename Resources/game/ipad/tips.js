@@ -174,6 +174,10 @@ function buildTipsMenuTableRow(type){
 function handleTipsMenuTableClick(e){
 	Ti.API.info('handleTipsMenuTableClick() called for type '+e.row.aboutType);
 	
+	if(SOUNDS_MODE){
+		audioClick.play();
+	}
+	
 	mtbImport('tips_details.js');
 	
 	buildTipsDetails(e.row.tipType);

@@ -79,7 +79,7 @@ function buildPlayerLoginView(){
 		signinBackButton.addEventListener('click', handleBackButton);
 		
 		signinTitleLabel = Titanium.UI.createLabel({
-			text:'Διάλεξε το όνομα που επιθυμεις στο Exforge Challenge!',
+			text:'Διάλεξε το όνομα που επιθυμείς στο Exforge Challenge!',
 			color:'white',
 			textAlign:'center',
 			width:446,

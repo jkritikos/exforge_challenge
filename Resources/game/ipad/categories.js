@@ -52,7 +52,7 @@ function buildCategoriesView(){
 		categoriesBackButton.addEventListener('click', handleCategoriesBackButton);
 		
 		categoriesTitleLabel = Titanium.UI.createLabel({
-			text:'Ποιά από τις 4 κατηγορίες θες να παίξεις?',
+			text:'Ποιά από τις 5 κατηγορίες θέλεις να παίξεις?',
 			color:'white',
 			textAlign:'center',
 			width:364,

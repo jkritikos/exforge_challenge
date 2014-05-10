@@ -111,9 +111,11 @@ function buildProfileView(){
 			text:'',
 			color:'fb494a',
 			top:255,
+			active:0,
 			font:{fontSize:68, fontWeight:'regular', fontFamily:'Myriad Pro'}
 		});
 		viewProfile.add(nameLabelValue);
+		nameLabelValue.addEventListener('click', handleNameLabelClick);
 		
 		//middle background bar
 		profileMiddleBackgroundBar = Titanium.UI.createView({
@@ -323,6 +325,24 @@ function destroyProfileView(){
 	profileTopScoreBackground = null;
 	
 	win.remove(viewProfile);
+}
+
+function handleNameLabelClick(e){
+	var active = e.source.active;
+	
+	if(active == 1){
+		//load current player and fire an event to update the player UI
+		var currentPlayer = getCurrentPlayer();
+		
+		mtbImport("signin.js");
+		buildPlayerLoginView();
+		viewSignin.fireEvent('updatePlayerUI', {player:currentPlayer});
+		viewSignin.animate(anim_in);
+		
+		var timeout = setTimeout(function(){
+			destroyProfileView();
+		}, 1500);
+	}
 }
 
 //Shows the High Scores screen
@@ -615,6 +635,7 @@ function buildRowsForScore(playerData){
 function showInfo(d){
 	if(d.name == null || d.name == ''){
 		d.name = 'Φτιάξε ένα παίκτη!';
+		nameLabelValue.active = 1;
 	}
 	
 	if(d.maxScore == null || d.maxScore == ''){

@@ -235,7 +235,7 @@ function buildQuestionView(defaultQuestionBanner){
 		//The question
 		labelQuestion = Titanium.UI.createLabel({
 			opacity:0,
-			color:'#5a3fa3',
+			color:'#0b4b7f',
 			textAlign:'center',
 		    zIndex:10,
 		    left:30,
@@ -318,6 +318,7 @@ function buildQuestionView(defaultQuestionBanner){
 			left:answerLeft,
 			top:35,
 			textAlign:'left',
+			width:528,
 			font:{fontSize:answerFontSize, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
@@ -328,6 +329,7 @@ function buildQuestionView(defaultQuestionBanner){
 			left:answerLeft,
 			top:35,
 			textAlign:'left',
+			width:528,
 			font:{fontSize:answerFontSize, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
@@ -338,6 +340,7 @@ function buildQuestionView(defaultQuestionBanner){
 			left:answerLeft,
 			top:35,
 			textAlign:'left',
+			width:528,
 			font:{fontSize:answerFontSize, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
@@ -348,6 +351,7 @@ function buildQuestionView(defaultQuestionBanner){
 			left:answerLeft,
 			top:35,
 			textAlign:'left',
+			width:528,
 			font:{fontSize:answerFontSize, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		
