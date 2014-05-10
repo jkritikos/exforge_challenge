@@ -433,7 +433,7 @@ var decrypt = function(message){
     
     //Ti.API.warn('decrypted message to '+decryptedText);
     return decryptedText;
-}
+};
 
 var encryptBuzz = function(message){
     var key = CryptoJS.enc.Hex.parse(Ti.App.Properties.getString('AES_KEY'));
@@ -443,7 +443,7 @@ var encryptBuzz = function(message){
     message = encodeURI(message);
     
     return message;
-}
+};
 
 /*Talks to the server to obtain config data*/
 function hello(){
@@ -746,7 +746,7 @@ function saveGroupGameSessionOnline(localSessionIdArr,categoryIdArray, groupType
 			groupType:groupTypeArray,
 			numPlayers:numPlayersArray,
 			localSession:localSessionIdArr
-		}
+		};
 		
 		xhr.onload = function(e) {
 			var db = Ti.Database.install('buzz_db.sqlite', 'db');

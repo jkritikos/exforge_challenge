@@ -225,6 +225,8 @@ heartMenuSettingsBackground.addEventListener('click', function(){
 
 //Event listener for play button
 menuPlayNowBar.addEventListener('click', function()	{
+    var start = new Date().getTime();
+    
 	if(SOUNDS_MODE){
 		audioPlay.play();	
 	}
@@ -250,6 +252,11 @@ menuPlayNowBar.addEventListener('click', function()	{
 		var tmpPlayerArrayObj = [];
 		tmpPlayerArrayObj.push(currentPlayer);
 		gameSession.setTmpPlayerNames(tmpPlayerArrayObj);
+		
+		var end = new Date().getTime();
+        var duration = end - start;
+    
+        Ti.API.info('play now() returns to IMPORT in '+duration+' ms');
 		
 		mtbImport("categories.js");
 		buildCategoriesView();

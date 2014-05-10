@@ -26,6 +26,8 @@ var CATEGORY_HISTORY = 6;
 //var gameSession = require('game/game');
 
 function buildCategoriesView(){
+    var start = new Date().getTime();
+    
 	var shouldCreateView = categoriesTitleLabel == null;
 	if(shouldCreateView){
 		//e.lapard start
@@ -91,9 +93,15 @@ function buildCategoriesView(){
 		//sync();//TODO ask to sync or not
 		
 		win.add(viewCategories);
+		
 	} else {
 		Ti.API.warn('NOT building Categories view - already in progress');
 	}
+	
+	var end = new Date().getTime();
+    var duration = end - start;
+    
+    Ti.API.info('buildCategoriesView() returns in '+duration+' ms');
 }
 
 function destroyCategoriesView(){
@@ -170,7 +178,7 @@ function createCategoriesRow(cat){
 		descriptionLabel = 'Σκόραρε και μπες στην 10άδα!';
 	}
 	
-	var rowBackground =  Titanium.UI.createButton({
+	var rowBackground =  Titanium.UI.createImageView({
 		backgroundImage:backgroundImage,
 		bottom:0,
 		width:768,

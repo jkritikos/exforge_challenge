@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.veladia.xforge</id>
-    <name>exforge_challenge</name>
+    <name>Exforge Challenge</name>
     <version>1.0</version>
     <publisher>jace</publisher>
     <url>http://</url>
@@ -24,8 +24,6 @@
                 <array>
                     <string>UIInterfaceOrientationPortrait</string>
                     <string>UIInterfaceOrientationPortraitUpsideDown</string>
-                    <string>UIInterfaceOrientationLandscapeLeft</string>
-                    <string>UIInterfaceOrientationLandscapeRight</string>
                 </array>
                 <key>UIRequiresPersistentWiFi</key>
                 <false/>

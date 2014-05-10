@@ -1,4 +1,4 @@
-Ti.API.warn('DEBUG 4');
+Ti.API.warn('novartis demo 5');
 
 var PRODUCTION_MODE = false;
 //for building the free version
