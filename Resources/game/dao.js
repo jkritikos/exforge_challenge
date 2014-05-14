@@ -1954,11 +1954,12 @@ function sync(){
 			saveGroupGameSessionOnline(groupLocalSessionIdArr,groupCategoryIdArr, groupTypeArr, groupNumPlayersArr);
 		}
 		
+		db.close();
 	} else {
 		Ti.API.warn('sync() offline. BLACKLISTED='+BLACKLISTED);
 	}
 	
-	db.close();
+	
 	Ti.API.warn('sync() ENDS');
 }
 
