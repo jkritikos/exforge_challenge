@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.veladia.xforge</id>
+    <id>com.boomar.xchallenge2</id>
     <name>X Challenge</name>
     <version>1.0</version>
     <publisher>jace</publisher>
@@ -50,7 +50,7 @@
         <target device="android">false</target>
         <target device="blackberry">false</target>
         <target device="ipad">true</target>
-        <target device="iphone">true</target>
+        <target device="iphone">false</target>
         <target device="mobileweb">false</target>
         <target device="tizen">false</target>
     </deployment-targets>

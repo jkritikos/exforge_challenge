@@ -1,6 +1,6 @@
-Ti.API.warn('novartis demo 5');
+Ti.API.warn('novartis final build');
 
-var PRODUCTION_MODE = false;
+var PRODUCTION_MODE = true;
 //for building the free version
 var IS_FREE_APP = 1;
 //iphone=1, ipad=2

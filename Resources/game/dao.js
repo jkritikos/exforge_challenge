@@ -6,13 +6,14 @@ if(!PRODUCTION_MODE){
 	UrbanAirship.master_secret='qK_-SzSeQP6NA_UQ8g-ENw';
 	UrbanAirship.baseurl = 'https://go.urbanairship.com';
 	API = 'https://exforge.boomar.gr/api/';
+	//API = 'https://exforge-challenge.gr/api/';
 	//API = 'http://buzz/api/';
 } else {
 	UrbanAirship.key='W1NHMmPjR56aHc3u6nu6iA';
 	UrbanAirship.secret ='KBiUUr_mQwKYNmTXX5oVpQ';
 	UrbanAirship.master_secret='0louzaRKRLmStWwb0qEHjw';
 	UrbanAirship.baseurl = 'https://go.urbanairship.com';
-	API = 'https://www.mindthebuzz.com/api/';
+	API = 'https://exforge-challenge.gr/api/';
 }
 
 var NETWORK_TIMEOUT = 20000;
