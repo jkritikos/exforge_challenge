@@ -2,7 +2,7 @@ Ti.API.warn('novartis final build');
 
 var PRODUCTION_MODE = true;
 //for building the free version
-var IS_FREE_APP = 1;
+var IS_FREE_APP = 0;
 //iphone=1, ipad=2
 var BUZZ_APP_TYPE = 1; 
 //The default content version

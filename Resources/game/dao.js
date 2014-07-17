@@ -5,9 +5,9 @@ if(!PRODUCTION_MODE){
 	UrbanAirship.secret ='xUCXrw0xQq-8fCqXbf7NdA';
 	UrbanAirship.master_secret='qK_-SzSeQP6NA_UQ8g-ENw';
 	UrbanAirship.baseurl = 'https://go.urbanairship.com';
-	API = 'https://exforge.boomar.gr/api/';
+	//API = 'https://exforge.boomar.gr/api/';
 	//API = 'https://exforge-challenge.gr/api/';
-	//API = 'http://buzz/api/';
+	API = 'http://exforge/api/';
 } else {
 	UrbanAirship.key='W1NHMmPjR56aHc3u6nu6iA';
 	UrbanAirship.secret ='KBiUUr_mQwKYNmTXX5oVpQ';

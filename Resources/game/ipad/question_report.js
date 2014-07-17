@@ -79,10 +79,10 @@ function buildQuestionReportView(){
 		questionReportButtonOffset = 76;
 		//button 1
 		questionReportButton1 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/bullets/red.png',
+			image:IMAGE_PATH+'report/bullets/report_button1.png',
 			top:361,
 			left:93,
-			button:'red',
+			button:1,
 			isSelected:false
 		});
 		
@@ -101,10 +101,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel1);
 		//Button 2 
 		questionReportButton2 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/bullets/blue.png',
+			image:IMAGE_PATH+'report/bullets/report_button2.png',
 			top:questionReportButton1.top+questionReportButtonOffset,
 			left:93,
-			button:'blue',
+			button:2,
 			isSelected:false
 		});
 		
@@ -123,10 +123,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel2);
 		//Button 3
 		questionReportButton3 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/bullets/green.png',
+			image:IMAGE_PATH+'report/bullets/report_button3.png',
 			top:questionReportButton2.top+questionReportButtonOffset,
 			left:93,
-			button:'green',
+			button:3,
 			isSelected:false
 		});
 		
@@ -145,10 +145,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel3);
 		//Button 4
 		questionReportButton4 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/bullets/purple.png',
+			image:IMAGE_PATH+'report/bullets/report_button4.png',
 			top:questionReportButton3.top+questionReportButtonOffset,
 			left:93,
-			button:'purple',
+			button:4,
 			isSelected:false
 		});
 		
@@ -167,10 +167,10 @@ function buildQuestionReportView(){
 		questionReportBackground.add(questionReportButtonLabel4);
 		//Button 5
 		questionReportButton5 = Ti.UI.createImageView({
-			image:IMAGE_PATH+'report/bullets/orange.png',
+			image:IMAGE_PATH+'report/bullets/report_button5.png',
 			top:questionReportButton4.top+questionReportButtonOffset,
 			left:93,
-			button:'orange',
+			button:5,
 			isSelected:false
 		});
 		
@@ -299,12 +299,12 @@ function handleQuestionReportCheckButton(e){
 	
 	if(!isSelected){
 		e.source.isSelected = true;
-		e.source.image = IMAGE_PATH+'report/bullets/'+buttonChosen+'_ok.png';
+		e.source.image = IMAGE_PATH+'report/bullets/report_button'+buttonChosen+'_ok.png';
 		errors[buttonChosen] = buttonChosen;
 		validateErrors++;
 	} else {
 		e.source.isSelected = false;
-		e.source.image = IMAGE_PATH+'report/bullets/'+buttonChosen+'.png';
+		e.source.image = IMAGE_PATH+'report/bullets/report_button'+buttonChosen+'.png';
 		errors[buttonChosen] = null;
 		validateErrors--;
 	}
@@ -315,7 +315,7 @@ function handleQuestionReportCheckButton(e){
 		questionReportSendReportButton.image = IMAGE_PATH+'report/sending/report2.png';
 	}
 	
-	//Ti.API.info(errors);
+	Ti.API.info(errors);
 }
 
 function handleQuestionReportCloseButton(){
