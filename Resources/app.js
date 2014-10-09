@@ -434,6 +434,11 @@ debugPlayers();
 var debugObj = getCurrentPlayer();
 Ti.API.info('player json is '+JSON.stringify(debugObj));
 
+nvFixUnsyncedPlayer();
+debugScores();
+fixOrphanScores();
+nvFixUnsyncedScores();
+
 //TMP DEBUG
 //Ti.include('game/tester.js');
 //testGroupScores();

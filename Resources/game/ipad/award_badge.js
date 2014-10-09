@@ -422,25 +422,6 @@ function awardBadges(playerId, currentCategoryId, currentScore){
 	Ti.API.warn('about to check for mega badge - badgeAwared='+badgeAwared);
 	
 	var megaBadgeLevelAchieved = 0;
-	if(badgeAwared){
-		megaBadgeLevelAchieved = 0;
-		
-		var numberOfBadges = getPlayerBadgeCount(playerId);
-		if(numberOfBadges >= BADGE12_LEVEL3) megaBadgeLevelAchieved = 3;
-		else if(numberOfBadges >= BADGE12_LEVEL2 && numberOfBadges < BADGE12_LEVEL3) megaBadgeLevelAchieved = 2;
-		else if(numberOfBadges >= BADGE12_LEVEL1 && numberOfBadges < BADGE12_LEVEL2) megaBadgeLevelAchieved = 1;
-		
-		Ti.API.info('Question: Achieved level '+megaBadgeLevelAchieved+' and badge12 level is '+userLevelBadge12);
-		
-		if(userLevelBadge12 < megaBadgeLevelAchieved){
-			
-			awardedBadge3Label.text = BADGE12_LABEL;
-			awardedBadge3Stars.image = IMAGE_PATH+'stars/star_'+megaBadgeLevelAchieved+'.png'; 
-			
-			megaBadgeAwarded = true;
-			saveBadge(playerId, megaBadgeLevelAchieved, CAT_ALL);
-		}
-	}
 	
 	var awardedBudgesInfo = {
 		category:currentCategoryId,

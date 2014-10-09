@@ -1,11 +1,13 @@
 eclipse.preferences.version=1
 iosLaunchConfigurationAttributes/ATTR_MINIFY=true
 iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=exforge_challenge
-iosLaunchConfigurationAttributes/appid=com.veladia.xforge
-iosLaunchConfigurationAttributes/certificate=IASON KRITIKOS (23T4J99FSG)
+iosLaunchConfigurationAttributes/appid=com.boomar.xchallenge2
+iosLaunchConfigurationAttributes/certificate=IASON KRITIKOS (846KWB566V)
+iosLaunchConfigurationAttributes/distribute_path=/Users/jace/Desktop
 iosLaunchConfigurationAttributes/keychain=
+iosLaunchConfigurationAttributes/output_format=ipa
 iosLaunchConfigurationAttributes/sdk_version=7.1
-iosLaunchConfigurationAttributes/uuid=002C53C6-924B-40BA-8414-F886A0D7C54E
+iosLaunchConfigurationAttributes/uuid=CC996F16-EEB1-42EC-BDD5-6FBBC218154E
 provisioning_profiles/development/002C53C6-924B-40BA-8414-F886A0D7C54E/appid=com.veladia.xforge
 provisioning_profiles/development/002C53C6-924B-40BA-8414-F886A0D7C54E/name=iOS Team Provisioning Profile\: com.veladia.xforge
 provisioning_profiles/development/002C53C6-924B-40BA-8414-F886A0D7C54E/uuid=002C53C6-924B-40BA-8414-F886A0D7C54E

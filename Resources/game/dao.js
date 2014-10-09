@@ -110,9 +110,9 @@ var BADGE11_LEVEL2 = 300;
 var BADGE11_LEVEL3 = 500;
 
 //3,6,10
-var BADGE12_LEVEL1 = 3;
-var BADGE12_LEVEL2 = 6;
-var BADGE12_LEVEL3 = 10;
+var BADGE12_LEVEL1 = 10;
+var BADGE12_LEVEL2 = 20;
+var BADGE12_LEVEL3 = 30;
 
 var BADGE13_LEVEL1 = 1000;
 var BADGE13_LEVEL2 = 3000;
@@ -1566,23 +1566,6 @@ function removePlayer(){
 	Ti.App.Properties.removeProperty('FACEBOOK_FRIENDS');
 }
 
-function debugPlayers(){
-    var db = Ti.Database.install('buzz_db.sqlite', 'db');
-    var rows = db.execute('select id,player_id,facebook_id,name from PLAYERS');
-    while (rows.isValidRow()){
-        var id = rows.field(0);
-        var playerId = rows.field(1);
-        var facebookId = rows.field(2);
-        var name = rows.field(3);
-        
-        Ti.API.info('DAO: debugPlayers() reads id '+id+' remote id '+playerId+' facebookId ' +facebookId+ ' name '+name);
-        rows.next();
-    }
-    
-    rows.close();
-    db.close();
-}
-
 /*Returns the current player object*/
 function getCurrentPlayer(){
 	var persistedPlayer = '';
@@ -2379,4 +2362,129 @@ function countQuestions(){
 	db.close();
 	
 	return cnt;
+}
+
+//do a fix on orphan scores
+function fixOrphanScores(){
+    var currentPlayer = getCurrentPlayer();
+    var name = currentPlayer.name;
+    var playerId = currentPlayer.player_id;
+    var orphanScores = 0;
+    
+    Ti.API.info('fixOrphanScores() for current player '+name);
+    var db = Ti.Database.install('buzz_db.sqlite', 'db');
+    var rows = db.execute('select count(*) from scores where name=? and player_id is null', name);
+    while (rows.isValidRow()){
+        var orphanScores = rows.field(0);
+        rows.next();
+    }
+    
+    rows.close();
+    Ti.API.info('fixOrphanScores() for current player '+name+' with id '+playerId+' found '+orphanScores+' orphan scores');
+    
+    if(orphanScores > 0 && playerId != null && playerId != ''){
+        db.execute('update scores set player_id=? where name=? and player_id is null',playerId,name);
+        Ti.API.warn('fixOrphanScores() updated '+orphanScores+' orphan scores with remote player_id '+playerId);
+    } else {
+        Ti.API.info('fixOrphanScores() nothing to fix');
+    }
+    
+    db.close();
+}
+
+//novartis fix for syncing unsynced player
+function nvFixUnsyncedPlayer(){
+    var currentPlayer = getCurrentPlayer();
+    var name = currentPlayer.name;
+    var playerId = currentPlayer.player_id;
+    
+    if(playerId == null || playerId == ''){
+        Ti.API.warn('nvFixUnsyncedPlayer() found player '+name+' that has no remote ID');
+    } else {
+        Ti.API.info('nvFixUnsyncedPlayer() no need to sync');
+    }
+}
+
+function debugScores(){
+    var db = Ti.Database.install('buzz_db.sqlite', 'db');
+    var rows = db.execute('select s.score, s.player_id, s.name, s.category_id, s.sync from scores s');
+    
+    var highScores = [];
+    var i = 0;
+    while (rows.isValidRow()){
+        i++;
+        var score = rows.field(0);
+        var playerId = rows.field(1);
+        var name = rows.field(2);
+        var categoryId = rows.field(3);
+        var sync = rows.field(4);
+        
+        Ti.API.info('DAO: debugScores() found  '+name+' for cat '+categoryId+' with score '+score+' and player id '+playerId+' and sync '+sync);
+        
+        rows.next();
+    }
+    
+    rows.close();
+    db.close();
+}
+
+function debugPlayers(){
+    var db = Ti.Database.install('buzz_db.sqlite', 'db');
+    var rows = db.execute('select id,facebook_id,name,player_id from players');
+    while (rows.isValidRow()){
+        var unsyncedPlayerId = rows.field(0);
+        var unsyncedPlayerFacebookId = rows.field(1);
+        var unsyncedplayerName = rows.field(2);
+        var player_id = rows.field(3);
+        
+        Ti.API.warn('debugPlayers() found player id '+unsyncedPlayerId+' with name '+unsyncedplayerName+' player_id '+player_id);
+        
+        //savePlayerOnline(unsyncedPlayerId, unsyncedplayerName, unsyncedPlayerFacebookId, null);
+        
+        rows.next();
+    }
+    
+    rows.close();
+    db.close();
+}
+
+//novartis fix for syncing unsynced scores
+function nvFixUnsyncedScores(){
+    var currentPlayer = getCurrentPlayer();
+    var name = currentPlayer.name;
+    var playerId = currentPlayer.player_id;
+    
+    if(playerId != null && playerId != ''){
+        
+        var db = Ti.Database.install('buzz_db.sqlite', 'db');
+        //get 10 unsynced local scores for synced players
+        //var rows = db.execute('select s.id, p.player_id, s.category_id, s.score from scores s inner join players p on (s.player_id=p.id) where s.sync is null and p.player_id is not null limit 10');
+        var rows = db.execute('select s.id, s.player_id, s.category_id, s.score from scores s where s.sync is null and s.player_id=? limit 10',playerId);
+        
+        var localScoreId = [];
+        var remotePlayerId = [];
+        var categoryId = [];
+        var scores = [];
+        
+        while (rows.isValidRow()){
+            localScoreId.push(rows.field(0));
+            remotePlayerId.push(rows.field(1));
+            categoryId.push(rows.field(2));
+            scores.push(rows.field(3));
+            
+            rows.next();
+        }
+        
+        rows.close();
+        db.close();
+        
+        Ti.API.info('nvFixUnsyncedScores() found '+scores.length+' scores to sync online');
+        
+        if(scores.length > 0){
+            saveScoreOnline(localScoreId, remotePlayerId, categoryId, scores);
+        }
+        //Ti.API.warn('nvFixUnsyncedPlayer() found player '+name+' that has no remote ID');
+    } else {
+        Ti.API.info('nvFixUnsyncedScores() no need to sync');
+    }
 }

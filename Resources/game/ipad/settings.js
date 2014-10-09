@@ -49,6 +49,7 @@ var settingsSoundsIcon = null;
 var settingsSoundsSepparator = null;
 var switchSoundsLabel = null;
 var switchSoundsSlash = null;
+var settingsPlayerDebugLabel = null;
 
 //Rotation matrixes
 var tmpRotateMatrix = Ti.UI.create2DMatrix().rotate(180);
@@ -242,6 +243,20 @@ function buildSettingsView(){
 		
 		viewSettings.add(scrollViewSettings);
 		
+		//debug label for showing the player remote id
+		var currentPlayer = getCurrentPlayer();
+        var playerId = currentPlayer.player_id;
+    
+		settingsPlayerDebugLabel = Ti.UI.createLabel({
+		    bottom:195,
+		    right:5,
+		    font:{fontSize:15, fontWeight:'bold', fontFamily:'Myriad Pro'},
+		    color:'white',
+		    text:playerId
+		});
+		
+		viewSettings.add(settingsPlayerDebugLabel);
+		
 		settingsBottomBar = Ti.UI.createView({
 			bottom:0,
 			height:192,
@@ -314,7 +329,9 @@ function destroySettingsView(){
 		settingsSoundsBar.remove(switchSoundsSlash);
 		settingsSoundsBar.remove(switchSoundOFF);
 		viewSettings.remove(scrollViewSettings);
+		viewSettings.remove(settingsPlayerDebugLabel);
 		
+		settingsPlayerDebugLabel = null;
 		settingsBottomBarLabel = null;
 		settingsBottomBarIcon = null;
 		settingsBottomBar = null;
