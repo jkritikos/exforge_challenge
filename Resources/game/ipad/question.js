@@ -1469,6 +1469,8 @@ function handleGameOverPlayAgainClick(){
 		audioClick.play();	
 	}
 	
+	checkForContentUpdate();
+	
 	mtbImport("categories.js");
 	buildCategoriesView();
 	viewCategories.animate({opacity:1, duration:200}, function(){

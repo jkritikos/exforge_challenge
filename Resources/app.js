@@ -1,4 +1,4 @@
-Ti.API.warn('novartis final build');
+Ti.API.warn('novartis build 1.3');
 
 var PRODUCTION_MODE = true;
 //for building the free version

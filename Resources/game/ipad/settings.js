@@ -50,6 +50,7 @@ var settingsSoundsSepparator = null;
 var switchSoundsLabel = null;
 var switchSoundsSlash = null;
 var settingsPlayerDebugLabel = null;
+var settingsVersionDebugLabel = null;
 
 //Rotation matrixes
 var tmpRotateMatrix = Ti.UI.create2DMatrix().rotate(180);
@@ -67,6 +68,8 @@ var COLOR_SWITCH_ON = 'a9e850';
 var COLOR_SWITCH_OFF = 'a2a2a2';
 
 function buildSettingsView(){
+    checkForContentUpdate();
+    
 	var IPAD_OFFSET = 200;
 	
 	var shouldCreateView = settingsLogoImage == null;
@@ -256,6 +259,17 @@ function buildSettingsView(){
 		});
 		
 		viewSettings.add(settingsPlayerDebugLabel);
+		
+		var debugVersionString = "v " + Ti.App.getVersion() + ' c ' + CONTENT_VERSION;
+		settingsVersionDebugLabel = Ti.UI.createLabel({
+            bottom:195,
+            left:5,
+            font:{fontSize:15, fontWeight:'bold', fontFamily:'Myriad Pro'},
+            color:'white',
+            text:debugVersionString
+        });
+		
+		viewSettings.add(settingsVersionDebugLabel);
 		
 		settingsBottomBar = Ti.UI.createView({
 			bottom:0,

@@ -194,7 +194,13 @@ function destroyAwardBadgePopup(){
 	badgeAwardBottomBackground.remove(badgeAwardPlayImage);
 	badgeAwardBottomBackground.remove(badgeAwardArrowImage);
 	badgeAwardBackground.remove(badgeAwardBottomBackground);
-	alertViewGameOver.remove(badgeAwardBackground);
+	
+	//novartis fix for not crashing after getting a badge and tapping on PLAY AGAIN
+	if(alertViewGameOver != null){
+	    alertViewGameOver.remove(badgeAwardBackground);
+	} else {
+	    Ti.API.warn('crash prevented!');
+	}
 	
 	badgeAwardTitleBackground = null;
 	badgeAwardMiddleBox = null;

@@ -64,9 +64,9 @@ var CAT_ALL = 12;
 DEFAULT_BADGES = 13;
 
 //Badge limits
-var BADGE1_LEVEL1 = 1000;
-var BADGE1_LEVEL2 = 3000;
-var BADGE1_LEVEL3 = 5000;
+var BADGE1_LEVEL1 = 1000; //1000
+var BADGE1_LEVEL2 = 3000; //3000
+var BADGE1_LEVEL3 = 5000; //5000
 
 var BADGE2_LEVEL1 = 1000;
 var BADGE2_LEVEL2 = 3000;
@@ -1698,6 +1698,27 @@ function saveScoreOnline(lScore, playerRemoteId, categoryId, score){
 	}
 }
 
+//Checks whether there is new content on the server
+function checkForContentUpdate(){
+    Ti.API.info('checkForContentUpdate() called');
+    
+    if (Titanium.Network.online == true){
+        var xhr = Ti.Network.createHTTPClient();
+        xhr.setTimeout(NETWORK_TIMEOUT);
+        
+        xhr.onload = function(e) {
+            Ti.API.info('checkForContentUpdate() got back from server '+this.responseText);   
+            var jsonData = JSON.parse(this.responseText);
+            
+            //Determine if a content update is needed
+            isContentUpdateNeeded(jsonData.CONTENT_VERSION);
+        };
+        
+        xhr.open('POST', API + 'checkContent'); 
+        xhr.send();
+    }
+}
+
 /*Retrieve the online high sores and store them locally*/
 function getOnlineHighScores(friendString){
     Ti.API.info('getOnlineHighScores() called with friendString='+friendString);
@@ -1736,7 +1757,10 @@ function getOnlineHighScores(friendString){
 				
 			if(jsonData.RESPONSE == '1'){
 				var scores = jsonData.scores;
-			
+			    
+			    //Determine if a content update is needed
+                isContentUpdateNeeded(jsonData.CONTENT_VERSION);
+			    
 				if(scores != null){
 					
 					clearHighScores();
