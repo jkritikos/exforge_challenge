@@ -177,7 +177,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
 			showVerticalScrollIndicator:false,
 			minRowHeight:37,
-			top:17,
+			top:13,
 			width:286,
 			height:407
 		});
@@ -189,6 +189,7 @@ function buildTopScoresView(currentCategoryId, afterGameplay){
 		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_GEOGRAFIA));
 		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_ISTORIA));
 		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_ATHLITIKA));
+		scoresCategoriesTableData.push(buildScoresCategorySelectionTableData(CAT_LIFESTYLE));
 		scoresCategoriesSelectionTable.setData(scoresCategoriesTableData);
 		
 		scoresCategoryPopup.add(scoresCategoriesSelectionTable);
@@ -654,7 +655,7 @@ function buildScoresCategorySelectionTableData(categoryId){
 		text:categoryName,
 		color:'white',
 		left:50,
-		bottom:12,
+		bottom:17,
 		font:{fontSize:23, fontWeight:'bold', fontFamily:'Myriad Pro'}
 	});
 	

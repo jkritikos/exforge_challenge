@@ -513,6 +513,9 @@ function buildQuestionView(defaultQuestionBanner){
 		}else if(selectedCategId == CAT_ATHLITIKA){
 			gameOverBannerImage = IMAGE_PATH+'game_over/icon_sports.png';
 			gameOverUpperBarColor = '9b52e7'; 
+		} else if(selectedCategId == CAT_LIFESTYLE){
+		    gameOverBannerImage = IMAGE_PATH+'game_over/icon_lifestyle.png';
+            gameOverUpperBarColor = 'd174ac'; 
 		}
 		
 		//game over bar which changes according to category played

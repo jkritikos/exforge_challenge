@@ -56,7 +56,9 @@ function buildPopupContentUpdate(catId){
 			updaterBottomColor = 'fb9a01'; 
 		}else if(catId == CAT_ATHLITIKA){
 			updaterBottomColor = '9b52e7'; 
-		}
+		} else if(catId == CAT_LIFESTYLE){
+            updaterBottomColor = 'd174ac'; 
+        }
 		
 		topBar = Ti.UI.createView({
             height:192,

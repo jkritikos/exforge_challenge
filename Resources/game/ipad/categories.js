@@ -20,6 +20,7 @@ var CATEGORY_EXFORGE = 1000;
 var CATEGORY_GEOGRAPHY = 3;
 var CATEGORY_SPORT = 4;
 var CATEGORY_HISTORY = 6;
+var CATEGORY_LIFESTYLE = 10;
 
 //include gameSession
 //TODO: is this needed or causing problems?
@@ -37,7 +38,7 @@ function buildCategoriesView(){
 		//title background bar
 		categoriesTitleBackgroundBar = Titanium.UI.createView({
 			backgroundColor:'0b4b7f',
-			height:192,
+			height:164,
 			top:0
 		});
 		
@@ -54,12 +55,12 @@ function buildCategoriesView(){
 		categoriesBackButton.addEventListener('click', handleCategoriesBackButton);
 		
 		categoriesTitleLabel = Titanium.UI.createLabel({
-			text:'Ποιά από τις 5 κατηγορίες θέλεις να παίξεις?',
+			text:'Ποιά από τις 6 κατηγορίες θέλεις να παίξεις?',
 			color:'white',
 			textAlign:'center',
 			width:364,
 			height:74,
-			top:60,
+			top:52,
 			font:{fontSize:31, fontWeight:'semibold', fontFamily:'Myriad Pro'}
 		});
 		categoriesTitleBackgroundBar.add(categoriesTitleLabel);
@@ -71,8 +72,8 @@ function buildCategoriesView(){
 			minRowHeight:100,
 			backgroundColor:'transparent',
 			separatorStyle:Ti.UI.iPhone.TableViewSeparatorStyle.NONE,
-			top:193,
-			bottom:16
+			top:165,
+			bottom:0
 		});
 		
 		data = [];
@@ -81,6 +82,7 @@ function buildCategoriesView(){
 		data.push(createCategoriesRow(CATEGORY_GEOGRAPHY));
 		data.push(createCategoriesRow(CATEGORY_HISTORY));
 		data.push(createCategoriesRow(CATEGORY_SPORT));
+		data.push(createCategoriesRow(CATEGORY_LIFESTYLE));
 	
 		tableViewCategories.setData(data);
 		
@@ -143,7 +145,7 @@ function createCategoriesRow(cat){
 	var currentCategoryObject = getCategoryProperties(cat);
 	
 	var row = Ti.UI.createTableViewRow({
-		height:163, 
+		height:143, 
 		backgroundColor:'transparent',
 		selectedBackgroundColor:'transparent',
 		available:currentCategoryObject.available,
@@ -176,7 +178,12 @@ function createCategoriesRow(cat){
 		logo = IMAGE_PATH+'categories/categ/5_sports.png';
 		titleLabel = 'ΑΘΛΗΤΙΚΑ';
 		descriptionLabel = 'Σκόραρε και μπες στην 10άδα!';
-	}
+	} else if(cat == CATEGORY_LIFESTYLE){
+        backgroundImage = IMAGE_PATH+'categories/categ_back/lifestyle.png';
+        logo = IMAGE_PATH+'categories/categ/6_lifestyle.png';
+        titleLabel = 'LIFESTYLE';
+        descriptionLabel = 'Πρόκληση με στυλ!';
+    }
 	
 	var rowBackground =  Titanium.UI.createImageView({
 		backgroundImage:backgroundImage,

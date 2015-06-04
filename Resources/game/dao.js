@@ -52,6 +52,7 @@ var CAT_EXFORGE = 1000;
 var CAT_GEOGRAFIA = 3;
 var CAT_ATHLITIKA = 4;
 var CAT_ISTORIA = 6;
+var CAT_LIFESTYLE = 10;
 
 
 var CAT_EVERYTHING = 0;
@@ -148,8 +149,11 @@ var BADGE4_DESCRIPTION = 'Έχεις τις γνώσεις για να γίνε�
 var BADGE5_LABEL = 'ΓΕΝΝΗΜΕΝΟΣ ΑΘΛΗΤΗΣ';
 var BADGE5_DESCRIPTION = 'Έχεις τις γνώσεις για να γίνεις \"Γεννημένος Αθλητής\"?';
 
-var BADGE6_LABEL = 'Ιστορικό Παιχτρόνι';
-var BADGE6_DESCRIPTION = 'Γίνε \"Ιστορικό Παιχτρόνι\" κερδίζοντας όσους περισσότερους πόντους μπορείς στην κατηγορία Ιστορία!';
+var BADGE6_LABEL = 'ΠΑΠΑΡΑΤΣΙ\nΜΕ ΣΤΥΛ';
+var BADGE6_DESCRIPTION = 'Έχεις τις γνώσεις για να γίνεις \"Παπαράτσι με Στυλ\"?'; 
+
+var BADGE6_LABEL2 = 'Ιστορικό Παιχτρόνι';
+var BADGE6_DESCRIPTION2 = 'Γίνε \"Ιστορικό Παιχτρόνι\" κερδίζοντας όσους περισσότερους πόντους μπορείς στην κατηγορία Ιστορία!';
 
 var BADGE7_LABEL = 'Πορωμένος Μουσικός';
 var BADGE7_DESCRIPTION = 'Γίνε \"Πορωμένος Μουσικός\" κερδίζοντας όσους περισσότερους πόντους μπορείς στην κατηγορία Μουσική!';
@@ -160,8 +164,7 @@ var BADGE8_DESCRIPTION = 'Γίνε \"Μπάμπης Κουλτούρας\" κε�
 var BADGE9_LABEL = 'Αγνός Φυσιολάτρης';
 var BADGE9_DESCRIPTION = 'Γίνε \"Αγνός Φυσιολάτρης\" κερδίζοντας όσους περισσότερους πόντους μπορείς στην κατηγορία Ζώα & Φυτά!';
 
-var BADGE10_LABEL = 'Παπαράτσι με Στυλ';
-var BADGE10_DESCRIPTION = 'Γίνε \"Παπαράτσι με Στυλ\" κερδίζοντας όσους περισσότερους πόντους μπορείς στην κατηγορία Lifestyle!';
+
 
 var BADGE11_LABEL = 'Πιο Γρήγορο Δάχτυλο';
 var BADGE11_DESCRIPTION = 'Γίνε το \"Πιο Γρήγορο Δάχτυλο\" απαντώντας γρήγορα και σωστά σε όσες περισσότερες ερωτήσεις μπορείς!';
@@ -332,7 +335,16 @@ function getCategoryProperties(id){
 			square:IMAGE_PATH+'top/categ_popup/sports.png',
 			available:true
 		};
-	} else if(id == CAT_EVERYTHING){
+	} else if(id == CAT_LIFESTYLE){
+        obj = {
+            name:'LIFESTYLE',
+            loader:IMAGE_PATH+'loader/lifestyle.png',
+            banner:IMAGE_PATH+'question/categ_icons/lifestyle.png',
+            tag:IMAGE_PATH+'top/tags/lifestyle.png',
+            square:IMAGE_PATH+'top/categ_popup/lifestyle.png',
+            available:true
+        };
+    } else if(id == CAT_EVERYTHING){
 		obj = {
 			name:'ΟΛΕΣ ΟΙ ΚΑΤΗΓΟΡΙΕΣ',
 			tag:IMAGE_PATH+'top/tags/all.png',
@@ -1719,6 +1731,104 @@ function checkForContentUpdate(){
     }
 }
 
+//Gets new content from the server
+function retrieveContentForCategory(id){
+    Ti.API.info('retrieveContentForCategory() called');
+    
+    if (Titanium.Network.online == true){
+        
+        var db = Ti.Database.install('buzz_db.sqlite', 'db');
+    
+        var shouldCreateLifestyle = false;
+    
+        var sqlLifestyleCheck = "select count(*) from questions where category_id=10";
+        var rows = db.execute(sqlLifestyleCheck);
+        while (rows.isValidRow()){
+            if(rows.field(0) == 0){
+                shouldCreateLifestyle = true;
+            }
+            rows.next();
+        }
+        
+        if(shouldCreateLifestyle){
+            
+            db.execute('INSERT INTO CATEGORIES (ID,NAME) VALUES (?,?)', 10, 'LIFESTYLE');
+            
+            var xhr = Ti.Network.createHTTPClient();
+            xhr.setTimeout(NETWORK_TIMEOUT);
+            
+            xhr.onload = function(e) {
+                //Ti.API.info('retrieveContentForCategory() got back from server '+this.responseText);   
+                var jsonData = JSON.parse(this.responseText);
+                
+                if(jsonData.RESPONSE == '1'){
+                    //latestContentVersion = jsonData.CONTENT_VERSION;
+                
+                    var questions = jsonData.questions;
+                    var questionsLength = questions.length;
+                    var inserts = 0;
+                    var updates = 0;
+                    Ti.API.info('loadOnlineQuestions() got back data from server '+questionsLength+' questions'); 
+
+                    db.execute('BEGIN');
+                
+                    var questionsBeforeUpdate = countQuestions();
+                
+                    for(var i=0; i < questionsLength; i++){
+                    
+                        var id = questions[i].id;
+                        var question = questions[i].question;
+                        var categoryId = questions[i].category_id;
+                        var answer_a = questions[i].answer_a;
+                        var answer_b = questions[i].answer_b;
+                        var answer_c = questions[i].answer_c;
+                        var answer_d = questions[i].answer_d;
+                        var correct = questions[i].correct;
+                        var value = questions[i].value;
+                        var wikipedia = questions[i].wikipedia;
+                    
+                        //convert correct answer from int to chars
+                        if(correct == 1) {
+                            correct = 'a';
+                        } else if(correct == 2)  {
+                            correct = 'b';
+                        } else if(correct == 3) {
+                            correct = 'c';
+                        } else if(correct == 4) {
+                            correct = 'd';
+                        }
+                    
+                    
+                        db.execute('update questions set category_id=?, question=?, answer_a=?, answer_b=? ,answer_c=?, answer_d=?, correct=?, value=?,wikipedia=? where question_id=?', categoryId, question, answer_a, answer_b, answer_c, answer_d, correct, value, wikipedia,id);
+                        var rowsAffected = db.getRowsAffected();
+                        
+                        if(rowsAffected == 0){
+                            db.execute('insert into questions (category_id,question,answer_a, answer_b,answer_c,answer_d,correct,value,question_id,wikipedia) values (?,?,?,?,?,?,?,?,?,?)', categoryId, question, answer_a, answer_b, answer_c, answer_d, correct, value, id,wikipedia);
+                            inserts++;
+                        } else {
+                            updates++;
+                        }
+                    }
+                   
+                    db.execute('COMMIT');
+                    db.close();
+                    var questionsAfterUpdate = countQuestions();
+                    
+                    Ti.API.info('retrieveContentForCategory() update complete ('+updates+' updates, '+inserts+' inserts) - questionsBeforeUpdate '+questionsBeforeUpdate+' questionsAfterUpdate='+questionsAfterUpdate);
+                
+                }
+            };
+            
+            var url = 'getSQLCat/'+id;
+            
+            xhr.open('POST', API + url); 
+            xhr.send();
+        } else {
+            Ti.API.info('retrieveContentForCategory() no need to get any content: shouldCreateLifestyle='+shouldCreateLifestyle);
+        }
+    }
+}
+
 /*Retrieve the online high sores and store them locally*/
 function getOnlineHighScores(friendString){
     Ti.API.info('getOnlineHighScores() called with friendString='+friendString);
@@ -2280,7 +2390,9 @@ function saveBadge(playerId, level, badgeId){
 		userLevelBadge4 = level;
 	} else if(badgeId == CAT_ATHLITIKA){
 		userLevelBadge5 = level;
-	}
+	} else if(badgeId == CAT_LIFESTYLE){
+        userLevelBadge6 = level;
+    }
 	
 	db.close();
 }
@@ -2337,6 +2449,8 @@ function getBadgeData(playerId){
 			userLevelBadge4 = level;
 		} else if(badgeId == CAT_ATHLITIKA){
 			userLevelBadge5 = level;
+		} else if(badgeId == CAT_LIFESTYLE){
+		    userLevelBadge6 = level;
 		}
 		
 		rows.next();

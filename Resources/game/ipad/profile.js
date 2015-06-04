@@ -575,7 +575,10 @@ function buildRowsForScore(playerData){
 		} else if(playerData[i].category == CAT_ATHLITIKA){
 			rowImage = IMAGE_PATH+'profile/sports.png';
 			rowLabel = 'ΑΘΛΗΤΙΚΑ';
-		}
+		} else if(playerData[i].category == CAT_LIFESTYLE){
+            rowImage = IMAGE_PATH+'profile/lifestyle.png';
+            rowLabel = 'LIFESTYLE';
+        }
 		
 		var row = Ti.UI.createTableViewRow({
 			height:145, 

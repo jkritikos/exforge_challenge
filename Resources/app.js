@@ -1,6 +1,6 @@
 Ti.API.warn('novartis build 1.3');
 
-var PRODUCTION_MODE = true;
+var PRODUCTION_MODE = false;
 //for building the free version
 var IS_FREE_APP = 0;
 //iphone=1, ipad=2
@@ -429,6 +429,8 @@ Titanium.Facebook.addEventListener('login', function(e) {
 //Modify our schema if needed
 //updateSchema();
 
+//get lifestyle questions
+retrieveContentForCategory(10);
 
 debugPlayers();
 var debugObj = getCurrentPlayer();

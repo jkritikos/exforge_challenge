@@ -14,7 +14,7 @@ var viewLoader = Ti.UI.createView({
 
 //Loader start listener
 viewLoader.addEventListener('loaderStart', function(data){
-	Ti.API.info('EVENT: loaderStart');
+	Ti.API.info('EVENT: loaderStart with data '+JSON.stringify(data));
 	
     currentCategoryIcon = data.currentCategoryIcon;
     var currentCategoryLabel = data.currentCategoryLabel;

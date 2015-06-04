@@ -49,6 +49,7 @@ var badgeTransparentBackground2 = null;
 var badgeTransparentBackground3 = null;
 var badgeTransparentBackground4 = null;
 var badgeTransparentBackground5 = null;
+var badgeTransparentBackground6 = null;
 
 var badgeView1 = null;
 var badge1 = null;
@@ -66,6 +67,9 @@ var badgeLabel4 = null;
 var badge5 = null;
 var star5 = null;
 var badgeLabel5 = null;
+var badge6 = null;
+var star6 = null;
+var badgeLabel6 = null;
 
 function buildBadgesListView(){
 	var shouldCreateView = badgesLogoImage == null;
@@ -119,7 +123,7 @@ function buildBadgesListView(){
 			height:371,
 			width:250,
 			top:24,
-			left:128
+			left:1
 		});
 		
 		//Badge1 image 
@@ -154,8 +158,8 @@ function buildBadgesListView(){
 			backgroundColor:'transparent',
 			height:371,
 			width:250,
-			top:24,
-			left:386
+			top:24
+			//left:386
 		});
 		
 		//Badge2 image 
@@ -190,8 +194,8 @@ function buildBadgesListView(){
 			backgroundColor:'transparent',
 			height:371,
 			width:250,
-			top:417,
-			left:1
+			top:24,
+			right:1
 		});
 		
 		//Badge3 image 
@@ -215,7 +219,7 @@ function buildBadgesListView(){
 			bottom:0,
 			textAlign:'center',
 			width:175,
-			height:80,
+			height:'auto',
 			font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
 		});
 		badgeTransparentBackground3.add(badgeLabel3);
@@ -226,7 +230,8 @@ function buildBadgesListView(){
 			backgroundColor:'transparent',
 			height:371,
 			width:250,
-			top:417
+			top:417,
+			left:1
 		});
 		
 		//Badge4 image 
@@ -261,8 +266,8 @@ function buildBadgesListView(){
 			backgroundColor:'transparent',
 			height:371,
 			width:250,
-			top:417,
-			right:1
+			top:417
+			//right:1
 		});
 		
 		//Badge5 image 
@@ -293,6 +298,44 @@ function buildBadgesListView(){
 		
 		badgeView1.add(badgeTransparentBackground5);
 		
+		badgeTransparentBackground6 = Titanium.UI.createView({
+            backgroundColor:'transparent',
+            height:371,
+            width:250,
+            top:417,
+            right:1
+        });
+		
+		//Badge6 image 
+        badge6 = Titanium.UI.createImageView({
+            image:IMAGE_PATH+'badges/greyscale/lifestyle.png',
+            top:68,
+            badge:6
+        });
+        badgeTransparentBackground6.add(badge6);
+        
+        star6 = Titanium.UI.createImageView({
+            image:IMAGE_PATH+'stars/star_1.png',
+            top:5
+        });
+        badgeTransparentBackground6.add(star6);
+    
+        //Label for badge5
+        badgeLabel6 = Titanium.UI.createLabel({
+            text:BADGE6_LABEL,
+            color:'0b4b7f',
+            bottom:0,
+            textAlign:'center',
+            width:175,
+            height:80,
+            font:{fontSize:BADGE_LABEL_FONTSIZE, fontWeight:'bold', fontFamily:'Myriad Pro'}
+        });
+        badgeTransparentBackground6.add(badgeLabel6);
+        
+        badgeView1.add(badgeTransparentBackground6);
+		
+		//end badges
+		
 		viewStars.add(badgeView1);
 		
 		//Badges event listeners
@@ -301,6 +344,7 @@ function buildBadgesListView(){
 		badge3.addEventListener('click', handleBadgeClick);
 		badge4.addEventListener('click', handleBadgeClick);
 		badge5.addEventListener('click', handleBadgeClick);
+		badge6.addEventListener('click', handleBadgeClick);
 		
 		updateBadgeView();
 		
@@ -491,4 +535,21 @@ function updateBadgeView(){
 	} else if(userLevelBadge5 == 3){
 		star5.image = IMAGE_PATH+'stars/star_3.png';
 	}
+	
+	//lifestyle
+	if(userLevelBadge6 == 0){
+        badge6.image = IMAGE_PATH+'badges/greyscale/lifestyle.png';
+    } else {
+        badge6.image = IMAGE_PATH+'badges/lifestyle.png';
+    }
+    
+    if(userLevelBadge6 == 0){
+        star6.image = IMAGE_PATH+'stars/star_0.png';
+    } else if(userLevelBadge6 == 1){
+        star6.image = IMAGE_PATH+'stars/star_1.png';
+    } else if(userLevelBadge6 == 2){
+        star6.image = IMAGE_PATH+'stars/star_2.png';
+    } else if(userLevelBadge6 == 3){
+        star6.image = IMAGE_PATH+'stars/star_3.png';
+    }
 }

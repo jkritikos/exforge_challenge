@@ -116,7 +116,10 @@ function buildAwardBadgePopup(){
 	}else if(selectedCategId == CAT_ATHLITIKA){
 		badgeAwardBannerImage = IMAGE_PATH+'game_over/icon_sports.png';
 		badgeAwardUpperBarColor = '9b52e7'; 
-	}
+	} else if(selectedCategId == CAT_LIFESTYLE){
+        badgeAwardBannerImage = IMAGE_PATH+'game_over/icon_lifestyle.png';
+        badgeAwardUpperBarColor = 'd174ac'; 
+    }
 	
 	//badge award bar which changes according to category played
 	badgeAwardUpperBar = Ti.UI.createView({
@@ -329,7 +332,9 @@ function awardBadgesNotification(playerId, currentCategoryId, currentScore, stat
 			awardedBadge1Label.text = BADGE4_LABEL;
 		} else if(categoryBadge == CAT_ATHLITIKA){
 			awardedBadge1Label.text = BADGE5_LABEL;
-		}
+		} else if(categoryBadge == CAT_LIFESTYLE){
+            awardedBadge1Label.text = 'ΠΑΠΑΡΑΤΣΙ ΜΕ ΣΤΥΛ';
+        }
 		
 		//Single badge, set up stars
 		if(categoryBadgeLevel == 1){
@@ -420,7 +425,18 @@ function awardBadges(playerId, currentCategoryId, currentScore){
 			badgeAwared = true;
 			saveBadge(playerId, achievedLevel, CAT_ATHLITIKA);
 		}  
-	}
+	} else if(currentCategoryId == CAT_LIFESTYLE){
+        if(currentScore >= BADGE6_LEVEL3) achievedLevel = 3;
+        else if(currentScore >= BADGE6_LEVEL2 && currentScore < BADGE6_LEVEL3) achievedLevel = 2;
+        else if(currentScore >= BADGE6_LEVEL1 && currentScore < BADGE6_LEVEL2) achievedLevel = 1;
+        
+        Ti.API.info('6  Question: Achieved level '+achievedLevel+' and badge6 level is '+userLevelBadge6);
+        
+        if(userLevelBadge6 < achievedLevel){
+            badgeAwared = true;
+            saveBadge(playerId, achievedLevel, CAT_LIFESTYLE);
+        }  
+    }
 	
 	//Check if mega buzz is achieved
 	var megaBadgeAwarded = false;

@@ -319,6 +319,15 @@ function updateBadgeDetailsView(badgeId){
 		labelStarDetail1.text = BADGE5_LEVEL1 + ' πόντοι';
 		labelStarDetail2.text = BADGE5_LEVEL2 + ' πόντοι';
 		labelStarDetail3.text = BADGE5_LEVEL3 + ' πόντοι';
-	}
+	} else if(badgeId == 6){
+        badgesDetailsBanner.image = IMAGE_PATH+'game_over/icon_lifestyle.png';
+        badgesDetailsSmallBar.backgroundColor = 'd174ac'; 
+        badgesDetails.text = 'LIFESTYLE';
+        badgesDetailsDescription.text = BADGE6_DESCRIPTION;
+        
+        labelStarDetail1.text = BADGE6_LEVEL1 + ' πόντοι';
+        labelStarDetail2.text = BADGE6_LEVEL2 + ' πόντοι';
+        labelStarDetail3.text = BADGE6_LEVEL3 + ' πόντοι';
+    }
 }
 

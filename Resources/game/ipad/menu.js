@@ -156,6 +156,26 @@ var heartMenuIconSettings = Titanium.UI.createButton({
 
 heartMenuSettingsBackground.add(heartMenuIconSettings);
 
+//heart menu challenges background
+var heartMenuChallengesBackground = Titanium.UI.createView({
+    height:139,
+    width:146,
+    top:584
+});
+
+menuHeartMenu.add(heartMenuChallengesBackground);
+
+//heart menu icon challenges
+var heartMenuIconChallenges = Titanium.UI.createButton({
+    backgroundImage:IMAGE_PATH+'menu/icon_challenges.png',
+    height:90,
+    width:95,
+    top:11,
+    right:22
+});
+
+heartMenuChallengesBackground.add(heartMenuIconChallenges);
+
 //Event listener for Top10 button
 heartMenuRankingBackground.addEventListener('click', function(){
 
